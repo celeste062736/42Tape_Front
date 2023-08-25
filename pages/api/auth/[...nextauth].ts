@@ -12,15 +12,24 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account, profile }) {
-      if (account) {
-        token.userRole = "user"
-        console.log('account: ', account)
+    async jwt({ token, account, profile, user }) {
+      if (user) {
+        token.role = user.role;
       }
+      console.log('account: ', account)
       console.log('token: ', token)
       return token
     },
+    session({ session, token }) {
+      if (token && session.user) {
+        session.user.role = token.role;
+      }
+      return session;
+    },
   },
+  pages: {
+    signIn: "/auth/signin",
+  }
 }
 
 export default NextAuth(authOptions)
