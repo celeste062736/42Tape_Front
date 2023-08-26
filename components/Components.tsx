@@ -2,7 +2,30 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react';
 import { Radar, Line } from 'react-chartjs-2';
+import type { ChartData, ChartOptions } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  RadialLinearScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import { signIn } from "next-auth/react";
+
+ChartJS.register(
+  CategoryScale,
+  RadialLinearScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 type BlankProps = {
   name: 'top' | 'main' | string;
@@ -41,9 +64,9 @@ export default function ListButton() {
     <div>
       <button ref={buttonRef} className="Button" onClick={() => setShowList(!showList)}>
         <svg width="30" height="27" viewBox="0 0 30 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 1H30" stroke="black" stroke-width="2"/>
-          <path d="M0 13.5H30" stroke="black" stroke-width="2"/>
-          <path d="M0 26H30" stroke="black" stroke-width="2"/>
+          <path d="M0 1H30" stroke="black" strokeWidth="2"/>
+          <path d="M0 13.5H30" stroke="black" strokeWidth="2"/>
+          <path d="M0 26H30" stroke="black" strokeWidth="2"/>
         </svg>
       </button>
 
@@ -68,7 +91,7 @@ export function LogoImg() {
         <svg width="66" height="60" viewBox="0 0 66 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M66 49C60.4258 45.0381 59 33 59 27L45 38C45.0384 48.3866 45.9182 55.68 56.5 60V54.5L62 55.5L61 50.5L66 49Z" fill="#6181FF"/>
           <path d="M60 30C60 46.5685 46.5685 60 30 60C13.4315 60 0 46.5685 0 30C0 13.4315 13.4315 0 30 0C46.5685 0 60 13.4315 60 30ZM38.5 21.5C33.8056 16.8056 26.1944 16.8056 21.5 21.5C16.8056 26.1944 16.8056 33.8056 21.5 38.5C26.1944 43.1944 33.8056 43.1944 38.5 38.5C43.1944 33.8056 43.1944 26.1944 38.5 21.5Z" fill="#6181FF"/>
-          <circle cx="30" cy="30" r="16" stroke="white" stroke-width="2"/>
+          <circle cx="30" cy="30" r="16" stroke="white" strokeWidth="2"/>
         </svg>
       </a>
     </svg>
@@ -87,8 +110,8 @@ export function SearchBar() {
       <input id="searchSpace" type="text" className="form-control" placeholder="Search"></input>
       <button id="searchButton" className="Button">
         <svg width="30" height="30" viewBox="0 0 35 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M27.0693 14.6968C27.0693 22.0257 21.3055 27.8936 14.2847 27.8936C7.26382 27.8936 1.5 22.0257 1.5 14.6968C1.5 7.3679 7.26382 1.5 14.2847 1.5C21.3055 1.5 27.0693 7.3679 27.0693 14.6968Z" stroke="#6181ff" stroke-width="3"/>
-          <line x1="24.1149" y1="24.9966" x2="33.1149" y2="34.9966" stroke="#6181ff" stroke-width="3"/>
+          <path d="M27.0693 14.6968C27.0693 22.0257 21.3055 27.8936 14.2847 27.8936C7.26382 27.8936 1.5 22.0257 1.5 14.6968C1.5 7.3679 7.26382 1.5 14.2847 1.5C21.3055 1.5 27.0693 7.3679 27.0693 14.6968Z" stroke="#6181ff" strokeWidth="3"/>
+          <line x1="24.1149" y1="24.9966" x2="33.1149" y2="34.9966" stroke="#6181ff" strokeWidth="3"/>
         </svg>
       </button>
     </div>
@@ -304,7 +327,7 @@ export function RadarChart({stats, current_rank} : RadarChartProps) {
       <div id="profile_rank">
         Rank #{current_rank}
       </div>
-      {/* <Radar data={data} options={options}/> */}
+      <Radar data={data} options={options}/>
     </div>
   )
 
@@ -316,7 +339,7 @@ type LineChartProps = {
 
 export function LineChart({rankHistory}: LineChartProps) {
   // Assuming you want to use rankHistory from userInfo in the data object:
-  const data = {
+  const data : ChartData<'line'> = {
     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 9', 'Week 10'],
     datasets: [
       {
@@ -328,7 +351,7 @@ export function LineChart({rankHistory}: LineChartProps) {
       },
     ],
   };
-  const options = {
+  const options : ChartOptions<'line'> = {
     maintainAspectRatio: false,
     responsive: true,
     plugins: {
@@ -351,7 +374,7 @@ export function LineChart({rankHistory}: LineChartProps) {
       },
       x: {
         ticks: {
-          fontSize: 10,  // 라벨의 폰트 사이즈를 10으로 설정
+          // fontSize: 10,  // 라벨의 폰트 사이즈를 10으로 설정
           font: {
             // weight: 'bold'  // 라벨을 bold 처리
           }
@@ -362,7 +385,7 @@ export function LineChart({rankHistory}: LineChartProps) {
 
   return (
     <div className="profile_line_chart">
-      {/* <Line data={data} options={options} /> */}
+      <Line data={data} options={options} />
     </div>
   );
 }
