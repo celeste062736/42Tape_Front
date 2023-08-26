@@ -11,7 +11,7 @@ export const metadata = {
 }
 
 export default function Home(props: UserInfoProps) {
-  if (props.userInfo.user_id === undefined) {
+  if (props.userInfo.user_id === null) {
     return (
       <Layout>
         <AccessDenied />
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<{
   userInfo: UserInfo
 }> = async ({ req, res }) => {
   const dataUnknown : UserInfo = {
-    user_id: undefined,
+    user_id: null,
     level: 1,
     intra_pic: "unknown",
     stats: [0, 0, 0, 0, 0],
@@ -60,8 +60,14 @@ export const getServerSideProps: GetServerSideProps<{
   // const repo = await res.json()
   // console.log(repo)
   console.log(token);
+  let userId : string | null;
+  if(token.sub === undefined) {
+    userId = null;
+  } else {
+    userId = token.sub;
+  }
   const data : UserInfo = {
-    user_id: token.sub,
+    user_id: userId,
     level: 1.11,
     intra_pic: "https://cdn.intra.42.fr/users/a4aa2516df401cc437f043810a63ce03/mingekim.jpg",
     stats: [10, 9, 2, 7, 5],

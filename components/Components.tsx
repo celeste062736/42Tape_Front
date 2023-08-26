@@ -14,7 +14,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
 ChartJS.register(
   CategoryScale,
@@ -119,13 +119,9 @@ export function SearchBar() {
 }
 
 function LogoutButton() {
-  const handleLogout = () => {
-    // 토큰 기반 인증의 경우
-    localStorage.removeItem('token');
-    // Next.js에서 페이지를 리다이렉트하는 방법
-    window.location.href = '/';
-  };
-  return <button id="logout_btn" onClick={handleLogout}>LOGOUT</button>;
+  return <button id="logout_btn" onClick={(e) => {
+    signOut()
+  }}>LOGOUT</button>;
 }
 
 export function Alarm() {
@@ -405,14 +401,14 @@ export interface UserInfoProps {
 export interface UserInfo {
   intra_pic: string;
   level: number;
-  user_id: string | undefined;
+  user_id: string | null;
   stats: number[];
   current_rank: number;
   rankHistory: number[];
 };
 
 export const MainLayout = ({ userInfo } : UserInfoProps) => {
-  if (userInfo.user_id === undefined) {
+  if (userInfo.user_id === null) {
     userInfo.user_id = 'unknown'
   }
   return (
