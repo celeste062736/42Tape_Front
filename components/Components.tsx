@@ -476,9 +476,9 @@ export function LoginLayout() {
     <div className="row">
       <div className="col"></div>
       <div id="login_button_align" className="col">
-          <a><button id="login_button" className="btn btn-secondary" onClick={(e) => {
+          <button id="login_button" className="btn btn-secondary" onClick={(e) => {
                   signIn('42-school')
-                }}>Login</button></a>
+                }}>Login</button>
       </div>
       <div className="col"></div>
     </div>
