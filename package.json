@@ -18,21 +18,24 @@
     "Lluis Agusti <hi@llu.lu>"
   ],
   "dependencies": {
+    "autoprefixer": "^10.4.15",
     "bootstrap": "^5.3.1",
     "chart.js": "^4.4.0",
     "eslint": "^8.48.0",
     "eslint-config-next": "^13.4.19",
     "next": "latest",
     "next-auth": "latest",
-    "postcss": "^8.4.28",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.15.0"
+    "react-router-dom": "^6.15.0",
+    "tailwindcss": "^3.3.3"
   },
   "devDependencies": {
     "@types/node": "^18.16.2",
     "@types/react": "^18.2.0",
+    "postcss": "^8.4.28",
+    "postcss-nested": "^6.0.1",
     "typescript": "5.2.2"
   }
 }
