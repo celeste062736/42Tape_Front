@@ -77,6 +77,96 @@ ul {
   font-family: "Arial", sans-serif;
   font-weight: bold;
 }
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+/* -------------------- */
+
+/* 모든 블록에 보더라인 처리 */
+/*
+* {
+  border: 1px solid #6181ff;
+}
+*/
+/* 전체 마진을 5px */
+ul {
+  /*모든 효과 제거 */
+  list-style-type: none;
+}
+#root {
+  margin: 10px;
+  margin-top : 0;
+}
+
+/* Rank, Vote 버튼 */
+.btn.btn-primary {
+  font-size: 25px;
+  font-weight: bold;
+  background-color: white;
+  border-color: white;
+  color: black;
+}
+.btn.btn-primary:hover
+{
+  background-color: #6181ff;
+  border-color: #6181ff;
+}
+
+/* list-box 버튼 */
+.btn.btn-secondary {
+  font-size: 20px;
+  font-weight: bold;
+  background-color: white;
+  border-color: white;
+  color: black;
+}
+.btn.btn-secondary:hover
+{
+  background-color: #6181ff;
+  border-color: #6181ff;
+}
+
+/*logout, login 버튼 */
+#logout_btn {
+  color: #6181ff;
+  font-weight: bold;
+  background-color: white;
+  border : none;
+}
+#login_button{
+  font-size: 25px;
+  width: 200px;
+  font-weight: bold;
+  background-color: gray;
+  border-color: white;
+  color: white;
+}
+#login_button:hover {
+  background-color: #6181ff;
+  border-color: #6181ff;
+}
+#login_button_align {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  margin-top: 200px;
+}
+
+/* Logo */
+#logo {
+  text-decoration: none;
+  color: #6181ff;
+  font-size: 26px;
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+}
+>>>>>>> 28eb8c219995e85fd447816e1634da07bda0f6d6
 #logo_img {
   padding-right: 0px;
 }
