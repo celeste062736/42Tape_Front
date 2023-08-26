@@ -1,24 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import { RankLayout, TopBar } from '../components/Components'
 
 export default function Rank() {
-    const [users, setUsers] = useState([]);
-    
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const resp = await fetch(`http://localhost:9999/users`, {cache : 'no-store'});
-                const data = await resp.json();
-                setUsers(data);
-                console.log(data); // 데이터 로깅
-            } catch (error) {
-                console.error("Failed to fetch users:", error);
-            }
-        }
-        
-        fetchData();
-    }, []);
-    
     let rank_info = {
         rank_1: {
             intra_id: "woosekim",
@@ -55,7 +37,7 @@ export default function Rank() {
     return (
         <div id="root">
             <TopBar></TopBar>
-            <RankLayout data={rank_info}></RankLayout>
+            <RankLayout rand_data={rank_info}></RankLayout>
         </div>
     );
 }

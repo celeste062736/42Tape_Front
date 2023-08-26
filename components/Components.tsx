@@ -547,6 +547,10 @@ export function Rank(props: RankItemProps) {
   return content;
 }
 
+interface RankInfoProps {
+  rand_data: RankInfo;
+}
+
 type RankInfo = {
   rank_1: RankItem; 
   rank_2: RankItem; 
@@ -556,8 +560,7 @@ type RankInfo = {
   rank_6: RankItem; 
 };
 
-export function RankLayout(props: RankInfo) {
-  const data = props;
+export function RankLayout({rand_data}: RankInfoProps) {
   return (
     <div className="row" style={{margin: '0px'}}>
       <div className="col-2 d-none d-xl-block" style={{width: '270px'}}>
@@ -572,27 +575,27 @@ export function RankLayout(props: RankInfo) {
       <div className="col">
         <div className="row">
           <div className="col d-flex align-items-end justify-content-center" style={{padding: '0px'}}>
-            <Rank userDetails={data.rank_2}></Rank>
+            <Rank userDetails={rand_data.rank_2}></Rank>
           </div>
           <div className="col d-flex align-items-end justify-content-center" style={{padding: '0px'}}>
-            <Rank userDetails={data.rank_1}></Rank>
+            <Rank userDetails={rand_data.rank_1}></Rank>
           </div>
           <div className="col d-flex align-items-end justify-content-center" style={{padding: '0px'}}>
-            <Rank userDetails={data.rank_3}></Rank>
+            <Rank userDetails={rand_data.rank_3}></Rank>
           </div>
           <div className="col-2 d-none d-xl-block"></div>
         </div>
         <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center" style={{padding: '0px'}}>
-            <Rank userDetails={data.rank_4}></Rank>
+            <Rank userDetails={rand_data.rank_4}></Rank>
           </div>
           <Blank name="main"></Blank>
           <div className="col-xl-10 d-flex justify-content-center align-items-center" style={{padding: '0px'}}>
-            <Rank userDetails={data.rank_5}></Rank>
+            <Rank userDetails={rand_data.rank_5}></Rank>
           </div>
           <Blank name="main"></Blank>
           <div className="col-xl-10 d-flex justify-content-center align-items-center" style={{padding: '0px'}}>
-            <Rank userDetails={data.rank_6}></Rank>
+            <Rank userDetails={rand_data.rank_6}></Rank>
           </div>
           <Blank name="main"></Blank>
         </div>
