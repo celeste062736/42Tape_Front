@@ -33,10 +33,16 @@ export const authOptions: NextAuthOptions = {
           token.userRole = Role.user
         }
       }
-      console.log('account: ', account)
-      console.log('token: ', token)
+      // console.log('account: ', account)
+      // console.log('token: ', token)
       return token
     },
+    // async session({ session, token, user}) {
+    //   if (session.user) {
+    //     session.user.name = token.sub;
+    //   }
+    //   return session
+    // }
   },
   pages: {
     signIn: "/signin",
