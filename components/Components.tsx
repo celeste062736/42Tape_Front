@@ -398,16 +398,23 @@ export function Copyright() {
   )
 }
 
-interface UserInfo {
+export interface UserInfoProps {
+  userInfo : UserInfo;
+}
+
+export interface UserInfo {
   intra_pic: string;
   level: number;
-  user_id: string;
+  user_id: string | undefined;
   stats: number[];
   current_rank: number;
   rankHistory: number[];
 };
 
-export const MainLayout = ({intra_pic, level, user_id, stats, current_rank, rankHistory} : UserInfo) => {
+export const MainLayout = ({ userInfo } : UserInfoProps) => {
+  if (userInfo.user_id === undefined) {
+    userInfo.user_id = 'unknown'
+  }
   return (
     <div className="row" style={{margin: '0px'}}>
       <div className="col-2 d-none d-xl-block" style={{width: '270px'}}>
@@ -422,16 +429,16 @@ export const MainLayout = ({intra_pic, level, user_id, stats, current_rank, rank
       <div className="col">
         <div className="row">
           <div className="col-xl-5 d-flex justify-content-center align-items-center">
-            <Profile intra_pic={intra_pic} level={level} user_id={user_id}/>
+            <Profile intra_pic={userInfo.intra_pic} level={userInfo.level} user_id={userInfo.user_id}/>
           </div>
           <div className="col-xl-5 d-flex justify-content-center align-items-center">
-            <RadarChart stats={stats} current_rank={current_rank}></RadarChart>
+            <RadarChart stats={userInfo.stats} current_rank={userInfo.current_rank}></RadarChart>
           </div>
           <Blank name="main"></Blank>
         </div>
         <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center">
-            <LineChart rankHistory={rankHistory}></LineChart>
+            <LineChart rankHistory={userInfo.rankHistory}></LineChart>
           </div>
           <Blank name="main"></Blank>
         </div>
