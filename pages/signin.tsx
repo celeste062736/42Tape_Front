@@ -6,6 +6,14 @@ import { getProviders, signIn } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]";
 
+// export default function LoginWireFrame() {
+//   return (
+//     <div id="root">
+//       <LoginTopBar></LoginTopBar>
+//       <LoginLayout></LoginLayout>
+//     </div>
+//   )
+// }
 
 export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
@@ -41,12 +49,3 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: { providers: providers ?? [] },
   }
 }
-
-// export default function LoginWireFrame() {
-//   return (
-//     <div id="root">
-//       <LoginTopBar></LoginTopBar>
-//       <LoginLayout></LoginLayout>
-//     </div>
-//   )
-// }
