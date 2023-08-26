@@ -1,34 +1,72 @@
 import Layout from "../components/layout"
 import { MainLayout, TopBar } from '../components/Components'
-// import UserInfo from '../components/Components'
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import type { UserInfoProps, UserInfo } from '../components/Components'
+import { getToken } from "next-auth/jwt"
+import AccessDenied from "../components/access-denied";
 
 export const metadata = {
   title: '42TAPE',
   description: '42 The Art of Peer Evaluation',
 }
 
-export interface UserInfo {
-  intra_picture: string;
-  level: number;
-  intra_id: string;
-  stats: number[];
-  current_rank: number;
-  rankHistory: number[];
-};
-
-
-export default function Home(props: UserInfo) {
+export default function Home(props: UserInfoProps) {
+  if (props.userInfo.user_id === undefined) {
+    return (
+      <Layout>
+        <AccessDenied />
+      </Layout>
+    )
+  }
   //props.param.id 로 접속한 인트라 아이디 가져오기
-    let intra_id = "woosekim";
-    let intra_picture = "https://cdn.intra.42.fr/users/499046b6eb8be4e65a52a6d91fe8081c/woosekim.jpg";
-    let level = 4.81;
-    let stats = [10, 20, 8, 12, 17];
-    let current_rank = 1;
-    let rankHistory = [1, 2];
   return (
     <div id="root">
       <TopBar></TopBar>
-      <MainLayout user_id={intra_id} intra_pic={intra_picture} level={level} stats={stats} current_rank={current_rank} rankHistory={rankHistory}></MainLayout>
+      <MainLayout userInfo={ props.userInfo }></MainLayout>
     </div>
   )
+}
+
+// export interface UserInfo {
+//   intra_pic: string;
+//   level: number;
+//   user_id: string;
+//   stats: number[];
+//   current_rank: number;
+//   rankHistory: number[];
+// };
+
+export const getServerSideProps: GetServerSideProps<{
+  userInfo: UserInfo
+}> = async ({ req, res }) => {
+  const dataUnknown : UserInfo = {
+    user_id: undefined,
+    level: 1,
+    intra_pic: "unknown",
+    stats: [0, 0, 0, 0, 0],
+    current_rank: 0,
+    rankHistory: [0, 0, 0]
+  }
+  const token = await getToken({req})
+  if (!token) {
+    return { props : {userInfo: dataUnknown} }
+  }
+  // const res = await fetch('http://localhost:8080/user', {
+  //   method: "GET",
+  //   headers: {
+  //     "user-id": "131755",
+  //   }
+  // })
+  // const repo = await res.json()
+  // console.log(repo)
+  console.log(token);
+  const data : UserInfo = {
+    user_id: token.sub,
+    level: 1.11,
+    intra_pic: "https://cdn.intra.42.fr/users/a4aa2516df401cc437f043810a63ce03/mingekim.jpg",
+    stats: [10, 9, 2, 7, 5],
+    current_rank: 2,
+    rankHistory: [2, 10, 5]
+  }
+  return { props: {userInfo: data}}
 }
