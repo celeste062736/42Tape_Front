@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react';
 import { Radar, Line } from 'react-chartjs-2';
-import type { ChartData, ChartOptions } from 'chart.js';
+import { signIn, signOut } from "next-auth/react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,7 +14,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { signIn, signOut } from "next-auth/react";
+import type { ChartData, ChartOptions } from 'chart.js';
+import type { IndividualRank } from '../pages/rank';
 
 ChartJS.register(
   CategoryScale,
@@ -26,6 +27,67 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+export interface ClientTapeUser {
+  user_id: string;
+  number_votes: number;
+  need_vote: boolean;
+  number_notifications: number;
+  need_notify: boolean;
+  candidate_for_reward: boolean;
+}
+
+export interface TargetTapeUser {
+  login: string;
+  first_name: string;
+  last_name: string;
+  intra_picture: string;
+  level: number;
+}
+
+export interface Season {
+  season_id: number;
+  start_at: string;
+  end_at: string;
+}
+
+export interface TargetUserStats {
+  cumulative_stat1: number;
+  cumulative_stat2: number;
+  cumulative_stat3: number;
+  cumulative_stat4: number;
+  cumulative_stat5: number;
+  season: Season;
+}
+
+export interface DataPoint {
+  x: number;
+  y: number;
+}
+
+export interface XLabels {
+  [key: string]: string;
+}
+
+export interface Repo {
+  clientTapeUser: ClientTapeUser;
+  targetTapeUser: TargetTapeUser;
+  targetUserStats: TargetUserStats;
+  yData: DataPoint[];
+  xLabels: XLabels;
+}
+
+// export interface TapeUser {
+//   user_id: number;
+//   number_votes: number;
+//   need_vote: boolean;
+//   number_notifications: number;
+//   need_notify: boolean;
+//   candidate_for_reward: boolean;
+//   is_activated: boolean;
+//   createdAt: string;
+//   updatedAt: string;
+// }
 
 type BlankProps = {
   name: 'top' | 'main' | string;
@@ -45,7 +107,7 @@ export default function ListButton() {
   const [showList, setShowList] = useState(false);
   const listRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
-
+  
   const handleClickOutside = (event: MouseEvent) => {
     if (listRef.current && !listRef.current.contains(event.target as Node) && 
         buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
@@ -398,13 +460,25 @@ export interface UserInfoProps {
   userInfo : UserInfo;
 }
 
+export interface Coordinate {
+  x : number;
+  y : number;
+}
+
+export interface ChartLabel {
+  key : string;
+  label : string;
+}
+
+
 export interface UserInfo {
   intra_pic: string;
   level: number;
   user_id: string | null;
   stats: number[];
   current_rank: number;
-  rankHistory: number[];
+  yData: Coordinate[],
+  xLabels: XLabels,
 };
 
 export const MainLayout = ({ userInfo } : UserInfoProps) => {
@@ -434,6 +508,7 @@ export const MainLayout = ({ userInfo } : UserInfoProps) => {
         </div>
         <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center">
+            {/* 월요일 우성님이 만든 랭크history 병합예정 */}
             <LineChart rankHistory={userInfo.rankHistory}></LineChart>
           </div>
           <Blank name="main"></Blank>
@@ -485,20 +560,20 @@ export function LoginLayout() {
   )
 }
 
-type RankItem = {
-  intra_id: string;
-  intra_picture: string;
-  rank: number;
-};
+// type RankItem = {
+//   intra_id: string;
+//   intra_picture: string;
+//   rank: number;
+// };
 
 type RankItemProps = {
-  userDetails: RankItem
+  userDetails: IndividualRank
 };
 
-export function Rank(props: RankItemProps) {
+export function Rank({ userDetails }: RankItemProps) {
   let content;
-  const { userDetails } = props;
-
+  console.log("userDetails")
+  console.log(userDetails);
   if (userDetails.rank === 1) {
     content = <div className="card_123" id="card_1st">
       <div className="centered-container">
@@ -543,18 +618,18 @@ export function Rank(props: RankItemProps) {
   return content;
 }
 
+type RankInfo = {
+  rank_1: IndividualRank; 
+  rank_2: IndividualRank; 
+  rank_3: IndividualRank; 
+  rank_4: IndividualRank; 
+  rank_5: IndividualRank; 
+  rank_6: IndividualRank; 
+};
+
 interface RankInfoProps {
   rand_data: RankInfo;
 }
-
-type RankInfo = {
-  rank_1: RankItem; 
-  rank_2: RankItem; 
-  rank_3: RankItem; 
-  rank_4: RankItem; 
-  rank_5: RankItem; 
-  rank_6: RankItem; 
-};
 
 export function RankLayout({rand_data}: RankInfoProps) {
   return (

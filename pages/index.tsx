@@ -1,7 +1,7 @@
 import Layout from "../components/layout"
 import { MainLayout, TopBar } from '../components/Components'
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
-import type { UserInfoProps, UserInfo } from '../components/Components'
+import type { GetServerSideProps } from "next";
+import type { UserInfoProps, UserInfo, Repo } from '../components/Components'
 import { getToken } from "next-auth/jwt"
 import AccessDenied from "../components/access-denied";
 
@@ -27,15 +27,6 @@ export default function Home(props: UserInfoProps) {
   )
 }
 
-// export interface UserInfo {
-//   intra_pic: string;
-//   level: number;
-//   user_id: string;
-//   stats: number[];
-//   current_rank: number;
-//   rankHistory: number[];
-// };
-
 export const getServerSideProps: GetServerSideProps<{
   userInfo: UserInfo
 }> = async ({ req, res }) => {
@@ -45,34 +36,56 @@ export const getServerSideProps: GetServerSideProps<{
     intra_pic: "unknown",
     stats: [0, 0, 0, 0, 0],
     current_rank: 0,
-    rankHistory: [0, 0, 0]
+    yData: [{x: 0, y:0}],
+    xLabels: {key:"0", label:"0"},
   }
   const token = await getToken({req})
   if (!token) {
     return { props : {userInfo: dataUnknown} }
   }
-  const resp = await fetch('http://localhost:8080/user', {
-    method: "GET",
-    headers: {
-      "user-id": "131755",
-    }
-  })
-  const repo = await resp.json()
-  console.log(repo)
-  console.log(token);
-  let userId : string | null;
-  if(token.sub === undefined) {
-    userId = null;
+
+  let userId : string | undefined;
+  if(token.sub === null) {
+    userId = undefined;
   } else {
     userId = token.sub;
   }
+  const resp = await fetch('http://10.19.241.225:8080/user', {
+    method: "GET",
+    //type script에선 headers에 undefined나 null이 들어가면 에러가 난다.
+    //삼항연산자로 userId가 undefined면 빈 객체를 넣어준다.
+    //헤더가 빈객체면 서버에서는 헤더가 없는 것으로 인식한다. 그러므로 해당부분 에러처리를 해줘야한다.
+    headers: userId ? { "user-id": userId } : {}
+  })
+
+  // header undefined 처리 전 code
+  // let userId : string | null;
+  // if(token.sub === null) {
+  //   userId = null;
+  // } else {
+  //   userId = token.sub;
+  // }
+  // const resp = await fetch('http://10.19.241.225:8080/user', {
+  //   method: "GET",
+  //   headers: {
+  //     "user-id": userId,
+  //   }
+  // })
+  const repo : Repo = await resp.json()
+  console.log('token');
+  console.log(token);
+  console.log('resp');
+  console.log(resp);
+  console.log('repo');
+  console.log(repo);
   const data : UserInfo = {
-    user_id: userId,
-    level: 1.11,
-    intra_pic: "https://cdn.intra.42.fr/users/a4aa2516df401cc437f043810a63ce03/mingekim.jpg",
-    stats: [10, 9, 2, 7, 5],
+    user_id: repo.clientTapeUser.user_id,
+    level: repo.targetTapeUser.level,
+    intra_pic: repo.targetTapeUser.intra_picture,
+    stats: [repo.targetUserStats.cumulative_stat1, repo.targetUserStats.cumulative_stat2, repo.targetUserStats.cumulative_stat3, repo.targetUserStats.cumulative_stat4, repo.targetUserStats.cumulative_stat5],
     current_rank: 2,
-    rankHistory: [2, 10, 5]
+    yData: repo.yData,
+    xLabels: repo.xLabels,
   }
   return { props: {userInfo: data}}
 }
