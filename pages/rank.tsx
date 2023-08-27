@@ -91,21 +91,14 @@ export const getServerSideProps: GetServerSideProps<{
     }
     const token = await getToken({req})
     if (!token) {
-      return { props : dataUnknown }
+      return { props : { rank_info: dataUnknown }}
     }
 
     //userId,headers type 오류 index.tsx에서 했던 방식으로 수정하면 될것임.
-    let userId : string | null;
-    if(token.sub === null) {
-      userId = null;
-    } else {
-      userId = token.sub;
-    }
-    const resp = await fetch('http://10.19.241.225:8080/ranking/1', {
+    let userId = token.sub;
+    const resp = await fetch('http://localhost:8080/ranking/1', {
       method: "GET",
-      headers: {
-        "user-id": userId,
-      }
+      headers: userId ? { "user-id": userId } : {}
     })
     const RankInfo_db : RankInfo_DB = await resp.json()
     console.log('token');
@@ -148,14 +141,18 @@ export const getServerSideProps: GetServerSideProps<{
     console.log('data----------1');
     console.log(data);
     console.log('data-----------2');
-    return { props: data}
+    return { props: { rank_info : data}}
 }
 
-export default function Rank(props: RankInfo) {
+interface RankProps {
+  rank_info: RankInfo,
+}
+
+export default function Rank(props: RankProps) {
     return (
         <div id="root">
             <TopBar></TopBar>
-            <RankLayout rand_data={props}></RankLayout>
+            <RankLayout rand_data={props.rank_info}></RankLayout>
         </div>
     );
 }

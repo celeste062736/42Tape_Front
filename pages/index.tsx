@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps<{
   } else {
     userId = token.sub;
   }
-  const resp = await fetch('http://10.19.241.225:8080/user', {
+  const resp = await fetch('http://localhost:8080/user', {
     method: "GET",
     //type script에선 headers에 undefined나 null이 들어가면 에러가 난다.
     //삼항연산자로 userId가 undefined면 빈 객체를 넣어준다.
