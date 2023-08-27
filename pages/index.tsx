@@ -51,14 +51,14 @@ export const getServerSideProps: GetServerSideProps<{
   if (!token) {
     return { props : {userInfo: dataUnknown} }
   }
-  // const res = await fetch('http://localhost:8080/user', {
-  //   method: "GET",
-  //   headers: {
-  //     "user-id": "131755",
-  //   }
-  // })
-  // const repo = await res.json()
-  // console.log(repo)
+  const resp = await fetch('http://localhost:8080/user', {
+    method: "GET",
+    headers: {
+      "user-id": "131755",
+    }
+  })
+  const repo = await resp.json()
+  console.log(repo)
   console.log(token);
   let userId : string | null;
   if(token.sub === undefined) {
