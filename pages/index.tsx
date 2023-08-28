@@ -81,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<{
   console.log('repo');
   console.log(repo);
   const data : UserInfo = {
-    user_id: repo.clientTapeUser.user_id,
+    user_id: repo.targetTapeUser.login,
     level: repo.targetTapeUser.level,
     intra_pic: repo.targetTapeUser.intra_picture,
     stats: [repo.targetUserStats.cumulative_stat1, repo.targetUserStats.cumulative_stat2, repo.targetUserStats.cumulative_stat3, repo.targetUserStats.cumulative_stat4, repo.targetUserStats.cumulative_stat5],
