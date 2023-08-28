@@ -289,6 +289,22 @@ ul {
   margin: 0 20px; /* 좌우 마진 적용 */
 }
 
+/* Vote list 선택 버튼 */
+#project_selector {
+  /* 배경색 */
+  background-color: #6181ff;
+  /* 글씨 색 */
+  color: white;
+  /* 아래 간격 */
+  margin: 20px;
+  /* width 자동 조정*/
+  width: auto;
+}
+#project_selector:hover {
+  background-color: #4B64C7;
+  color: white;
+}
+
 /* CopyRight */
 #copyright {
   margin-top: 50px;
