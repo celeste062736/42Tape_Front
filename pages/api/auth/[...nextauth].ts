@@ -23,10 +23,10 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, account, profile }) {
-      console.log(users);
+      // console.log(users);
       if (account) {
         const role = getRoleById(<string>token.sub);
-        console.log('role: ', role)
+        // console.log('role: ', role)
         if (role === "admin") {
           token.userRole = Role.admin
         } else {
