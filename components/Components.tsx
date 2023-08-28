@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Radar, Line } from 'react-chartjs-2';
 import { signIn, signOut } from "next-auth/react";
 import {
@@ -76,18 +76,6 @@ export interface Repo {
   yData: DataPoint[];
   xLabels: XLabels;
 }
-
-// export interface TapeUser {
-//   user_id: number;
-//   number_votes: number;
-//   need_vote: boolean;
-//   number_notifications: number;
-//   need_notify: boolean;
-//   candidate_for_reward: boolean;
-//   is_activated: boolean;
-//   createdAt: string;
-//   updatedAt: string;
-// }
 
 type BlankProps = {
   name: 'top' | 'main' | string;
@@ -187,24 +175,70 @@ function LogoutButton() {
 }
 
 export function Alarm() {
+  const [showList, setShowList] = useState(false);
+  const listRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (listRef.current && !listRef.current.contains(event.target as Node) && 
+        buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+      setShowList(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <button className="Button">
-      <svg width="30" height="30" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#6181ff"/>
-        <path d="M25 5.99453L22.5088 6.49766C16.7985 7.6509 12.5001 12.702 12.5001 18.75C12.5001 20.712 12.0802 25.6164 11.0661 30.4443C10.5627 32.8409 9.88919 35.3363 8.99404 37.5H41.006C40.1108 35.3363 39.4373 32.8409 38.934 30.4442C37.9199 25.6164 37.5001 20.7119 37.5001 18.75C37.5001 12.7019 33.2016 7.65084 27.4913 6.49764L25 5.99453ZM44.4353 37.5C45.133 38.8981 45.9421 40.0031 46.875 40.625H3.125C4.0579 40.0031 4.86702 38.8981 5.56469 37.5C8.37257 31.873 9.37507 21.4974 9.37507 18.75C9.37507 11.1854 14.7506 4.8764 21.8901 3.43451C21.8801 3.33269 21.875 3.22944 21.875 3.125C21.875 1.39911 23.2741 0 25 0C26.7259 0 28.125 1.39911 28.125 3.125C28.125 3.22944 28.1199 3.33267 28.1099 3.43448C35.2494 4.87632 40.6251 11.1854 40.6251 18.75C40.6251 21.4974 41.6275 31.873 44.4353 37.5Z" fill="#6181ff"/>
-      </svg>
-    </button>
-  )
+    <div>
+      <button className="Button" onClick={() => setShowList(!showList)}>
+        <svg width="30" height="30" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#6181ff"/>
+          <path d="M25 5.99453L22.5088 6.49766C16.7985 7.6509 12.5001 12.702 12.5001 18.75C12.5001 20.712 12.0802 25.6164 11.0661 30.4443C10.5627 32.8409 9.88919 35.3363 8.99404 37.5H41.006C40.1108 35.3363 39.4373 32.8409 38.934 30.4442C37.9199 25.6164 37.5001 20.7119 37.5001 18.75C37.5001 12.7019 33.2016 7.65084 27.4913 6.49764L25 5.99453ZM44.4353 37.5C45.133 38.8981 45.9421 40.0031 46.875 40.625H3.125C4.0579 40.0031 4.86702 38.8981 5.56469 37.5C8.37257 31.873 9.37507 21.4974 9.37507 18.75C9.37507 11.1854 14.7506 4.8764 21.8901 3.43451C21.8801 3.33269 21.875 3.22944 21.875 3.125C21.875 1.39911 23.2741 0 25 0C26.7259 0 28.125 1.39911 28.125 3.125C28.125 3.22944 28.1199 3.33267 28.1099 3.43448C35.2494 4.87632 40.6251 11.1854 40.6251 18.75C40.6251 21.4974 41.6275 31.873 44.4353 37.5Z" fill="#6181ff"/>
+        </svg>
+      </button>
+      {showList && (
+        <div className="alarm-list" ref={listRef}>
+          <ul style={{padding: '10px', margin: '0'}}>
+            <li>누군가 당신을 최고의 평가자로 투표했습니다!</li>
+            <br></br>
+            <li>누군가 당신을 최고의 평가자로 투표했습니다!</li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function Info() {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleClick = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
-    <button className="Button">
-      <svg width="30" height="30" viewBox="0 0 22 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7.89062 25.9602V25.6364C7.91335 23.5227 8.12358 21.8409 8.52131 20.5909C8.9304 19.3409 9.50994 18.3295 10.2599 17.5568C11.0099 16.7841 11.9134 16.0795 12.9702 15.4432C13.652 15.0114 14.2656 14.5284 14.8111 13.9943C15.3565 13.4602 15.7884 12.8466 16.1065 12.1534C16.4247 11.4602 16.5838 10.6932 16.5838 9.85227C16.5838 8.84091 16.3452 7.96591 15.8679 7.22727C15.3906 6.48864 14.7543 5.92045 13.9588 5.52273C13.1747 5.11364 12.2997 4.90909 11.3338 4.90909C10.4588 4.90909 9.62358 5.09091 8.82812 5.45455C8.03267 5.81818 7.37358 6.38636 6.85085 7.15909C6.32813 7.92045 6.02699 8.90341 5.94744 10.108H0.765625C0.84517 8.0625 1.36222 6.33523 2.31676 4.92614C3.27131 3.50568 4.53267 2.43182 6.10085 1.70454C7.6804 0.977271 9.42472 0.613635 11.3338 0.613635C13.4247 0.613635 15.2543 1.00568 16.8224 1.78977C18.3906 2.5625 19.6065 3.64773 20.4702 5.04545C21.3452 6.43182 21.7827 8.05114 21.7827 9.90341C21.7827 11.1761 21.5838 12.3239 21.1861 13.3466C20.7884 14.358 20.2202 15.2614 19.4815 16.0568C18.7543 16.8523 17.8793 17.5568 16.8565 18.1705C15.8906 18.7727 15.1065 19.3977 14.5043 20.0455C13.9134 20.6932 13.4815 21.4602 13.2088 22.3466C12.9361 23.233 12.7884 24.3295 12.7656 25.6364V25.9602H7.89062ZM10.4645 36.3239C9.53267 36.3239 8.73153 35.9943 8.06108 35.3352C7.39063 34.6648 7.0554 33.858 7.0554 32.9148C7.0554 31.983 7.39063 31.1875 8.06108 30.5284C8.73153 29.858 9.53267 29.5227 10.4645 29.5227C11.3849 29.5227 12.1804 29.858 12.8509 30.5284C13.5327 31.1875 13.8736 31.983 13.8736 32.9148C13.8736 33.5398 13.7145 34.1136 13.3963 34.6364C13.0895 35.1477 12.6804 35.5568 12.169 35.8636C11.6577 36.1705 11.0895 36.3239 10.4645 36.3239Z" fill="#6181ff"/>
-      </svg>
-    </button>
-  )
+    <div>
+      <button className="Button" onClick={handleClick}>
+        <svg width="30" height="30" viewBox="0 0 22 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.89062 25.9602V25.6364C7.91335 23.5227 8.12358 21.8409 8.52131 20.5909C8.9304 19.3409 9.50994 18.3295 10.2599 17.5568C11.0099 16.7841 11.9134 16.0795 12.9702 15.4432C13.652 15.0114 14.2656 14.5284 14.8111 13.9943C15.3565 13.4602 15.7884 12.8466 16.1065 12.1534C16.4247 11.4602 16.5838 10.6932 16.5838 9.85227C16.5838 8.84091 16.3452 7.96591 15.8679 7.22727C15.3906 6.48864 14.7543 5.92045 13.9588 5.52273C13.1747 5.11364 12.2997 4.90909 11.3338 4.90909C10.4588 4.90909 9.62358 5.09091 8.82812 5.45455C8.03267 5.81818 7.37358 6.38636 6.85085 7.15909C6.32813 7.92045 6.02699 8.90341 5.94744 10.108H0.765625C0.84517 8.0625 1.36222 6.33523 2.31676 4.92614C3.27131 3.50568 4.53267 2.43182 6.10085 1.70454C7.6804 0.977271 9.42472 0.613635 11.3338 0.613635C13.4247 0.613635 15.2543 1.00568 16.8224 1.78977C18.3906 2.5625 19.6065 3.64773 20.4702 5.04545C21.3452 6.43182 21.7827 8.05114 21.7827 9.90341C21.7827 11.1761 21.5838 12.3239 21.1861 13.3466C20.7884 14.358 20.2202 15.2614 19.4815 16.0568C18.7543 16.8523 17.8793 17.5568 16.8565 18.1705C15.8906 18.7727 15.1065 19.3977 14.5043 20.0455C13.9134 20.6932 13.4815 21.4602 13.2088 22.3466C12.9361 23.233 12.7884 24.3295 12.7656 25.6364V25.9602H7.89062ZM10.4645 36.3239C9.53267 36.3239 8.73153 35.9943 8.06108 35.3352C7.39063 34.6648 7.0554 33.858 7.0554 32.9148C7.0554 31.983 7.39063 31.1875 8.06108 30.5284C8.73153 29.858 9.53267 29.5227 10.4645 29.5227C11.3849 29.5227 12.1804 29.858 12.8509 30.5284C13.5327 31.1875 13.8736 31.983 13.8736 32.9148C13.8736 33.5398 13.7145 34.1136 13.3963 34.6364C13.0895 35.1477 12.6804 35.5568 12.169 35.8636C11.6577 36.1705 11.0895 36.3239 10.4645 36.3239Z" fill="#6181ff"/>
+        </svg>
+      </button>
+      {isModalOpen && (
+        <div className="overlay" onClick={closeModal}>
+          <img src="./guide.png" alt="info-image" className="info-image" />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function Tools() {
@@ -248,11 +282,11 @@ type ButtonProps = {
 export function Button(props: ButtonProps) {
   if (props.name === "vote") {
     return (
-      <Link href='/vote'><button className="btn btn-primary" style={{width: '240px', height: '50px'}}>Vote</button></Link>
+      <Link href='/vote'><button className="btn btn-primary" style={{width: '200px', height: '50px'}}>Vote</button></Link>
     );
   } else if (props.name === "rank") {
     return (
-      <Link href='/rank'><button className="btn btn-primary" style={{width: '240px', height: '50px'}}>Rank</button></Link>
+      <Link href='/rank'><button className="btn btn-primary" style={{width: '200px', height: '50px'}}>Rank</button></Link>
     );
   } else if (props.name === "vote_in_list_box") {
     return (
@@ -391,52 +425,100 @@ export function RadarChart({stats, current_rank} : RadarChartProps) {
 
 }
 
-type LineChartProps = {
-  rankHistory: number[];
+export interface UserInfo {
+  intra_pic: string;
+  level: number;
+  user_id: string | null;
+  stats: number[];
+  current_rank: number;
+  yData: Coordinate[];
+  xLabels: XLabels;
 };
 
-export function LineChart({rankHistory}: LineChartProps) {
-  // Assuming you want to use rankHistory from userInfo in the data object:
-  const data : ChartData<'line'> = {
-    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 9', 'Week 10'],
+type LineChartProps = {
+  yData: Coordinate[],
+  xLabels: XLabels
+};
+
+export function LineChart({ yData, xLabels }: LineChartProps) {
+  const yData1= [
+    {
+      x: 0,
+      y: 0
+    },
+    {
+      x: 1.6666666666666667,
+      y: 3
+    },
+    {
+      x: 3.3333333333333335,
+      y: 7
+    },
+    {
+      x: 5,
+      y: 10
+    },
+    {
+      x: 6.666666666666667,
+      y: 13
+    },
+    {
+      x: 8.333333333333334,
+      y: 15
+    },
+    {
+      x: 10,
+      y: 0
+    },
+    {
+      x: 12,
+      y: 10
+    }
+  ];
+
+  const label_set = [["2013. 3. 26."], ["2023. 8. 13."], ["2023. 8. 27."]];
+  const data : ChartData<"line"> = {
+    labels: label_set,
     datasets: [
       {
-        label: 'Ranking history in the current season',
-        data: rankHistory,  // Use rankHistory from userInfo here
+        label: 'Cumulative Score',
+        data: yData1,  //props에 따라 바꿀것
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1,
       },
     ],
   };
-  const options : ChartOptions<'line'> = {
+
+  const options : ChartOptions<"line"> = {
     maintainAspectRatio: false,
     responsive: true,
     plugins: {
       legend: {
         labels: {
           font: {
-            size: 16,  // 폰트 사이즈를 12로 설정
-            weight: 'bold'  // 폰트를 bold 처리
+            size: 16,
+            weight: 'bold'
           },
         },
       },
     },
     scales: {
       y: {
-        min: 1,
-        reverse: true,
+        min: 0,
         ticks: {
-          stepSize: 1,  // y축 간격을 1로 설정
+          stepSize: 10,
         }
       },
       x: {
+        type: 'linear',
+        position: 'bottom',
         ticks: {
-          // fontSize: 10,  // 라벨의 폰트 사이즈를 10으로 설정
-          font: {
-            // weight: 'bold'  // 라벨을 bold 처리
-          }
-        },
+          callback: function(label, index, ticks) {
+            return label_set[index] || null;
+          },
+          stepSize: 10
+        }
       },
     },
   };
@@ -487,7 +569,7 @@ export const MainLayout = ({ userInfo } : UserInfoProps) => {
   }
   return (
     <div className="row" style={{margin: '0px'}}>
-      <div className="col-2 d-none d-xl-block" style={{width: '270px'}}>
+      <div className="col-2 d-none d-xl-block">
         <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
           <Button name="vote"></Button>
         </div>
@@ -509,7 +591,7 @@ export const MainLayout = ({ userInfo } : UserInfoProps) => {
         <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center">
             {/* 월요일 우성님이 만든 랭크history 병합예정 */}
-            <LineChart rankHistory={userInfo.rankHistory}></LineChart>
+            <LineChart yData={userInfo.yData} xLabels={userInfo.xLabels}></LineChart>
           </div>
           <Blank name="main"></Blank>
         </div>
@@ -527,18 +609,11 @@ export const MainLayout = ({ userInfo } : UserInfoProps) => {
 export function LoginTopBar() {
   return (
     <div className="row align-items-center" style={{margin: '0px'}}>
-      <div className="col-1 d-flex justify-content-center align-items-center d-block d-xl-none">
-      </div>
       <div id="logo_img" className="col-1 d-flex justify-content-center align-items-center" style={{width: '60px'}}>
         <LogoImg></LogoImg>
       </div>
-      <div className="col-2 d-none d-xl-block" style={{width: '120px'}}>
+      <div className="col-2" style={{width: '120px'}}>
         <LogoName></LogoName>
-      </div>
-      <div className="col d-flex justify-content-center align-items-center" style={{height: '100px'}}>
-      </div>
-      <div className="col-2 d-none d-xl-block"></div>
-      <div className="col-2 d-flex justify-content-around align-items-center" style={{width: '150px'}}>
       </div>
     </div>
   )
@@ -559,12 +634,6 @@ export function LoginLayout() {
     </div>
   )
 }
-
-// type RankItem = {
-//   intra_id: string;
-//   intra_picture: string;
-//   rank: number;
-// };
 
 type RankItemProps = {
   userDetails: IndividualRank
@@ -634,7 +703,7 @@ interface RankInfoProps {
 export function RankLayout({rand_data}: RankInfoProps) {
   return (
     <div className="row" style={{margin: '0px'}}>
-      <div className="col-2 d-none d-xl-block" style={{width: '270px'}}>
+      <div className="col-2 d-none d-xl-block">
         <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
           <Button name="vote"></Button>
         </div>
