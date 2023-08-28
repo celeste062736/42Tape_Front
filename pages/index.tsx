@@ -1,7 +1,9 @@
 import Layout from "../components/layout"
-import { MainLayout, TopBar } from '../components/Components'
+import { MainLayout } from '../components/Components'
+import { TopBar } from '../components/topbar'
 import type { GetServerSideProps } from "next";
-import type { UserInfoProps, UserInfo, Repo } from '../components/Components'
+import type { UserInfoProps, UserInfo } from '../components/Components'
+import type { Repo } from "../components/Components";
 import { getToken } from "next-auth/jwt"
 import AccessDenied from "../components/access-denied";
 

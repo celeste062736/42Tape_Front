@@ -1,7 +1,9 @@
-import { RankLayout, TopBar } from '../components/Components'
+import { TopBar } from '../components/topbar'
+import { RankLayout } from '../components/rank'
 import type { GetServerSideProps } from 'next'
 import type { Season } from '../components/Components'
 import { getToken } from "next-auth/jwt"
+import type { IndividualRank } from '../components/rank'
 
 export interface TapeUser {
     user_id: number;
@@ -37,12 +39,6 @@ export interface RankInfo_DB {
   pageSeason: Season;
   currentSeason: Season;
   rankList: RankListEntry[];
-}
-
-export interface IndividualRank {
-  intra_id: string;
-  intra_picture: string;
-  rank: number;
 }
 
 export interface RankInfo {

@@ -1,35 +1,17 @@
-import { LoginLayout, LoginTopBar } from '../components/Components'
+import { LoginLayout, LoginTopBar } from '../components/login'
 import { NextRequest, NextResponse } from 'next/server'
 
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getProviders, signIn } from "next-auth/react"
+import { getProviders } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]";
 
-// export default function LoginWireFrame() {
-//   return (
-//     <div id="root">
-//       <LoginTopBar></LoginTopBar>
-//       <LoginLayout></LoginLayout>
-//     </div>
-//   )
-// }
-
-export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function SignIn() {
   return (
     <div id="root">
       <LoginTopBar></LoginTopBar>
       <LoginLayout></LoginLayout>
     </div>
-    // <>
-    //   {Object.values(providers).map((provider) => (
-    //     <div key={provider.name}>
-    //       <button onClick={() => signIn(provider.id)}>
-    //         Sign in with {provider.name}
-    //       </button>
-    //     </div>
-    //   ))}
-    // </>
   )
 }
 
