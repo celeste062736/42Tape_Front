@@ -3,8 +3,8 @@ import { TopBar } from "../components/topbar";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import { useEffect, useState } from "react";
-// import 'survey-core/defaultV2.min.css';
-const SSR = typeof window === "undefined";
+import NonSSRWrapper from "../components/noSSR";
+import 'survey-core/defaultV2.min.css';
 
 export const json = {
   "logoPosition": "right",
@@ -68,18 +68,12 @@ export default function Vote() {
   survey.onComplete.add((sender, options) => {
     console.log(JSON.stringify(sender.data, null, 2));
   });
-  if (!SSR) {
-    return (
-      <div id="root">
-          <TopBar></TopBar>
+  return (
+    <div id="root">
+        <TopBar></TopBar>
+        <NonSSRWrapper>
           <Survey model={survey}></Survey>
-      </div>
-    );
-  } else {
-    return (
-      <div id="root">
-          <TopBar></TopBar>
-      </div>
-    );
-  }
+        </NonSSRWrapper>
+    </div>
+  );
 }
