@@ -1,3 +1,4 @@
+"use client"
 type ProfileProps = {
     intra_pic: string;
     level: number;

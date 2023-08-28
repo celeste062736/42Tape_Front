@@ -1,3 +1,4 @@
+"use client"
 import { Copyright } from './Components';
 import { Button } from './button';
 import { Blank } from './blank';

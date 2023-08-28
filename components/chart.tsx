@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useRef, useState } from 'react';
 import { Radar, Line } from 'react-chartjs-2';
 import {
