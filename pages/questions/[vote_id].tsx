@@ -1,9 +1,9 @@
-import { TopBar } from "../components/topbar";
+import { TopBar } from "../../components/topbar";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import { getToken } from "next-auth/jwt"
-import AccessDenied from "../components/access-denied";
-import NonSSRWrapper from "../components/noSSR";
+import AccessDenied from "../../components/access-denied";
+import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import type { GetServerSideProps } from "next";
 
@@ -102,19 +102,10 @@ interface Corrector {
   selected: boolean;
 }
 
-interface VoteUser {
-  "vote_user": string[];
-}
-
 export interface CorrectorResult {
   "corrector_id": number;
   "selected": boolean;
 }
-
-interface CorrectorProps {
-  "correctors": CorrectorResult[];
-}
-
 
 interface StatsInput {
   [key: string]: string[];
@@ -171,7 +162,7 @@ async function saveSurveyData(url : string, correctorProps: CorrProps[]) {
   }).catch((error) => console.log(error))
 }
 
-export default function Vote(props : {choices: Choices[], votdId: number}) {
+export default function Vote(props : {choices: Choices[], voteId: number}) {
   if (props.choices[0].value === "unknown") {
     return (
       <div id="root">
@@ -189,7 +180,7 @@ export default function Vote(props : {choices: Choices[], votdId: number}) {
     console.log("sender.data", sender.data)
     const { correctors } = generateCorrectors(sender.data);
     // const correctorProps = generateSurvey(props.choices, {vote_user: sender.data.vote_user});
-    saveSurveyData(`/api/save-vote-user/${props.votdId}`, correctors);
+    saveSurveyData(`/api/save-survey/${props.voteId}`, correctors);
   });
   return (
     <div id="root">
@@ -202,8 +193,8 @@ export default function Vote(props : {choices: Choices[], votdId: number}) {
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  choices: Choices[], votdId: number
-}> = async ({ req, res }) => {
+  choices: Choices[], voteId: number
+}> = async ({ req, res, params }) => {
   const dataUnknown : Choices[] = [
     {
       "value": "unknown",
@@ -213,7 +204,7 @@ export const getServerSideProps: GetServerSideProps<{
   ]
   const token = await getToken({req})
   if (!token) {
-    return { props : {choices: dataUnknown, votdId: -1} }
+    return { props : {choices: dataUnknown, voteId: -1} }
   }
 
   let userId : string | undefined;
@@ -222,12 +213,19 @@ export const getServerSideProps: GetServerSideProps<{
   } else {
     userId = token.sub;
   }
-  let pid = 18364;
-  const resp = await fetch(`http://localhost:8080/vote/${pid}`, {
+  if (params === undefined) {
+    return { props : {choices: dataUnknown, voteId: -1} }
+  }
+  let pid = params.vote_id;
+  if (pid === undefined) {
+    return { props : {choices: dataUnknown, voteId: -1} }
+  }
+  let voteId = parseInt(pid.toString(), 10);
+  const resp = await fetch(`http://localhost:8080/vote/${voteId}`, {
     headers: userId ? { "user-id": userId } : {},
   });
   const data = await resp.json();
-  const getData : Corrector[] = data.correctors.map((corrector : any) => ({
+  const getData : Corrector[] = await data.correctors.map((corrector : any) => ({
     corrector_id: corrector.corrector_id,
     intra_login: corrector.intra_login,
     intra_picture: corrector.intra_picture,
@@ -236,11 +234,11 @@ export const getServerSideProps: GetServerSideProps<{
   }));
   //filter result if selected is true
   let result = getData.filter((corrector: Corrector) => corrector.selected === true);
-  let choices = result.map((corrector: Corrector) => ({
+  let choices = await result.map((corrector: Corrector) => ({
     "value": corrector.corrector_id,
     "text": corrector.intra_login,
     "imageLink": corrector.intra_picture,
   }));
-  console.log("res:", choices)
-  return { props: {choices: choices, votdId: pid}}
+  console.log("choices:", choices)
+  return { props: {choices: choices, voteId: voteId}}
 }

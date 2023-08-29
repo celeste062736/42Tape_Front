@@ -6,7 +6,7 @@ import AccessDenied from "../../components/access-denied";
 import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import type { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 export const json = {
   "logoPosition": "right",
@@ -80,7 +80,7 @@ async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
   }).catch((error) => console.log(error))
 }
 
-export default function Vote(props : {choices: Choices[], votdId: number}) {
+export default function Vote(props : {choices: Choices[], voteId: number}) {
   if (props.choices[0].value === "unknown") {
     return (
       <div id="root">
@@ -90,11 +90,12 @@ export default function Vote(props : {choices: Choices[], votdId: number}) {
     )
   }
   json.pages[0].elements[0].choices = props.choices;
+  json["navigateToUrl"] = `http://localhost:3000/questions/${props.voteId}`
   const survey = new Model(json);
   survey.onComplete.add((sender, options) => {
     console.log(JSON.stringify(sender.data, null, 2));
     const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user});
-    saveSurveyData(`/api/save-vote-user/${props.votdId}`, correctorProps.correctProps);
+    saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps);
   });
   return (
     <div id="root">
@@ -107,7 +108,7 @@ export default function Vote(props : {choices: Choices[], votdId: number}) {
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  choices: Choices[], votdId: number
+  choices: Choices[], voteId: number
 }> = async ({ req, res, params }) => {
   const dataUnknown : Choices[] = [
     {
@@ -118,7 +119,7 @@ export const getServerSideProps: GetServerSideProps<{
   ]
   const token = await getToken({req})
   if (!token) {
-    return { props : {choices: dataUnknown, votdId: -1} }
+    return { props : {choices: dataUnknown, voteId: -1} }
   }
   let userId : string | undefined;
   if(token.sub === null) {
@@ -126,13 +127,12 @@ export const getServerSideProps: GetServerSideProps<{
   } else {
     userId = token.sub;
   }
-  // const router = useRouter()
   if (params === undefined) {
-    return { props : {choices: dataUnknown, votdId: -1} }
+    return { props : {choices: dataUnknown, voteId: -1} }
   }
   let pid = params.vote_id;
   if (pid === undefined) {
-    return { props : {choices: dataUnknown, votdId: -1} }
+    return { props : {choices: dataUnknown, voteId: -1} }
   }
   let voteId = Number(pid.toString());
   const resp = await fetch(`http://localhost:8080/vote/${voteId}`, {
@@ -151,5 +151,5 @@ export const getServerSideProps: GetServerSideProps<{
     "imageLink": corrector.intra_picture,
   }));
   console.log("choices:", choices)
-  return { props: {choices: choices, votdId: voteId}}
+  return { props: {choices: choices, voteId: voteId}}
 }
