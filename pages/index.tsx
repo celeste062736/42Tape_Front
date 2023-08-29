@@ -74,21 +74,3 @@ export const getServerSideProps: GetServerSideProps<{
   }
   return { props: {userInfo: data}}
 }
-//   const repo : Repo = await resp.json()
-//   console.log('token');
-//   console.log(token);
-//   console.log('resp');
-//   console.log(resp);
-//   console.log('repo');
-//   console.log(repo);
-//   const data : UserInfo = {
-//     user_id: repo.clientTapeUser.user_id,
-//     level: repo.targetTapeUser.level,
-//     intra_pic: repo.targetTapeUser.intra_picture,
-//     stats: [repo.targetUserStats.cumulative_stat1, repo.targetUserStats.cumulative_stat2, repo.targetUserStats.cumulative_stat3, repo.targetUserStats.cumulative_stat4, repo.targetUserStats.cumulative_stat5],
-//     current_rank: 2,
-//     yData: repo.yData,
-//     xLabels: repo.xLabels,
-//   }
-//   return { props: {userInfo: data}}
-// }

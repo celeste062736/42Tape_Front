@@ -2,6 +2,8 @@ import { Copyright } from './Components';
 import { Button } from './button';
 import { Blank } from './blank';
 import Link from 'next/link'
+// import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 type VoteListInfo = {
     vote_id: number;
@@ -15,6 +17,7 @@ interface VoteListInfoProps {
 };
 
 export function VoteLayout({vote_data}: VoteListInfoProps) {
+  const router = useRouter();
     return (
       <div className="row" style={{margin: '0px'}}>
         <div className="col-2 d-none d-xl-block">
@@ -30,7 +33,9 @@ export function VoteLayout({vote_data}: VoteListInfoProps) {
             {vote_data.map((item, index) => (
                 <div className="row">
                     <div key={index} className="col-xl-10 d-flex align-items-center justify-content-center">
-                        <button id="project_selector" className="btn btn-primary">
+                        <button id="project_selector" className="btn btn-primary" onClick={(e) => {
+                          router.push(`/vote/${item.vote_id}`)
+                        }}>
                             {item.project_name} 평가자 투표
                         </button>
                     </div>

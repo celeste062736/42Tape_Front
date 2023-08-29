@@ -1,5 +1,7 @@
 import { TopBar } from "../components/topbar";
 import { VoteLayout } from '../components/vote'
+import type { GetServerSideProps } from "next";
+import { getToken } from "next-auth/jwt"
 
 export interface TapeUser {
     user_id: number;
@@ -21,73 +23,50 @@ export interface VoteListInfo {
 }
   
 export interface VoteInfo_DB {
-    tape_user: TapeUser;
     voteList: VoteListInfo[];
 }
 
-export default function Vote() {
+export default function Vote(props: {voteInfo: VoteListInfo[]}) {
     // from backend API_DOC example data
-    const data = {
-        tape_user: {
-            user_id: 141372,
-            number_votes: 0,
-            need_vote: false,
-            number_notifications: 0,
-            need_notify: false,
-            candidate_for_reward: false,
-            is_activated: false,
-            createdAt: "2023-08-24T10:20:01.000Z",
-            updatedAt: "2023-08-24T10:20:01.000Z"
-        },
-        voteList: [
-            {
-                vote_id: 20945,
-                project_name: "CPP Module 04 #2",
-                season_id: 1,
-                filled_at: "2023-08-06T04:25:06.000Z"
-            },
-            {
-                vote_id: 19837,
-                project_name: "CPP Module 04 #1",
-                season_id: 1,
-                filled_at: "2023-08-06T01:51:16.000Z"
-            },
-            {
-                vote_id: 19844,
-                project_name: "get_next_line #2",
-                season_id: 1,
-                filled_at: "2023-04-06T09:39:36.000Z"
-            },
-            {
-                vote_id: 19841,
-                project_name: "Born2beroot",
-                season_id: 1,
-                filled_at: "2023-04-06T02:45:13.000Z"
-            },
-            {
-                vote_id: 19842,
-                project_name: "ft_printf",
-                season_id: 1,
-                filled_at: "2023-03-29T08:32:28.000Z"
-            },
-            {
-                vote_id: 19843,
-                project_name: "get_next_line #1",
-                season_id: 1,
-                filled_at: "2023-03-29T00:52:16.000Z"
-            },
-            {
-                vote_id: 19840,
-                project_name: "Libft",
-                season_id: 1,
-                filled_at: "2023-03-21T05:05:51.000Z"
-            }
-        ]
-    };
     return (
         <div id="root">
             <TopBar></TopBar>
-            <VoteLayout vote_data={data.voteList}></VoteLayout>
+            <VoteLayout vote_data={props.voteInfo}></VoteLayout>
         </div>
     );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+    voteInfo: VoteListInfo[]
+  }> = async ({ req, res }) => {
+    const token = await getToken({req})
+    const dataUnknown : VoteListInfo[] = [
+      {
+        vote_id: -1,
+        project_name: "unknown",
+        season_id: -11,
+        filled_at: "unknown"
+      },
+    ]
+    if (!token) {
+      return { props : {voteInfo: dataUnknown} }
+    }
+  
+    let userId : string | undefined;
+    if(token.sub === null) {
+      userId = undefined;
+    } else {
+      userId = token.sub;
+    }
+    const resp = await fetch('http://localhost:8080/vote_list', {
+      method: "GET",
+      //type script에선 headers에 undefined나 null이 들어가면 에러가 난다.
+      //삼항연산자로 userId가 undefined면 빈 객체를 넣어준다.
+      //헤더가 빈객체면 서버에서는 헤더가 없는 것으로 인식한다. 그러므로 해당부분 에러처리를 해줘야한다.
+      headers: userId ? { "user-id": userId } : {}
+    })
+    const repo : any = await resp.json()
+    const voteList : VoteListInfo[] = repo.voteList;
+    console.log(voteList)
+    return { props: {voteInfo: voteList}}
+  }

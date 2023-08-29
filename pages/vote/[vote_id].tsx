@@ -1,11 +1,12 @@
-import { TopBar } from "../components/topbar";
+import { TopBar } from "../../components/topbar";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import { getToken } from "next-auth/jwt"
-import AccessDenied from "../components/access-denied";
-import NonSSRWrapper from "../components/noSSR";
+import AccessDenied from "../../components/access-denied";
+import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import type { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 
 export const json = {
   "logoPosition": "right",
@@ -107,7 +108,7 @@ export default function Vote(props : {choices: Choices[], votdId: number}) {
 
 export const getServerSideProps: GetServerSideProps<{
   choices: Choices[], votdId: number
-}> = async ({ req, res }) => {
+}> = async ({ req, res, params }) => {
   const dataUnknown : Choices[] = [
     {
       "value": "unknown",
@@ -119,15 +120,22 @@ export const getServerSideProps: GetServerSideProps<{
   if (!token) {
     return { props : {choices: dataUnknown, votdId: -1} }
   }
-
   let userId : string | undefined;
   if(token.sub === null) {
     userId = undefined;
   } else {
     userId = token.sub;
   }
-  let pid = 18364;
-  const resp = await fetch(`http://localhost:8080/vote/${pid}`, {
+  // const router = useRouter()
+  if (params === undefined) {
+    return { props : {choices: dataUnknown, votdId: -1} }
+  }
+  let pid = params.vote_id;
+  if (pid === undefined) {
+    return { props : {choices: dataUnknown, votdId: -1} }
+  }
+  let voteId = Number(pid.toString());
+  const resp = await fetch(`http://localhost:8080/vote/${voteId}`, {
     headers: userId ? { "user-id": userId } : {},
   });
   const data = await resp.json();
@@ -143,24 +151,5 @@ export const getServerSideProps: GetServerSideProps<{
     "imageLink": corrector.intra_picture,
   }));
   console.log("choices:", choices)
-  return { props: {choices: choices, votdId: pid}}
+  return { props: {choices: choices, votdId: voteId}}
 }
-
-
-
-// const [correctors, setCorrectors] = useState<string | null>(null);
-// useEffect(() => {
-//   const fetchData = async () => {
-//     try {
-//       const id = 8363;
-//       const res = await fetch(`/api/vote/${id}`)
-//       data = await res.json()
-//       if (data && data.correctors) {
-//         setCorrectors(JSON.stringify(data.correctors));
-//       }
-//     } catch(error) {
-//       console.error(error)
-//     }
-//   }
-//   fetchData();
-// }, []);
