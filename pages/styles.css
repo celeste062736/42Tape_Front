@@ -326,7 +326,6 @@ ul {
   background-color: #0A58CA;
   color: white;
 }
-
 /* CopyRight */
 #copyright {
   margin-top: 50px;
@@ -334,6 +333,56 @@ ul {
   font-size: 15px;
   color: #d3d3d3;
   font-family: "Arial", sans-serif;
+}
+.sd-imagepicker__check-decorator {
+  transform: translate(100px, 0px);
+}
+.sd-imagepicker__check-icon {
+  width: 10px;
+  height: 10px;
+}
+.sd-question__header {
+  /* 중앙 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sd-selectbase.sd-imagepicker{
+  /* 중앙 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sd-imagepicker__label {
+  margin: 10px;
+}
+.sd-imagepicker__item-decorator {
+  /* 아래 그림자 효과 */
+  box-shadow: 0 0 10px #d3d3d3;
+  width: 280px;
+  height: 100px;
+  border-radius: 4px;
+}
+.sd-imagepicker__item-decorator:hover {
+  /* 이곳에 원하는 스타일을 추가하세요 */
+  box-shadow: 0 0 10px #6181ff; /* 예: 파란색으로 빛나는 효과 */
+}
+.sd-imagepicker__image {
+  width: 80px;
+  height: 80px;
+  transform: translate(-90px, 10px);
+}
+.sd-imagepicker__text {
+  transform: translate(20px, -50px);
+}
+.sv-string-viewer{
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
+.sd-btn.sd-btn--action.sd-navigation__complete-btn {
+  font-size: 20px;
+  margin: 20px;
 }
 
 /* xl 브레이크포인트에서 반응형 디자인 적용 */
