@@ -52,28 +52,22 @@ export const getServerSideProps: GetServerSideProps<{
   } else {
     userId = token.sub;
   }
-  // const resp = await fetch('http://10.19.235.127:8080/user', {
-  //   method: "GET",
-  //   //type script에선 headers에 undefined나 null이 들어가면 에러가 난다.
-  //   //삼항연산자로 userId가 undefined면 빈 객체를 넣어준다.
-  //   //헤더가 빈객체면 서버에서는 헤더가 없는 것으로 인식한다. 그러므로 해당부분 에러처리를 해줘야한다.
-  //   headers: userId ? { "user-id": userId } : {}
-  // })
+  const resp = await fetch('http://localhost:8080/user', {
+    method: "GET",
+    //type script에선 headers에 undefined나 null이 들어가면 에러가 난다.
+    //삼항연산자로 userId가 undefined면 빈 객체를 넣어준다.
+    //헤더가 빈객체면 서버에서는 헤더가 없는 것으로 인식한다. 그러므로 해당부분 에러처리를 해줘야한다.
+    headers: userId ? { "user-id": userId } : {}
+  })
+  const repo : Repo = await resp.json()
   console.log('token');
   console.log(token);
   console.log('resp');
   const data : UserInfo = {
-<<<<<<< HEAD
-    user_id: "soohlee",
-    level: 100,
-    intra_pic: "",
-    stats: [1, 5, 3, 2, 1],
-=======
     user_id: repo.targetTapeUser.login,
     level: repo.targetTapeUser.level,
     intra_pic: repo.targetTapeUser.intra_picture,
     stats: [repo.targetUserStats.cumulative_stat1, repo.targetUserStats.cumulative_stat2, repo.targetUserStats.cumulative_stat3, repo.targetUserStats.cumulative_stat4, repo.targetUserStats.cumulative_stat5],
->>>>>>> 1ef52d0e5dc0c1ab9eb29a82c75ec479ffd39042
     current_rank: 2,
     yData: [{x: 0, y:0}],
     xLabels: {key:"0", label:"0"},
