@@ -1,10 +1,7 @@
 import { TopBar } from "../components/topbar";
-import Layout from "../components/layout";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import { getToken } from "next-auth/jwt"
-import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react";
 import AccessDenied from "../components/access-denied";
 import NonSSRWrapper from "../components/noSSR";
 import 'survey-core/defaultV2.min.css';
@@ -19,7 +16,7 @@ export const json = {
     "elements": [
      {
       "type": "imagepicker",
-      "name": "question1",
+      "name": "vote_user",
       "title": "How is the best corrector?",
       "hideNumber": true,
       "choices": [] as Choices[],
@@ -46,48 +43,11 @@ export const json = {
   comment: string;
 }
 
-export default function Vote(props : {choices: Choices[]}) {
-//   let choices: Choices[] = [];
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const id = 8362;
-//         const res = await fetch(`/api/vote?id=${id}`)
-//         const data : Corrector[] = await res.json()
-//         // console.log(data);
-//         if (!data) {
-//         }
-//         choices = data.map((corrector: Corrector) => ({
-//           "value": corrector.corrector_id,
-//           "text": corrector.intra_login,
-//           "imageLink": corrector.intra_picture,
-//         }));
-//         // console.log(choices);
-//         console.log(JSON.stringify(json, null, 2));
-//         json.pages[0].elements[0].choices = choices;
-//       } catch(error) {
-//         console.error(error)
-//       }
-//     }
-//     fetchData();
-//     console.log(JSON.stringify(json, null, 2));
-//   }, []);
-//   console.log(JSON.stringify(json, null, 2));
-//   const survey = new Model(json);
-//   // You can delete the line below if you do not use a customized theme
-//   // survey.applyTheme(themeJson);
-//   survey.onComplete.add((sender, options) => {
-//     console.log(JSON.stringify(sender.data, null, 2));
-//   });
-//   return (
-//     <div id="root">
-//         <TopBar></TopBar>
-//         {/* <NonSSRWrapper> */}
-//           <Survey model={survey}></Survey>
-//         {/* </NonSSRWrapper> */}
-//     </div>
-//   );
+function saveSurveyData(survey : any) {
 
+}
+
+export default function Vote(props : {choices: Choices[]}) {
   if (props.choices[0].value === "unknown") {
     return (
       <div id="root">
