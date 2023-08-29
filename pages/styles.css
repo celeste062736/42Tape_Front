@@ -45,7 +45,7 @@ ul {
 
 /*logout, login 버튼 */
 #logout_btn {
-  color: #6181ff;
+  color: black;
   font-weight: bold;
   background-color: white;
   border : none;
@@ -90,6 +90,10 @@ ul {
 #intra_picture {
   width: 300px;
   height: 300px;
+  /* 비율 유지 */
+  object-fit: contain;
+  /*윤곽선*/
+  border: 1px solid #6181ff;
   margin-bottom: 10px;
 }
 #profile_level {

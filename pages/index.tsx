@@ -63,10 +63,17 @@ export const getServerSideProps: GetServerSideProps<{
   console.log(token);
   console.log('resp');
   const data : UserInfo = {
+<<<<<<< HEAD
     user_id: "soohlee",
     level: 100,
     intra_pic: "",
     stats: [1, 5, 3, 2, 1],
+=======
+    user_id: repo.targetTapeUser.login,
+    level: repo.targetTapeUser.level,
+    intra_pic: repo.targetTapeUser.intra_picture,
+    stats: [repo.targetUserStats.cumulative_stat1, repo.targetUserStats.cumulative_stat2, repo.targetUserStats.cumulative_stat3, repo.targetUserStats.cumulative_stat4, repo.targetUserStats.cumulative_stat5],
+>>>>>>> 1ef52d0e5dc0c1ab9eb29a82c75ec479ffd39042
     current_rank: 2,
     yData: [{x: 0, y:0}],
     xLabels: {key:"0", label:"0"},

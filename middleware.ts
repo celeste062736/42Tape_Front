@@ -14,4 +14,4 @@ export default withAuth({
   },
 })
 
-export const config = { matcher: ["/", "/vote", "/rank"] }
+export const config = { matcher: ["/", "/vote:path*", "/rank"] }

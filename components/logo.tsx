@@ -1,3 +1,4 @@
+"use client"
 export function LogoImg() {
     var path = "/";
     return (
