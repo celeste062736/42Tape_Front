@@ -61,6 +61,7 @@ export interface UserInfo {
   current_rank: number;
   yData: Coordinate[];
   xLabels: XLabels;
+  sub: string;
 };
 
 export interface UserInfoProps {
