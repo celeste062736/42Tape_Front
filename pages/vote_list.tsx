@@ -7,7 +7,6 @@ import NonSSRWrapper from "../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import type { GetServerSideProps } from "next";
 
-
 export const json = {
   "logoPosition": "right",
   "pages": [
@@ -36,18 +35,48 @@ export const json = {
   "imageLink": string;
 }
 
- type Corrector = {
+ interface Corrector {
   corrector_id: string;
   intra_login: string;
   intra_picture: string;
   comment: string;
 }
 
-function saveSurveyData(survey : any) {
-
+interface VoteUser {
+  "vote_user": string[];
 }
 
-export default function Vote(props : {choices: Choices[]}) {
+export interface CorrectorResult {
+  corrector_id: number;
+  selected: boolean;
+}
+
+interface CorrectorProps {
+  correctors: CorrectorResult[];
+}
+
+function generateCorrectors(choices: Choices[], voteData: VoteUser): { correctProps: CorrectorProps } {
+  const voteSet = new Set(voteData.vote_user.map(str => parseInt(str, 10)));
+  const correctors: CorrectorResult[] = choices.map(choice => ({
+      corrector_id: Number(choice.value),
+      selected: voteSet.has(Number(choice.value))
+  }));
+  const correctProps : CorrectorProps = { correctors };
+  return { correctProps: correctProps };
+}
+
+async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
+  console.log("fetch", correctorProps)
+  return await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(correctorProps),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).catch((error) => console.log(error))
+}
+
+export default function Vote(props : {choices: Choices[], votdId: number}) {
   if (props.choices[0].value === "unknown") {
     return (
       <div id="root">
@@ -60,6 +89,8 @@ export default function Vote(props : {choices: Choices[]}) {
   const survey = new Model(json);
   survey.onComplete.add((sender, options) => {
     console.log(JSON.stringify(sender.data, null, 2));
+    const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user});
+    saveSurveyData(`/api/save-vote-user/${props.votdId}`, correctorProps.correctProps);
   });
   return (
     <div id="root">
@@ -72,7 +103,7 @@ export default function Vote(props : {choices: Choices[]}) {
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  choices: Choices[]
+  choices: Choices[], votdId: number
 }> = async ({ req, res }) => {
   const dataUnknown : Choices[] = [
     {
@@ -83,7 +114,7 @@ export const getServerSideProps: GetServerSideProps<{
   ]
   const token = await getToken({req})
   if (!token) {
-    return { props : {choices: dataUnknown} }
+    return { props : {choices: dataUnknown, votdId: -1} }
   }
 
   let userId : string | undefined;
@@ -92,12 +123,11 @@ export const getServerSideProps: GetServerSideProps<{
   } else {
     userId = token.sub;
   }
-  let pid = 8362;
+  let pid = 18364;
   const resp = await fetch(`http://localhost:8080/vote/${pid}`, {
-    headers: { "user-id": "98029" }
+    headers: userId ? { "user-id": userId } : {},
   });
   const data = await resp.json();
-  // console.log("data:", data)
   const result : Corrector[] = data.correctors.map((corrector : any) => ({
     corrector_id: corrector.corrector_id,
     intra_login: corrector.intra_login,
@@ -109,16 +139,8 @@ export const getServerSideProps: GetServerSideProps<{
     "text": corrector.intra_login,
     "imageLink": corrector.intra_picture,
   }));
-    // console.log("result:", result)
-  // const id = 8362;
-  // const resp = await fetch(`http://localhost:3000/api/vote?id=${id}`)
-  // const data : Corrector[] = await resp.json()
-  // let choices = data.map((corrector: Corrector) => ({
-  //   "value": corrector.corrector_id,
-  //   "text": corrector.intra_login,
-  //   "imageLink": corrector.intra_picture,
-  // }));
-  return { props: {choices: choices}}
+  console.log("choices:", choices)
+  return { props: {choices: choices, votdId: pid}}
 }
 
 
