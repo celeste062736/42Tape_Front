@@ -5,6 +5,19 @@ import { Button } from './button';
 import { Blank } from './blank';
 import { LogoutButton } from './logout';
 
+export interface Notification {
+  type: string;
+  createdAt: string;
+  notified: boolean;
+}
+
+export interface NotificationResponse {
+  receiver: string;
+  number_notifications: number;
+  need_notify: boolean;
+  notificationList: Notification[];
+}
+
 const SvgIcon = () => (
   <svg width="30" height="30" viewBox="0 4 78 60" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M66 49C60.4258 45.0381 59 33 59 27L45 38C45.0384 48.3866 45.9182 55.68 56.5 60V54.5L62 55.5L61 50.5L66 49Z" fill="#6181FF"/>
@@ -69,15 +82,61 @@ export default function ListButton() {
       // </div>
     )
   }
+
+ 
+  // export function Alarm(props: {NotiInfo: NotificationResponse}) {
+  //   const [showList, setShowList] = useState(false);
+  //   const listRef = useRef<HTMLDivElement>(null);
+  //   const buttonRef = useRef<HTMLDivElement>(null);
   
-  export function Alarm() {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (listRef.current && !listRef.current.contains(event.target as Node) && 
+  //         buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+  //       setShowList(false);
+  //     }
+  //   };
+  //   useEffect(() => {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //     return () => {
+  //       document.removeEventListener("mousedown", handleClickOutside);
+  //     };
+  //   }, []);
+  //   console.log('props.NotiInfo1');
+  //   console.log(props.NotiInfo);
+  //   console.log('props.NotiInfo2');
+  //   return (
+  //     <div>
+  //       <button className="Button" onClick={() => setShowList(!showList)}>
+        //   <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        //     <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#000000"/>
+        //     <path d="M25 5.99453L22.5088 6.49766C16.7985 7.6509 12.5001 12.702 12.5001 18.75C12.5001 20.712 12.0802 25.6164 11.0661 30.4443C10.5627 32.8409 9.88919 35.3363 8.99404 37.5H41.006C40.1108 35.3363 39.4373 32.8409 38.934 30.4442C37.9199 25.6164 37.5001 20.7119 37.5001 18.75C37.5001 12.7019 33.2016 7.65084 27.4913 6.49764L25 5.99453ZM44.4353 37.5C45.133 38.8981 45.9421 40.0031 46.875 40.625H3.125C4.0579 40.0031 4.86702 38.8981 5.56469 37.5C8.37257 31.873 9.37507 21.4974 9.37507 18.75C9.37507 11.1854 14.7506 4.8764 21.8901 3.43451C21.8801 3.33269 21.875 3.22944 21.875 3.125C21.875 1.39911 23.2741 0 25 0C26.7259 0 28.125 1.39911 28.125 3.125C28.125 3.22944 28.1199 3.33267 28.1099 3.43448C35.2494 4.87632 40.6251 11.1854 40.6251 18.75C40.6251 21.4974 41.6275 31.873 44.4353 37.5Z" fill="#000000"/>
+        //   </svg>
+        // </button>
+        // {showList && (
+  //         <div className={`alarm-list ${showList ? 'show' : ''}`} ref={listRef}>
+  //           <ul style={{padding: '10px', margin: '0'}}>
+  //             <li><SvgIcon />누군가 당신을 최고의 평가자로 투표했습니다!</li>
+  //             <br></br>
+  //             <li><SvgIcon />누군가 당신을 최고의 평가자로 투표했습니다!</li>
+  //           </ul>
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // }
+ 
+  export function Alarm(props: { NotiInfo: NotificationResponse }) {
     const [showList, setShowList] = useState(false);
     const listRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLDivElement>(null);
   
     const handleClickOutside = (event: MouseEvent) => {
-      if (listRef.current && !listRef.current.contains(event.target as Node) && 
-          buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+      if (
+        listRef.current &&
+        !listRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
         setShowList(false);
       }
     };
@@ -91,25 +150,37 @@ export default function ListButton() {
   
     return (
       <div>
-        <button className="Button" onClick={() => setShowList(!showList)}>
-          <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* <button className="Button" onClick={() => setShowList(!showList)}> */}
+        <button 
+          className={`Button ${props.NotiInfo.need_notify ? 'notify-active' : ''}`} 
+          onClick={() => setShowList(!showList)}
+        >
+        <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#000000"/>
             <path d="M25 5.99453L22.5088 6.49766C16.7985 7.6509 12.5001 12.702 12.5001 18.75C12.5001 20.712 12.0802 25.6164 11.0661 30.4443C10.5627 32.8409 9.88919 35.3363 8.99404 37.5H41.006C40.1108 35.3363 39.4373 32.8409 38.934 30.4442C37.9199 25.6164 37.5001 20.7119 37.5001 18.75C37.5001 12.7019 33.2016 7.65084 27.4913 6.49764L25 5.99453ZM44.4353 37.5C45.133 38.8981 45.9421 40.0031 46.875 40.625H3.125C4.0579 40.0031 4.86702 38.8981 5.56469 37.5C8.37257 31.873 9.37507 21.4974 9.37507 18.75C9.37507 11.1854 14.7506 4.8764 21.8901 3.43451C21.8801 3.33269 21.875 3.22944 21.875 3.125C21.875 1.39911 23.2741 0 25 0C26.7259 0 28.125 1.39911 28.125 3.125C28.125 3.22944 28.1199 3.33267 28.1099 3.43448C35.2494 4.87632 40.6251 11.1854 40.6251 18.75C40.6251 21.4974 41.6275 31.873 44.4353 37.5Z" fill="#000000"/>
           </svg>
         </button>
         {showList && (
-          <div className={`alarm-list ${showList ? 'show' : ''}`} ref={listRef}>
-            <ul style={{padding: '10px', margin: '0'}}>
-              <li><SvgIcon />누군가 당신을 최고의 평가자로 투표했습니다!</li>
-              <br></br>
-              <li><SvgIcon />누군가 당신을 최고의 평가자로 투표했습니다!</li>
+          <div className={`alarm-list ${showList ? "show" : ""}`} ref={listRef}>
+            <ul style={{ padding: "10px", margin: "0" }}>
+              {props.NotiInfo.notificationList.map((notification, index) => (
+                <li
+                  key={index}
+                  style={{
+                    color: notification.notified ? "grey" : "black",
+                  }}
+                >
+                  <SvgIcon />
+                  누군가 당신을 최고의 평가자로 투표했습니다!
+                </li>
+              ))}
             </ul>
           </div>
         )}
       </div>
     );
   }
-  
+
   export function Info() {
     const [isModalOpen, setModalOpen] = useState(false);
   
@@ -137,17 +208,17 @@ export default function ListButton() {
     );
   }
   
-  export function Tools() {
+  export function Tools(props: {NotiInfo: NotificationResponse}) {
     return (
       <>
-        <Alarm></Alarm>
+        <Alarm NotiInfo={props.NotiInfo}></Alarm>
         <Info></Info>
         <LogoutButton></LogoutButton>
       </>
     )
   }
   
-  export function TopBar() {
+  export function TopBar(props: {NotiInfo: NotificationResponse}) {
     return (
       <div className="row align-items-center" style={{margin: '0px'}}>
         <div className="col-1 d-flex justify-content-center align-items-center d-block d-xl-none">
@@ -165,7 +236,7 @@ export default function ListButton() {
         </div>
         <div className="col-2 d-none d-xl-block"></div>
         <div className="col-2 d-flex justify-content-around align-items-center" style={{width: '150px'}}>
-          <Tools></Tools>
+          <Tools NotiInfo={props.NotiInfo}></Tools>
         </div>
       </div>
     )

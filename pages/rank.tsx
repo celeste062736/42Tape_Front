@@ -105,32 +105,32 @@ export const getServerSideProps: GetServerSideProps<{
     const data : RankInfo = {
             rank_1: {
                 intra_id: RankInfo_db.rankList[0].login,
-                intra_picture: RankInfo_db.rankList[0].intra_picture,
+                intra_picture: RankInfo_db.rankList[0].intra_picture || "./default-profile.png",
                 rank: RankInfo_db.rankList[0].rank,
             },
             rank_2: {
                 intra_id: RankInfo_db.rankList[1].login,
-                intra_picture: RankInfo_db.rankList[1].intra_picture,
+                intra_picture: RankInfo_db.rankList[1].intra_picture || "./default-profile.png",
                 rank: RankInfo_db.rankList[1].rank,
             },
             rank_3: {
                 intra_id: RankInfo_db.rankList[2].login,
-                intra_picture: RankInfo_db.rankList[2].intra_picture,
+                intra_picture: RankInfo_db.rankList[2].intra_picture || "./default-profile.png",
                 rank: RankInfo_db.rankList[2].rank,
             },
             rank_4: {
                 intra_id: RankInfo_db.rankList[3].login,
-                intra_picture: RankInfo_db.rankList[3].intra_picture,
+                intra_picture: RankInfo_db.rankList[3].intra_picture || "./default-profile.png",
                 rank: RankInfo_db.rankList[3].rank,
             },
             rank_5: {
                 intra_id: RankInfo_db.rankList[4].login,
-                intra_picture: RankInfo_db.rankList[4].intra_picture,
+                intra_picture: RankInfo_db.rankList[4].intra_picture || "./default-profile.png",
                 rank: RankInfo_db.rankList[4].rank,
             },
             rank_6: {
                 intra_id: RankInfo_db.rankList[5].login,
-                intra_picture: RankInfo_db.rankList[5].intra_picture,
+                intra_picture: RankInfo_db.rankList[5].intra_picture || "./default-profile.png",
                 rank: RankInfo_db.rankList[5].rank,
             }
         }
@@ -152,60 +152,3 @@ export default function Rank(props: RankProps) {
         </div>
     );
 }
-
-// const Rank: React.FC<{ rank_info: RankInfo }> = ({ rank_info }) => {
-//     console.log('rank_info----------1');
-//     console.log(rank_info);
-//     console.log('rank_info---------2');
-//     return (
-//       <div id="root">
-//         <TopBar />
-//         <RankLayout rand_data={rank_info} />
-//       </div>
-//     );
-// }
-
-// export default Rank;
-
-
-// export default function Rank() {
-//     let rank_info = {
-//         rank_1: {
-//             intra_id: "woosekim",
-//             intra_picture: "https://cdn.intra.42.fr/users/499046b6eb8be4e65a52a6d91fe8081c/woosekim.jpg", 
-//             rank: 1,
-//         },
-//         rank_2: {
-//             intra_id: "dfasf",
-//             intra_picture: "https://cdn.intra.42.fr/users/499046b6eb8be4e65a52a6d91fe8081c/woosekim.jpg", 
-//             rank: 2,
-//         },
-//         rank_3: {
-//             intra_id: "w12412",
-//             intra_picture: "https://cdn.intra.42.fr/users/499046b6eb8be4e65a52a6d91fe8081c/woosekim.jpg", 
-//             rank: 3,
-//         },
-//         rank_4: {
-//             intra_id: "5325im",
-//             intra_picture: "https://cdn.intra.42.fr/users/499046b6eb8be4e65a52a6d91fe8081c/woosekim.jpg", 
-//             rank: 4,
-//         },
-//         rank_5: {
-//             intra_id: "235235m",
-//             intra_picture: "https://cdn.intra.42.fr/users/499046b6eb8be4e65a52a6d91fe8081c/woosekim.jpg", 
-//             rank: 5,
-//         },
-//         rank_6: {
-//             intra_id: "2352351",
-//             intra_picture: "https://cdn.intra.42.fr/users/499046b6eb8be4e65a52a6d91fe8081c/woosekim.jpg", 
-//             rank: 6,
-//         }
-//     }
-    
-//     return (
-//         <div id="root">
-//             <TopBar></TopBar>
-//             <RankLayout rand_data={rank_info}></RankLayout>
-//         </div>
-//     );
-// }

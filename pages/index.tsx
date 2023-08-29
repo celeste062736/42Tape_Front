@@ -6,14 +6,26 @@ import type { UserInfoProps, UserInfo } from '../components/Components'
 import type { Repo } from "../components/Components";
 import { getToken } from "next-auth/jwt"
 import AccessDenied from "../components/access-denied";
+import type { NotificationResponse, Notification } from "../components/topbar"
+
+export interface UserInfo_NotiInfo {
+  UserInfo : UserInfo;
+  NotiInfo : NotificationResponse;
+}
 
 export const metadata = {
   title: '42TAPE',
   description: '42 The Art of Peer Evaluation',
 }
 
-export default function Home(props: UserInfoProps) {
-  if (props.userInfo.user_id === null) {
+export interface UserInfoNotiInfoProps {
+  userInfo_NotiInfo : UserInfo_NotiInfo;
+}
+
+export default function Home(props: UserInfoNotiInfoProps) {
+  console.log('props');
+  console.log(props);
+  if (props.userInfo_NotiInfo.UserInfo.user_id === null) {
     return (
       <Layout>
         <AccessDenied />
@@ -23,27 +35,54 @@ export default function Home(props: UserInfoProps) {
   //props.param.id 로 접속한 인트라 아이디 가져오기
   return (
     <div id="root">
-      <TopBar></TopBar>
-      <MainLayout userInfo={ props.userInfo }></MainLayout>
+      <TopBar NotiInfo={ props.userInfo_NotiInfo.NotiInfo}></TopBar>
+      <MainLayout userInfo={ props.userInfo_NotiInfo.UserInfo }></MainLayout>
     </div>
   )
 }
 
+export interface UserInfo_NotiInfo {
+  UserInfo : UserInfo;
+  NotiInfo : NotificationResponse;
+}
+
+// export interface Notification {
+//   type: string;
+//   createdAt: string;
+//   notified: boolean;
+// }
+
+// export interface NotificationResponse {
+//   receiver: string;
+//   number_notifications: number;
+//   need_notify: boolean;
+//   notificationList: Notification[];
+// }
+
 export const getServerSideProps: GetServerSideProps<{
-  userInfo: UserInfo
+  userInfo_NotiInfo: UserInfo_NotiInfo
 }> = async ({ req, res }) => {
-  const dataUnknown : UserInfo = {
-    user_id: null,
-    level: 1,
-    intra_pic: "unknown",
-    stats: [0, 0, 0, 0, 0],
-    current_rank: 0,
-    yData: [{x: 0, y:0}],
-    xLabels: {key:"0", label:"0"},
+  const dataUnknown : UserInfo_NotiInfo = {
+    UserInfo: {
+      intra_pic: "unknown",
+      level: 0,
+      user_id: null,
+      stats: [0, 0, 0, 0, 0],
+      current_rank: 0,
+      yData: [{x: 0, y:0}],
+      xLabels: {key:"0", label:"0"},
+      sub: '',
+    },
+    NotiInfo: {
+      receiver: '',
+      number_notifications: 0,
+      need_notify: false,
+      notificationList: [],
   }
+}
   const token = await getToken({req})
   if (!token) {
-    return { props : {userInfo: dataUnknown} }
+    return { props : {userInfo_NotiInfo: dataUnknown} }
   }
 
   let userId : string | undefined;
@@ -54,16 +93,13 @@ export const getServerSideProps: GetServerSideProps<{
   }
   const resp = await fetch('http://localhost:8080/user', {
     method: "GET",
-    //type script에선 headers에 undefined나 null이 들어가면 에러가 난다.
-    //삼항연산자로 userId가 undefined면 빈 객체를 넣어준다.
-    //헤더가 빈객체면 서버에서는 헤더가 없는 것으로 인식한다. 그러므로 해당부분 에러처리를 해줘야한다.
     headers: userId ? { "user-id": userId } : {}
   })
   const repo : Repo = await resp.json()
   console.log('token');
   console.log(token);
   console.log('resp');
-  const data : UserInfo = {
+  const UserInfo : UserInfo = {
     user_id: repo.targetTapeUser.login,
     level: repo.targetTapeUser.level,
     intra_pic: repo.targetTapeUser.intra_picture || "./default-profile.png",
@@ -71,6 +107,76 @@ export const getServerSideProps: GetServerSideProps<{
     current_rank: 2,
     yData: repo.yData,
     xLabels: repo.xLabels,
+    sub: repo.clientTapeUser.user_id,
   }
-  return { props: {userInfo: data}}
+
+  const resp2 = await fetch('http://localhost:8080/notification', {
+    method: "GET",
+    headers: userId ? { "user-id": userId } : {}
+  })
+  const repo2 : NotificationResponse = await resp2.json()
+  console.log('notification');
+  console.log(token);
+  console.log('notification');
+  //notificationList에 데이터 수동으로 넣기
+  repo2.notificationList = [
+    {
+        "type": "got_new_vote",
+        "createdAt": "Mon Aug 28 2023",
+        "notified": false
+    },
+    {
+        "type": "got_new_vote",
+        "createdAt": "Mon Aug 28 2023",
+        "notified": true
+    },
+    {
+      "type": "got_new_vote",
+      "createdAt": "Mon Aug 28 2023",
+      "notified": true
+    }
+  ]
+  const NotiInfo : NotificationResponse = {
+    receiver: repo2.receiver,
+    number_notifications: repo2.number_notifications,
+    need_notify: repo2.need_notify,
+    // need_notify: true,
+    notificationList: repo2.notificationList,
+  }
+  console.log(repo2.notificationList);
+  const data : UserInfo_NotiInfo = {
+    UserInfo: UserInfo,
+    NotiInfo: NotiInfo,
+  }
+  return { props: {userInfo_NotiInfo: data}}
 }
+
+// const data : UserInfo_NotiInfo = {
+//   UserInfo: {
+//     intra_pic: "https://cdn.intra.42.fr/users/medium_soohkang.jpg",
+//     level: 0,
+//     user_id: "soohkang",
+//     stats: [0, 0, 0, 0, 0],
+//     current_rank: 0,
+//     yData: [{x: 0, y:0}],
+//     xLabels: {key:"0", label:"0"},
+//     sub: '',
+//   },
+//   NotiInfo: {
+//   "receiver": "soohkang",
+//   "number_notifications": 0,
+//   "need_notify": false,
+//   "notificationList": [
+//       {
+//           "type": "got_new_vote",
+//           "createdAt": "Mon Aug 28 2023",
+//           "notified": true
+//       },
+//       {
+//           "type": "got_new_vote",
+//           "createdAt": "Mon Aug 28 2023",
+//           "notified": true
+//       }
+//   ]
+// }
+// }
