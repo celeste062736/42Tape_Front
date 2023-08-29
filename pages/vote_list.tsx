@@ -27,6 +27,9 @@ export const json = {
     "title": "pick_cadets"
    }
   ],
+  "showCompletedPage": false,
+  "navigateToUrl": "http://localhost:3000/questions",
+  "completeText": "Start voting!",
  }
 
  interface Choices {
@@ -47,12 +50,12 @@ interface VoteUser {
 }
 
 export interface CorrectorResult {
-  corrector_id: number;
-  selected: boolean;
+  "corrector_id": number;
+  "selected": boolean;
 }
 
 interface CorrectorProps {
-  correctors: CorrectorResult[];
+  "correctors": CorrectorResult[];
 }
 
 function generateCorrectors(choices: Choices[], voteData: VoteUser): { correctProps: CorrectorProps } {
