@@ -5,6 +5,10 @@
 }
 */
 
+.Button.notify-active {
+  background-color: red;
+}
+
 .grey-out {
   color: grey;
 }

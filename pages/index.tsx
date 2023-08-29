@@ -140,6 +140,7 @@ export const getServerSideProps: GetServerSideProps<{
     receiver: repo2.receiver,
     number_notifications: repo2.number_notifications,
     need_notify: repo2.need_notify,
+    // need_notify: true,
     notificationList: repo2.notificationList,
   }
   console.log(repo2.notificationList);
