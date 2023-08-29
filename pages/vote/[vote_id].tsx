@@ -6,8 +6,19 @@ import AccessDenied from "../../components/access-denied";
 import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import type { GetServerSideProps } from "next";
+import { themeJson } from "../../survey";
+import { FunctionFactory } from "survey-core";
+// import QuestionImagePickerModel from "survey-core";
+// import { isItemSelected } from "survey-core";
 // import { useRouter } from "next/router";
 
+function validateCounts (params: any) {
+  if (!params) return false;
+  for (let param in params) {
+
+  }
+}
+// QuestionImagePickerModel.isItemSelected
 export const json = {
   "logoPosition": "right",
   "pages": [
@@ -18,12 +29,18 @@ export const json = {
       "type": "imagepicker",
       "name": "vote_user",
       "title": "How is the best corrector?",
+      // "isRequired": true,
       "hideNumber": true,
       "choices": [] as Choices[],
       "choicesOrder": "random",
       "showLabel": true,
-      "multiSelect": true
-     }
+      "multiSelect": true,
+      // "validators": [{
+      //   "type": "expression",
+      //   "text": "You must select at least 1 corrector!",
+      //   "expression": "countInArray({vote_user}) < 2 or countInArray({vote_user}) > 4"
+      // }],
+     },
     ],
     "title": "pick_cadets"
    }
@@ -31,6 +48,7 @@ export const json = {
   "showCompletedPage": false,
   "navigateToUrl": "http://localhost:3000/questions",
   "completeText": "Start voting!",
+  "widthMode": "responsive"
  }
 
  interface Choices {
@@ -44,6 +62,7 @@ export const json = {
   intra_login: string;
   intra_picture: string;
   comment: string;
+
 }
 
 interface VoteUser {
@@ -80,7 +99,7 @@ async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
   }).catch((error) => console.log(error))
 }
 
-export default function Vote(props : {choices: Choices[], voteId: number}) {
+export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[]}) {
   if (props.choices[0].value === "unknown") {
     return (
       <div id="root">
@@ -92,6 +111,14 @@ export default function Vote(props : {choices: Choices[], voteId: number}) {
   json.pages[0].elements[0].choices = props.choices;
   json["navigateToUrl"] = `http://localhost:3000/questions/${props.voteId}`
   const survey = new Model(json);
+  survey.applyTheme(themeJson);
+  survey.onValidateQuestion.add((sender, options) => {
+    if (options.name === "vote_user") {
+      if (options.value.length < props.round_data[0] || options.value.length > props.round_data[1]) {
+        options.error = `You must select at least ${props.round_data[0]} correctors and at most ${props.round_data[1]} correctors!`;
+      }
+    }
+  });
   survey.onComplete.add((sender, options) => {
     console.log(JSON.stringify(sender.data, null, 2));
     const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user});
@@ -108,8 +135,11 @@ export default function Vote(props : {choices: Choices[], voteId: number}) {
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  choices: Choices[], voteId: number
+  choices: Choices[], voteId: number, round_data: number[]
 }> = async ({ req, res, params }) => {
+  let round_data = new Array<number>(2);
+  round_data[0] = -1;
+  round_data[1] = -1;
   const dataUnknown : Choices[] = [
     {
       "value": "unknown",
@@ -119,7 +149,7 @@ export const getServerSideProps: GetServerSideProps<{
   ]
   const token = await getToken({req})
   if (!token) {
-    return { props : {choices: dataUnknown, voteId: -1} }
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
   }
   let userId : string | undefined;
   if(token.sub === null) {
@@ -128,17 +158,19 @@ export const getServerSideProps: GetServerSideProps<{
     userId = token.sub;
   }
   if (params === undefined) {
-    return { props : {choices: dataUnknown, voteId: -1} }
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
   }
   let pid = params.vote_id;
   if (pid === undefined) {
-    return { props : {choices: dataUnknown, voteId: -1} }
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
   }
   let voteId = Number(pid.toString());
   const resp = await fetch(`http://localhost:8080/vote/${voteId}`, {
     headers: userId ? { "user-id": userId } : {},
   });
   const data = await resp.json();
+  round_data[0] = data.min_1st_round
+  round_data[1] = data.max_1st_round
   const result : Corrector[] = data.correctors.map((corrector : any) => ({
     corrector_id: corrector.corrector_id,
     intra_login: corrector.intra_login,
@@ -151,5 +183,5 @@ export const getServerSideProps: GetServerSideProps<{
     "imageLink": corrector.intra_picture,
   }));
   console.log("choices:", choices)
-  return { props: {choices: choices, voteId: voteId}}
+  return { props: {choices: choices, voteId: voteId, round_data: round_data}}
 }

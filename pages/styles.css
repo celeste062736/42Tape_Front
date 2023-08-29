@@ -384,6 +384,12 @@ ul {
   font-size: 20px;
   margin: 20px;
 }
+.sd-action-bar.sd-footer.sd-body__navigation.sd-clearfix {
+  /* 하위 엘리먼트들을 가운데 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* xl 브레이크포인트에서 반응형 디자인 적용 */
 @media (max-width: 1200px) {

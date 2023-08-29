@@ -5,6 +5,7 @@ import { getToken } from "next-auth/jwt"
 import AccessDenied from "../../components/access-denied";
 import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
+import { themeJson } from "../../survey";
 import type { GetServerSideProps } from "next";
 
 export const json = {
@@ -85,7 +86,8 @@ export const json = {
 //  "cookieName": "questions",
  "showPageNumbers": true,
  "completeText": "Complete",
- "showPreviewBeforeComplete": "showAnsweredQuestions"
+ "showPreviewBeforeComplete": "showAnsweredQuestions",
+ "widthMode": "responsive"
 }
 
 interface Choices {
@@ -175,6 +177,7 @@ export default function Vote(props : {choices: Choices[], voteId: number}) {
     page.elements[0].choices = props.choices;
   }
   const survey = new Model(json);
+  survey.applyTheme(themeJson);
   survey.onComplete.add((sender, options) => {
     console.log(JSON.stringify(sender.data, null, 2));
     console.log("sender.data", sender.data)
