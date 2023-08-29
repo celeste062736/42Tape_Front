@@ -334,9 +334,6 @@ ul {
   color: #d3d3d3;
   font-family: "Arial", sans-serif;
 }
-.sd-imagepicker__check-decorator {
-  transform: translate(100px, 0px);
-}
 .sd-imagepicker__check-icon {
   width: 10px;
   height: 10px;
@@ -346,6 +343,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
 }
 .sd-selectbase.sd-imagepicker{
   /* 중앙 정렬 */
@@ -359,8 +357,8 @@ ul {
 .sd-imagepicker__item-decorator {
   /* 아래 그림자 효과 */
   box-shadow: 0 0 10px #d3d3d3;
-  width: 280px;
-  height: 100px;
+  width: 400px;
+  height: 150px;
   border-radius: 4px;
 }
 .sd-imagepicker__item-decorator:hover {
@@ -368,12 +366,15 @@ ul {
   box-shadow: 0 0 10px #6181ff; /* 예: 파란색으로 빛나는 효과 */
 }
 .sd-imagepicker__image {
-  width: 80px;
-  height: 80px;
-  transform: translate(-90px, 10px);
+  width: 120px;
+  height: 120px;
+  transform: translate(-126px, 15px);
 }
 .sd-imagepicker__text {
-  transform: translate(20px, -50px);
+  transform: translate(6px, -65px);
+}
+.sd-imagepicker__check-decorator {
+  transform: translate(140px, 0px);
 }
 .sv-string-viewer{
   font-size: 18px;
@@ -389,6 +390,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 /* xl 브레이크포인트에서 반응형 디자인 적용 */
