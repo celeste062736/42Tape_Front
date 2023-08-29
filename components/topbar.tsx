@@ -5,6 +5,14 @@ import { Button } from './button';
 import { Blank } from './blank';
 import { LogoutButton } from './logout';
 
+const SvgIcon = () => (
+  <svg width="30" height="30" viewBox="0 4 78 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M66 49C60.4258 45.0381 59 33 59 27L45 38C45.0384 48.3866 45.9182 55.68 56.5 60V54.5L62 55.5L61 50.5L66 49Z" fill="#6181FF"/>
+    <path d="M60 30C60 46.5685 46.5685 60 30 60C13.4315 60 0 46.5685 0 30C0 13.4315 13.4315 0 30 0C46.5685 0 60 13.4315 60 30ZM38.5 21.5C33.8056 16.8056 26.1944 16.8056 21.5 21.5C16.8056 26.1944 16.8056 33.8056 21.5 38.5C26.1944 43.1944 33.8056 43.1944 38.5 38.5C43.1944 33.8056 43.1944 26.1944 38.5 21.5Z" fill="#6181FF"/>
+    <circle cx="30" cy="30" r="16" stroke="white" strokeWidth="2"/>
+  </svg>
+);
+
 export default function ListButton() {
     const [showList, setShowList] = useState(false);
     const listRef = useRef<HTMLDivElement | null>(null);
@@ -49,15 +57,16 @@ export default function ListButton() {
   
   export function SearchBar() {
     return (
-      <div className="input-group">
-        <input id="searchSpace" type="text" className="form-control" placeholder="Search"></input>
-        <button id="searchButton" className="Button">
-          <svg width="30" height="30" viewBox="0 0 35 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M27.0693 14.6968C27.0693 22.0257 21.3055 27.8936 14.2847 27.8936C7.26382 27.8936 1.5 22.0257 1.5 14.6968C1.5 7.3679 7.26382 1.5 14.2847 1.5C21.3055 1.5 27.0693 7.3679 27.0693 14.6968Z" stroke="#000000" strokeWidth="3"/>
-            <line x1="24.1149" y1="24.9966" x2="33.1149" y2="34.9966" stroke="#000000" strokeWidth="3"/>
-          </svg>
-        </button>
-      </div>
+      <div></div>
+      // <div className="input-group">
+      //   <input id="searchSpace" type="text" className="form-control" placeholder="Search"></input>
+      //   <button id="searchButton" className="Button">
+      //     <svg width="30" height="30" viewBox="0 0 35 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      //       <path d="M27.0693 14.6968C27.0693 22.0257 21.3055 27.8936 14.2847 27.8936C7.26382 27.8936 1.5 22.0257 1.5 14.6968C1.5 7.3679 7.26382 1.5 14.2847 1.5C21.3055 1.5 27.0693 7.3679 27.0693 14.6968Z" stroke="#000000" strokeWidth="3"/>
+      //       <line x1="24.1149" y1="24.9966" x2="33.1149" y2="34.9966" stroke="#000000" strokeWidth="3"/>
+      //     </svg>
+      //   </button>
+      // </div>
     )
   }
   
@@ -89,11 +98,11 @@ export default function ListButton() {
           </svg>
         </button>
         {showList && (
-          <div className="alarm-list" ref={listRef}>
+          <div className={`alarm-list ${showList ? 'show' : ''}`} ref={listRef}>
             <ul style={{padding: '10px', margin: '0'}}>
-              <li>누군가 당신을 최고의 평가자로 투표했습니다!</li>
+              <li><SvgIcon />누군가 당신을 최고의 평가자로 투표했습니다!</li>
               <br></br>
-              <li>누군가 당신을 최고의 평가자로 투표했습니다!</li>
+              <li><SvgIcon />누군가 당신을 최고의 평가자로 투표했습니다!</li>
             </ul>
           </div>
         )}

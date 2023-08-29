@@ -4,6 +4,15 @@
   border: 1px solid #6181ff;
 }
 */
+
+.grey-out {
+  color: grey;
+}
+
+.alarm-list.show {
+  transform: translate(-112px, -20px);
+}
+
 ul {
   /*모든 효과 제거 */
   list-style-type: none;
@@ -86,7 +95,22 @@ ul {
 .profile {
   width: 400px;
   height: 500px;
+  margin-top: 50px;
 }
+
+#profile_rank {
+  width: 400px;
+  height: 500px;
+  margin-bottom: 100px;
+}
+#profile_rank_text {
+  text-align: center;
+  transform: translatey(8px);
+  margin-bottom: 100;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 #intra_picture {
   width: 300px;
   height: 300px;
@@ -113,13 +137,7 @@ ul {
   font-size: 20px;
   font-weight: bold;
 }
-#profile_rank {
-  /*가운데 정렬*/
-  text-align: center;
-  margin-top: 10px;
-  font-size: 20px;
-  font-weight: bold;
-}
+
 .profile_line_chart {
   width: 900px;
   height: 300px;

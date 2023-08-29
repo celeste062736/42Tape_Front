@@ -82,14 +82,13 @@ export function RadarChart({stats, current_rank} : RadarChartProps) {
     }
   };
   return (
-    <div className="profile">
-      <div id="profile_rank">
-        Rank #{current_rank}
+      <div className="profile" id="profile_rank">
+        <Radar data={data} options={options}/>
+        <div id="profile_rank_text">
+          Rank #{current_rank}
+        </div>
       </div>
-      <Radar data={data} options={options}/>
-    </div>
-  )
-
+    )
 }
 
 export interface Coordinate {
