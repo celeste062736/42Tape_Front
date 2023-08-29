@@ -66,11 +66,11 @@ export const getServerSideProps: GetServerSideProps<{
   const data : UserInfo = {
     user_id: repo.targetTapeUser.login,
     level: repo.targetTapeUser.level,
-    intra_pic: repo.targetTapeUser.intra_picture,
+    intra_pic: repo.targetTapeUser.intra_picture || "./default-profile.png",
     stats: [repo.targetUserStats.cumulative_stat1, repo.targetUserStats.cumulative_stat2, repo.targetUserStats.cumulative_stat3, repo.targetUserStats.cumulative_stat4, repo.targetUserStats.cumulative_stat5],
     current_rank: 2,
-    yData: [{x: 0, y:0}],
-    xLabels: {key:"0", label:"0"},
+    yData: repo.yData,
+    xLabels: repo.xLabels,
   }
   return { props: {userInfo: data}}
 }
