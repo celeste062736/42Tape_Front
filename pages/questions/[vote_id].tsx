@@ -7,6 +7,7 @@ import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import { themeJson } from "../../survey";
 import type { GetServerSideProps } from "next";
+import type { NotificationResponse } from "../../components/topbar"
 
 export const json = {
  "logoPosition": "right",
@@ -164,11 +165,11 @@ async function saveSurveyData(url : string, correctorProps: CorrProps[]) {
   }).catch((error) => console.log(error))
 }
 
-export default function Vote(props : {choices: Choices[], voteId: number}) {
+export default function Vote(props : {choices: Choices[], voteId: number, notiInfo: NotificationResponse}) {
   if (props.choices[0].value === "unknown") {
     return (
       <div id="root">
-        <TopBar></TopBar>
+        <TopBar NotiInfo={ props.notiInfo }></TopBar>
         <AccessDenied></AccessDenied>
       </div>
     )
@@ -187,7 +188,7 @@ export default function Vote(props : {choices: Choices[], voteId: number}) {
   });
   return (
     <div id="root">
-        <TopBar></TopBar>
+        <TopBar NotiInfo={ props.notiInfo }></TopBar>
         <NonSSRWrapper>
           <Survey model={survey}></Survey>
         </NonSSRWrapper>
@@ -243,5 +244,39 @@ export const getServerSideProps: GetServerSideProps<{
     "imageLink": corrector.intra_picture,
   }));
   console.log("choices:", choices)
-  return { props: {choices: choices, voteId: voteId}}
+
+
+  const resp2 = await fetch('http://localhost:8080/notification', {
+    method: "GET",
+    headers: userId ? { "user-id": userId } : {}
+  })
+  const repo2 : NotificationResponse = await resp2.json()
+  //notificationList에 데이터 수동으로 넣기
+  repo2.notificationList = [
+    {
+        "type": "got_new_vote",
+        "createdAt": "Mon Aug 28 2023",
+        "notified": false
+    },
+    {
+        "type": "got_new_vote",
+        "createdAt": "Mon Aug 28 2023",
+        "notified": true
+    },
+    {
+      "type": "got_new_vote",
+      "createdAt": "Mon Aug 28 2023",
+      "notified": true
+    }
+  ]
+  const NotiInfo : NotificationResponse = {
+    receiver: repo2.receiver,
+    number_notifications: repo2.number_notifications,
+    // need_notify: repo2.need_notify,
+    need_notify: true,
+    notificationList: repo2.notificationList,
+  }
+
+
+  return { props: {choices: choices, voteId: voteId, notiInfo: NotiInfo}}
 }

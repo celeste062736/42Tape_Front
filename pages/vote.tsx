@@ -2,6 +2,7 @@ import { TopBar } from "../components/topbar";
 import { VoteLayout } from '../components/vote'
 import type { GetServerSideProps } from "next";
 import { getToken } from "next-auth/jwt"
+import type { NotificationResponse } from "../components/topbar"
 
 export interface TapeUser {
     user_id: number;
@@ -26,30 +27,49 @@ export interface VoteInfo_DB {
     voteList: VoteListInfo[];
 }
 
-export default function Vote(props: {voteInfo: VoteListInfo[]}) {
+export interface VoteList_NotiInfo {
+  voteList : VoteListInfo[];
+  NotiInfo : NotificationResponse;
+}
+
+export interface VoteListNotiInfoProps {
+  voteList_NotiInfo : VoteList_NotiInfo;
+}
+
+export default function Vote(props: VoteListNotiInfoProps) {
     // from backend API_DOC example data
+    
     return (
         <div id="root">
-            <TopBar></TopBar>
-            <VoteLayout vote_data={props.voteInfo}></VoteLayout>
+            <TopBar NotiInfo={ props.voteList_NotiInfo.NotiInfo }></TopBar>
+            <VoteLayout vote_data={props.voteList_NotiInfo.voteList}></VoteLayout>
         </div>
     );
 }
 
 export const getServerSideProps: GetServerSideProps<{
-    voteInfo: VoteListInfo[]
-  }> = async ({ req, res }) => {
+    voteList_NotiInfo: VoteList_NotiInfo
+    }> = async ({ req, res }) => {
     const token = await getToken({req})
-    const dataUnknown : VoteListInfo[] = [
-      {
-        vote_id: -1,
-        project_name: "unknown",
-        season_id: -11,
-        filled_at: "unknown"
-      },
-    ]
+    //votelist_notiinfo에 에러일때 처리해줄 데이터 넣어주기
+    const dataUnknown : VoteList_NotiInfo = {
+      voteList: [
+        {
+          vote_id: -1,
+          project_name: "unknown",
+          season_id: -1,
+          filled_at: "unknown"
+        },
+      ],
+      NotiInfo: {
+        receiver: "unknown",
+        number_notifications: -1,
+        need_notify: false,
+        notificationList: [],
+      }
+    }
     if (!token) {
-      return { props : {voteInfo: dataUnknown} }
+      return { props : { voteList_NotiInfo: dataUnknown } }
     }
   
     let userId : string | undefined;
@@ -60,13 +80,53 @@ export const getServerSideProps: GetServerSideProps<{
     }
     const resp = await fetch('http://localhost:8080/vote_list', {
       method: "GET",
-      //type script에선 headers에 undefined나 null이 들어가면 에러가 난다.
-      //삼항연산자로 userId가 undefined면 빈 객체를 넣어준다.
-      //헤더가 빈객체면 서버에서는 헤더가 없는 것으로 인식한다. 그러므로 해당부분 에러처리를 해줘야한다.
       headers: userId ? { "user-id": userId } : {}
     })
     const repo : any = await resp.json()
     const voteList : VoteListInfo[] = repo.voteList;
     console.log(voteList)
-    return { props: {voteInfo: voteList}}
+
+
+    const resp2 = await fetch('http://localhost:8080/notification', {
+        method: "GET",
+        headers: userId ? { "user-id": userId } : {}
+    })
+    const repo2 : NotificationResponse = await resp2.json()
+    console.log('notification');
+    console.log(token);
+    console.log('notification');
+    //notificationList에 데이터 수동으로 넣기
+    repo2.notificationList = [
+        {
+            "type": "got_new_vote",
+            "createdAt": "Mon Aug 28 2023",
+            "notified": false
+        },
+        {
+            "type": "got_new_vote",
+            "createdAt": "Mon Aug 28 2023",
+            "notified": true
+        },
+        {
+            "type": "got_new_vote",
+            "createdAt": "Mon Aug 28 2023",
+            "notified": true
+        }
+        ]
+    const NotiInfo : NotificationResponse = {
+      receiver: repo2.receiver,
+      number_notifications: repo2.number_notifications,
+      // need_notify: repo2.need_notify,
+      need_notify: true,
+      notificationList: repo2.notificationList,
+    }
+    console.log(repo2.notificationList);
+    const data : VoteList_NotiInfo = {
+      voteList: voteList,
+      NotiInfo: NotiInfo,
+    }
+    console.log('data----------1');
+    console.log(data);
+    console.log('data-----------2');
+    return { props: {voteList_NotiInfo: data}}
   }

@@ -126,6 +126,7 @@ export default function ListButton() {
   // }
  
   export function Alarm(props: { NotiInfo: NotificationResponse }) {
+    let noti_info = props.NotiInfo;
     const [showList, setShowList] = useState(false);
     const listRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLDivElement>(null);
@@ -140,7 +141,9 @@ export default function ListButton() {
         setShowList(false);
       }
     };
-  
+    console.log('props.NotiInfo1');
+    console.log(noti_info.need_notify);
+    console.log('props.NotiInfo1');
     useEffect(() => {
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
@@ -152,7 +155,7 @@ export default function ListButton() {
       <div>
         {/* <button className="Button" onClick={() => setShowList(!showList)}> */}
         <button 
-          className={`Button ${props.NotiInfo.need_notify ? 'notify-active' : ''}`} 
+          className={`Button ${noti_info.need_notify ? 'notify-active' : ''}`} 
           onClick={() => setShowList(!showList)}
         >
         <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,7 +166,7 @@ export default function ListButton() {
         {showList && (
           <div className={`alarm-list ${showList ? "show" : ""}`} ref={listRef}>
             <ul style={{ padding: "10px", margin: "0" }}>
-              {props.NotiInfo.notificationList.map((notification, index) => (
+              {noti_info.notificationList.map((notification, index) => (
                 <li
                   key={index}
                   style={{
@@ -219,6 +222,9 @@ export default function ListButton() {
   }
   
   export function TopBar(props: {NotiInfo: NotificationResponse}) {
+    console.log('topbar');
+    console.log(props.NotiInfo);
+    console.log('topbar');
     return (
       <div className="row align-items-center" style={{margin: '0px'}}>
         <div className="col-1 d-flex justify-content-center align-items-center d-block d-xl-none">
