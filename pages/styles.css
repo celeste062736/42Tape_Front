@@ -109,7 +109,6 @@ ul {
 }
 #profile_rank_text {
   text-align: center;
-  transform: translatey(8px);
   margin-bottom: 100;
   font-size: 20px;
   font-weight: bold;
@@ -119,7 +118,7 @@ ul {
   width: 300px;
   height: 300px;
   /* 비율 유지 */
-  object-fit: contain;
+  object-fit: cover;
   /*윤곽선*/
   border: 1px solid #6181ff;
   margin-bottom: 10px;
@@ -272,12 +271,12 @@ ul {
 .rank_picture_1 {
   width: 200px;
   height: 200px;
-  object-fit: contain;
+  object-fit: cover;
 }
 .rank_picture_2_3 {
   width: 150px;
   height: 150px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 /* Rank 4 이하 */
@@ -298,7 +297,7 @@ ul {
   width: 70px;
   height: 70px;
   margin: 20px;
-  object-fit: contain;
+  object-fit: cover;
 }
 .bold_text {
   font-weight: bold;
@@ -345,6 +344,12 @@ ul {
   width: 10px;
   height: 10px;
 }
+/* Q1 중앙 정렬 */
+.sd-page.sd-body__page.sd-page__empty-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .sd-question__header {
   /* 중앙 정렬 */
   display: flex;
@@ -375,7 +380,8 @@ ul {
 .sd-imagepicker__image {
   width: 120px;
   height: 120px;
-  transform: translate(-126px, 15px);
+  transform: translate(-126px, 15px); 
+  object-fit: cover !important;
 }
 .sd-imagepicker__text {
   transform: translate(6px, -65px);
@@ -397,7 +403,9 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-
+}
+.sd-imagepicker__image-container::before {
+  all: initial !important;
 }
 
 /* xl 브레이크포인트에서 반응형 디자인 적용 */
@@ -406,12 +414,12 @@ ul {
   .rank_picture_1 {
     width: 120px;
     height: 120px;
-    object-fit: contain;
+    object-fit: cover;
   }
   .rank_picture_2_3 {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
   }
   #card_1st {
     width: 140px;

@@ -123,7 +123,7 @@ export const getServerSideProps: GetServerSideProps<{
     } else {
         userId = token.sub;
     }
-    const resp = await fetch('http://localhost:8080/ranking', {
+    const resp = await fetch(process.env.FETCH_URL+'ranking', {
       method: "GET",
       headers: userId ? { "user-id": userId } : {}
     })
@@ -131,7 +131,7 @@ export const getServerSideProps: GetServerSideProps<{
     const RankInfo : RankInfo = {
             rank_1: {
                 intra_id: RankInfo_db.rankList[0].login,
-                intra_picture: RankInfo_db.rankList[0].intra_picture || "./default-profile.png",
+                intra_picture: RankInfo_db.rankList[0].intra_picture || "./file.png",
                 rank: RankInfo_db.rankList[0].rank,
             },
             rank_2: {
@@ -160,7 +160,7 @@ export const getServerSideProps: GetServerSideProps<{
                 rank: RankInfo_db.rankList[5].rank,
             }
         }
-    const resp2 = await fetch('http://localhost:8080/notification', {
+    const resp2 = await fetch(process.env.FETCH_URL+'notification', {
         method: "GET",
         headers: userId ? { "user-id": userId } : {}
     })

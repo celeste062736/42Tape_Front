@@ -78,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<{
     } else {
       userId = token.sub;
     }
-    const resp = await fetch('http://localhost:8080/vote_list', {
+    const resp = await fetch(process.env.FETCH_URL+'vote_list', {
       method: "GET",
       headers: userId ? { "user-id": userId } : {}
     })
@@ -87,7 +87,7 @@ export const getServerSideProps: GetServerSideProps<{
     console.log(voteList)
 
 
-    const resp2 = await fetch('http://localhost:8080/notification', {
+    const resp2 = await fetch(process.env.FETCH_URL+'notification', {
         method: "GET",
         headers: userId ? { "user-id": userId } : {}
     })

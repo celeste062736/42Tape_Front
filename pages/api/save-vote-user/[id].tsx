@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   if (req.method === 'POST') {
     console.log("req.body", req.body)
-    const resp = await fetch(`http://localhost:8080/vote/${voteId}`, {
+    const resp = await fetch(process.env.FETCH_URL+`vote/${voteId}`, {
       method: 'POST',
       headers: userId ? { "Content-Type": "application/json", "user-id": userId} : {},
       body: JSON.stringify(req.body),

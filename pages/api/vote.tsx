@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   pid = pid.toString();
   if (req.method === 'GET') {
-    const resp = await fetch(`http://localhost:8080/vote/${pid}`, {
+    const resp = await fetch(process.env.FETCH_URL+`vote/${pid}`, {
       headers: { "user-id": "98029" }
     });
     if (resp.status !== 200)

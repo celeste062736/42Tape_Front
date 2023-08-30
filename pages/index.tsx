@@ -91,7 +91,7 @@ export const getServerSideProps: GetServerSideProps<{
   } else {
     userId = token.sub;
   }
-  const resp = await fetch('http://localhost:8080/user', {
+  const resp = await fetch(process.env.FETCH_URL+'user', {
     method: "GET",
     headers: userId ? { "user-id": userId } : {}
   })
@@ -110,7 +110,7 @@ export const getServerSideProps: GetServerSideProps<{
     sub: repo.clientTapeUser.user_id,
   }
 
-  const resp2 = await fetch('http://localhost:8080/notification', {
+  const resp2 = await fetch(process.env.FETCH_URL+'notification', {
     method: "GET",
     headers: userId ? { "user-id": userId } : {}
   })
