@@ -272,10 +272,12 @@ ul {
 .rank_picture_1 {
   width: 200px;
   height: 200px;
+  object-fit: contain;
 }
 .rank_picture_2_3 {
   width: 150px;
   height: 150px;
+  object-fit: contain;
 }
 
 /* Rank 4 이하 */
@@ -296,6 +298,7 @@ ul {
   width: 70px;
   height: 70px;
   margin: 20px;
+  object-fit: contain;
 }
 .bold_text {
   font-weight: bold;
@@ -403,10 +406,12 @@ ul {
   .rank_picture_1 {
     width: 120px;
     height: 120px;
+    object-fit: contain;
   }
   .rank_picture_2_3 {
     width: 100px;
     height: 100px;
+    object-fit: contain;
   }
   #card_1st {
     width: 140px;
