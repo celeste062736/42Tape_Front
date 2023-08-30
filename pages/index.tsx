@@ -35,7 +35,7 @@ export default function Home(props: UserInfoNotiInfoProps) {
   //props.param.id 로 접속한 인트라 아이디 가져오기
   return (
     <div id="root">
-      <TopBar NotiInfo={ props.userInfo_NotiInfo.NotiInfo}></TopBar>
+      <TopBar NotiInfo={ props.userInfo_NotiInfo.NotiInfo }></TopBar>
       <MainLayout userInfo={ props.userInfo_NotiInfo.UserInfo }></MainLayout>
     </div>
   )
@@ -139,8 +139,8 @@ export const getServerSideProps: GetServerSideProps<{
   const NotiInfo : NotificationResponse = {
     receiver: repo2.receiver,
     number_notifications: repo2.number_notifications,
-    need_notify: repo2.need_notify,
-    // need_notify: true,
+    // need_notify: repo2.need_notify,
+    need_notify: true,
     notificationList: repo2.notificationList,
   }
   console.log(repo2.notificationList);
