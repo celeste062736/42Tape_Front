@@ -42,9 +42,10 @@ export function RadarChart({stats, current_rank} : RadarChartProps) {
         backgroundColor: 'rgba(228,234,240,0.5)',
         borderColor: 'rgba(40,181,225,1)',
         pointBackgroundColor: 'rgba(40,181,225,1)',
-        pointBorderColor: '#fff',
+        pointBorderColor: 'rgba(10,151,195,1)',
         pointHoverBackgroundColor: '#fff',
         pointHoverBorderColor: 'rgba(179,181,198,1)',
+        pointRadius: 3
       },
     ]
   };
@@ -151,6 +152,9 @@ export function LineChart({ yData, xLabels }: LineChartProps) {
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1,
+        pointBackgroundColor: 'rgb(75, 192, 192)',
+        pointBorderColor: 'rgb(45, 162, 162)',
+        pointRadius: 3
       },
     ],
   };

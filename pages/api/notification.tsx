@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     userId = token.sub;
   }
   if (req.method === 'GET') {
-    const resp = await fetch(`http://localhost:8080/notication`, {
+    const resp = await fetch(process.env.FETCH_URL+'notication', {
       method: 'GET',
       headers: userId ? { "user-id": userId } : {},
     });

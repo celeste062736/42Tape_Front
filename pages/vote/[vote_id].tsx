@@ -166,7 +166,7 @@ export const getServerSideProps: GetServerSideProps<{
     return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
   }
   let voteId = Number(pid.toString());
-  const resp = await fetch(`http://localhost:8080/vote/${voteId}`, {
+  const resp = await fetch(process.env.FETCH_URL+`vote/${voteId}`, {
     headers: userId ? { "user-id": userId } : {},
   });
   const data = await resp.json();
@@ -186,7 +186,7 @@ export const getServerSideProps: GetServerSideProps<{
 
 
 
-  const resp2 = await fetch('http://localhost:8080/notification', {
+  const resp2 = await fetch(process.env.FETCH_URL+'notification', {
     method: "GET",
     headers: userId ? { "user-id": userId } : {}
   })
