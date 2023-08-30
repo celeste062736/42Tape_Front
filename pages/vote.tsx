@@ -62,6 +62,7 @@ export const getServerSideProps: GetServerSideProps<{
         },
       ],
       NotiInfo: {
+        user_sub: '',
         receiver: "unknown",
         number_notifications: -1,
         need_notify: false,
@@ -84,7 +85,7 @@ export const getServerSideProps: GetServerSideProps<{
     })
     const repo : any = await resp.json()
     const voteList : VoteListInfo[] = repo.voteList;
-    console.log(voteList)
+    // console.log(voteList)
 
 
     const resp2 = await fetch('http://localhost:8080/notification', {
@@ -92,41 +93,41 @@ export const getServerSideProps: GetServerSideProps<{
         headers: userId ? { "user-id": userId } : {}
     })
     const repo2 : NotificationResponse = await resp2.json()
-    console.log('notification');
-    console.log(token);
-    console.log('notification');
+    // console.log('notification');
+    // console.log(token);
+    // console.log('notification');
     //notificationList에 데이터 수동으로 넣기
-    repo2.notificationList = [
-        {
-            "type": "got_new_vote",
-            "createdAt": "Mon Aug 28 2023",
-            "notified": false
-        },
-        {
-            "type": "got_new_vote",
-            "createdAt": "Mon Aug 28 2023",
-            "notified": true
-        },
-        {
-            "type": "got_new_vote",
-            "createdAt": "Mon Aug 28 2023",
-            "notified": true
-        }
-        ]
+    // repo2.notificationList = [
+    //     {
+    //         "type": "got_new_vote",
+    //         "createdAt": "Mon Aug 28 2023",
+    //         "notified": false
+    //     },
+    //     {
+    //         "type": "got_new_vote",
+    //         "createdAt": "Mon Aug 28 2023",
+    //         "notified": true
+    //     },
+    //     {
+    //         "type": "got_new_vote",
+    //         "createdAt": "Mon Aug 28 2023",
+    //         "notified": true
+    //     }
+    //     ]
     const NotiInfo : NotificationResponse = {
+      user_sub:  String(token.sub),
       receiver: repo2.receiver,
       number_notifications: repo2.number_notifications,
-      // need_notify: repo2.need_notify,
-      need_notify: true,
+      need_notify: repo2.need_notify,
       notificationList: repo2.notificationList,
     }
-    console.log(repo2.notificationList);
+    // console.log(repo2.notificationList);
     const data : VoteList_NotiInfo = {
       voteList: voteList,
       NotiInfo: NotiInfo,
     }
-    console.log('data----------1');
-    console.log(data);
-    console.log('data-----------2');
+    // console.log('data----------1');
+    // console.log(data);
+    // console.log('data-----------2');
     return { props: {voteList_NotiInfo: data}}
   }

@@ -23,8 +23,8 @@ export interface UserInfoNotiInfoProps {
 }
 
 export default function Home(props: UserInfoNotiInfoProps) {
-  console.log('props');
-  console.log(props);
+  // console.log('props');
+  // console.log(props);
   if (props.userInfo_NotiInfo.UserInfo.user_id === null) {
     return (
       <Layout>
@@ -74,6 +74,7 @@ export const getServerSideProps: GetServerSideProps<{
       sub: '',
     },
     NotiInfo: {
+      user_sub: '',
       receiver: '',
       number_notifications: 0,
       need_notify: false,
@@ -96,9 +97,9 @@ export const getServerSideProps: GetServerSideProps<{
     headers: userId ? { "user-id": userId } : {}
   })
   const repo : Repo = await resp.json()
-  console.log('token');
-  console.log(token);
-  console.log('resp');
+  // console.log('token');
+  // console.log(token);
+  // console.log('resp');
   const UserInfo : UserInfo = {
     user_id: repo.targetTapeUser.login,
     level: repo.targetTapeUser.level,
@@ -115,35 +116,36 @@ export const getServerSideProps: GetServerSideProps<{
     headers: userId ? { "user-id": userId } : {}
   })
   const repo2 : NotificationResponse = await resp2.json()
-  console.log('notification');
-  console.log(token);
-  console.log('notification');
+  // console.log('notification');
+  // console.log(token);
+  // console.log('notification');
   //notificationList에 데이터 수동으로 넣기
-  repo2.notificationList = [
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": false
-    },
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": true
-    },
-    {
-      "type": "got_new_vote",
-      "createdAt": "Mon Aug 28 2023",
-      "notified": true
-    }
-  ]
+  // repo2.notificationList = [
+  //   {
+  //       "type": "got_new_vote",
+  //       "createdAt": "Mon Aug 28 2023",
+  //       "notified": false
+  //   },
+  //   {
+  //       "type": "got_new_vote",
+  //       "createdAt": "Mon Aug 28 2023",
+  //       "notified": true
+  //   },
+  //   {
+  //     "type": "got_new_vote",
+  //     "createdAt": "Mon Aug 28 2023",
+  //     "notified": true
+  //   }
+  // ]
   const NotiInfo : NotificationResponse = {
+    user_sub: String(token.sub),
     receiver: repo2.receiver,
     number_notifications: repo2.number_notifications,
-    // need_notify: repo2.need_notify,
-    need_notify: true,
+    need_notify: repo2.need_notify,
     notificationList: repo2.notificationList,
   }
-  console.log(repo2.notificationList);
+  // console.log(repo2.notificationList);
+  console.log(NotiInfo);
   const data : UserInfo_NotiInfo = {
     UserInfo: UserInfo,
     NotiInfo: NotiInfo,

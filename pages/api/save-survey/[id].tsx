@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(400).end();
   }
   if (req.method === 'POST') {
-    console.log("req.body", req.body)
+    // console.log("req.body", req.body)
     const resp = await fetch(`http://localhost:8080/survey/${voteId}`, {
       method: 'POST',
       headers: userId ? { "Content-Type": "application/json", "user-id": userId} : {},

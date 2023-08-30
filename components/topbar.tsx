@@ -12,6 +12,7 @@ export interface Notification {
 }
 
 export interface NotificationResponse {
+  user_sub: string;
   receiver: string;
   number_notifications: number;
   need_notify: boolean;
@@ -124,6 +125,16 @@ export default function ListButton() {
   //     </div>
   //   );
   // }
+
+  async function post_Notification(url : string, notiInfo : NotificationResponse) {
+    let userId = notiInfo.user_sub;
+    console.log("postredy", notiInfo)
+    return await fetch(url, {
+      method: "POST",
+      headers: userId ? { "user-id": userId } : {},
+      body: JSON.stringify({}),
+  }).catch((error) => console.log(error))
+  }
  
   export function Alarm(props: { NotiInfo: NotificationResponse }) {
     let noti_info = props.NotiInfo;
@@ -141,9 +152,9 @@ export default function ListButton() {
         setShowList(false);
       }
     };
-    console.log('props.NotiInfo1');
-    console.log(noti_info.need_notify);
-    console.log('props.NotiInfo1');
+    // console.log('props.NotiInfo1');
+    // console.log(noti_info.need_notify);
+    // console.log('props.NotiInfo1');
     useEffect(() => {
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
@@ -156,7 +167,10 @@ export default function ListButton() {
         {/* <button className="Button" onClick={() => setShowList(!showList)}> */}
         <button 
           className={`Button ${noti_info.need_notify ? 'notify-active' : ''}`} 
-          onClick={() => setShowList(!showList)}
+          onClick={() => {
+            setShowList(!showList);
+            post_Notification("http://localhost:8080/notification", noti_info);
+          }}
         >
         <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#000000"/>
@@ -165,19 +179,20 @@ export default function ListButton() {
         </button>
         {showList && (
           <div className={`alarm-list ${showList ? "show" : ""}`} ref={listRef}>
-            <ul style={{ padding: "10px", margin: "0" }}>
-              {noti_info.notificationList.map((notification, index) => (
-                <li
-                  key={index}
-                  style={{
-                    color: notification.notified ? "grey" : "black",
-                  }}
-                >
-                  <SvgIcon />
-                  누군가 당신을 최고의 평가자로 투표했습니다!
-                </li>
-              ))}
-            </ul>
+            {noti_info.notificationList.length > 0 ? (
+              <ul style={{ padding: "10px", margin: "0" }}>
+                {noti_info.notificationList.map((notification, index) => (
+                  <li key={index} style={{ color: notification.notified ? "grey" : "black", }}>
+                    <SvgIcon />
+                    누군가 당신을 최고의 평가자로 투표했습니다!
+                  </li>
+                ))}
+              </ul>
+              ) : (
+              <div style={{ padding: "10px", textAlign: "center" , width: "250px"}}>
+                알림이 없습니다.
+              </div>
+              )}
           </div>
         )}
       </div>
@@ -222,9 +237,9 @@ export default function ListButton() {
   }
   
   export function TopBar(props: {NotiInfo: NotificationResponse}) {
-    console.log('topbar');
-    console.log(props.NotiInfo);
-    console.log('topbar');
+    // console.log('topbar');
+    // console.log(props.NotiInfo);
+    // console.log('topbar');
     return (
       <div className="row align-items-center" style={{margin: '0px'}}>
         <div className="col-1 d-flex justify-content-center align-items-center d-block d-xl-none">

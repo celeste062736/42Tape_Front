@@ -155,7 +155,7 @@ function generateCorrectors(data: StatsInput): { correctors: any } {
 }
 
 async function saveSurveyData(url : string, correctorProps: CorrProps[]) {
-  console.log("fetch", correctorProps)
+  // console.log("fetch", correctorProps)
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify(correctorProps),
@@ -180,8 +180,8 @@ export default function Vote(props : {choices: Choices[], voteId: number, notiIn
   const survey = new Model(json);
   survey.applyTheme(themeJson);
   survey.onComplete.add((sender, options) => {
-    console.log(JSON.stringify(sender.data, null, 2));
-    console.log("sender.data", sender.data)
+    // console.log(JSON.stringify(sender.data, null, 2));
+    // console.log("sender.data", sender.data)
     const { correctors } = generateCorrectors(sender.data);
     // const correctorProps = generateSurvey(props.choices, {vote_user: sender.data.vote_user});
     saveSurveyData(`/api/save-survey/${props.voteId}`, correctors);
@@ -243,7 +243,7 @@ export const getServerSideProps: GetServerSideProps<{
     "text": corrector.intra_login,
     "imageLink": corrector.intra_picture,
   }));
-  console.log("choices:", choices)
+  // console.log("choices:", choices)
 
 
   const resp2 = await fetch('http://localhost:8080/notification', {
@@ -252,28 +252,28 @@ export const getServerSideProps: GetServerSideProps<{
   })
   const repo2 : NotificationResponse = await resp2.json()
   //notificationList에 데이터 수동으로 넣기
-  repo2.notificationList = [
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": false
-    },
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": true
-    },
-    {
-      "type": "got_new_vote",
-      "createdAt": "Mon Aug 28 2023",
-      "notified": true
-    }
-  ]
+  // repo2.notificationList = [
+  //   {
+  //       "type": "got_new_vote",
+  //       "createdAt": "Mon Aug 28 2023",
+  //       "notified": false
+  //   },
+  //   {
+  //       "type": "got_new_vote",
+  //       "createdAt": "Mon Aug 28 2023",
+  //       "notified": true
+  //   },
+  //   {
+  //     "type": "got_new_vote",
+  //     "createdAt": "Mon Aug 28 2023",
+  //     "notified": true
+  //   }
+  // ]
   const NotiInfo : NotificationResponse = {
+    user_sub:  String(token.sub),
     receiver: repo2.receiver,
     number_notifications: repo2.number_notifications,
-    // need_notify: repo2.need_notify,
-    need_notify: true,
+    need_notify: repo2.need_notify,
     notificationList: repo2.notificationList,
   }
 

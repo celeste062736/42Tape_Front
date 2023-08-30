@@ -16,8 +16,8 @@ type RankItemProps = {
   
   export function Rank({ userDetails }: RankItemProps) {
     let content;
-    console.log("userDetails")
-    console.log(userDetails);
+    // console.log("userDetails")
+    // console.log(userDetails);
     if (userDetails.rank === 1) {
       content = <div className="card_123" id="card_1st">
         <div className="centered-container">

@@ -90,7 +90,7 @@ function generateCorrectors(choices: Choices[], voteData: VoteUser): { correctPr
 }
 
 async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
-  console.log("fetch", correctorProps)
+  // console.log("fetch", correctorProps)
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify(correctorProps),
@@ -121,7 +121,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     }
   });
   survey.onComplete.add((sender, options) => {
-    console.log(JSON.stringify(sender.data, null, 2));
+    // console.log(JSON.stringify(sender.data, null, 2));
     const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user});
     saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps);
   });
@@ -192,31 +192,31 @@ export const getServerSideProps: GetServerSideProps<{
   })
   const repo2 : NotificationResponse = await resp2.json()
   //notificationList에 데이터 수동으로 넣기
-  repo2.notificationList = [
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": false
-    },
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": true
-    },
-    {
-      "type": "got_new_vote",
-      "createdAt": "Mon Aug 28 2023",
-      "notified": true
-    }
-  ]
+  // repo2.notificationList = [
+  //   {
+  //       "type": "got_new_vote",
+  //       "createdAt": "Mon Aug 28 2023",
+  //       "notified": false
+  //   },
+  //   {
+  //       "type": "got_new_vote",
+  //       "createdAt": "Mon Aug 28 2023",
+  //       "notified": true
+  //   },
+  //   {
+  //     "type": "got_new_vote",
+  //     "createdAt": "Mon Aug 28 2023",
+  //     "notified": true
+  //   }
+  // ]
   const NotiInfo : NotificationResponse = {
+    user_sub:  String(token.sub),
     receiver: repo2.receiver,
     number_notifications: repo2.number_notifications,
-    // need_notify: repo2.need_notify,
-    need_notify: true,
+    need_notify: repo2.need_notify,
     notificationList: repo2.notificationList,
   }
 
-  console.log("choices:", choices)
+  // console.log("choices:", choices)
   return { props: {choices: choices, voteId: voteId, round_data: round_data, notiInfo: NotiInfo}}
 }
