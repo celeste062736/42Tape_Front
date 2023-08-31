@@ -68,14 +68,15 @@ export interface DataPoint {
   y: number;
 }
 
-type RankInfo = {
-  rank_1: IndividualRank; 
-  rank_2: IndividualRank; 
-  rank_3: IndividualRank; 
-  rank_4: IndividualRank; 
-  rank_5: IndividualRank; 
-  rank_6: IndividualRank; 
-};
+// type RankInfo = {
+//   rank_1: IndividualRank; 
+//   rank_2: IndividualRank; 
+//   rank_3: IndividualRank; 
+//   rank_4: IndividualRank; 
+//   rank_5: IndividualRank; 
+//   rank_6: IndividualRank; 
+// };
+export type RankInfo = IndividualRank[];
 
 interface RankInfoProps {
   rand_data: RankInfo;
@@ -96,17 +97,30 @@ export function RankLayout({rand_data}: RankInfoProps) {
       <div className="col">
         <div className="row">
           <div className="col d-flex align-items-end justify-content-center" style={{padding: '0px'}}>
-            <Rank userDetails={rand_data.rank_2}></Rank>
+            <Rank userDetails={rand_data[1]}></Rank>
           </div>
           <div className="col d-flex align-items-end justify-content-center" style={{padding: '0px'}}>
-            <Rank userDetails={rand_data.rank_1}></Rank>
+            <Rank userDetails={rand_data[0]}></Rank>
           </div>
           <div className="col d-flex align-items-end justify-content-center" style={{padding: '0px'}}>
-            <Rank userDetails={rand_data.rank_3}></Rank>
+            <Rank userDetails={rand_data[2]}></Rank>
           </div>
           <div className="col-2 d-none d-xl-block"></div>
         </div>
+
+
+
+
         <div className="row">
+          {rand_data.slice(3).map((rank, index) => (
+            <div key={index} className="col-xl-10 d-flex justify-content-center align-items-center" style={{padding: '0px'}}>
+              <Rank userDetails={rank}></Rank>
+              <Blank name="main"></Blank>
+            </div>
+          ))}
+        </div>
+
+        {/* <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center" style={{padding: '0px'}}>
             <Rank userDetails={rand_data.rank_4}></Rank>
           </div>
@@ -119,7 +133,9 @@ export function RankLayout({rand_data}: RankInfoProps) {
             <Rank userDetails={rand_data.rank_6}></Rank>
           </div>
           <Blank name="main"></Blank>
-        </div>
+        </div> */}
+
+
         <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center">
             <Copyright></Copyright>

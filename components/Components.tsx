@@ -23,6 +23,7 @@ export interface TargetTapeUser {
   last_name: string;
   intra_picture: string;
   level: number;
+  current_season_rank: string;
 }
 
 export interface Season {
@@ -58,7 +59,7 @@ export interface UserInfo {
   level: number;
   user_id: string | null;
   stats: number[];
-  current_rank: number;
+  current_rank: string;
   yData: Coordinate[];
   xLabels: XLabels;
   sub: string;

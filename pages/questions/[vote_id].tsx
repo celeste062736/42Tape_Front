@@ -154,11 +154,11 @@ function generateCorrectors(data: StatsInput): { correctors: any } {
   return { correctors };
 }
 
-async function saveSurveyData(url : string, correctorProps: CorrProps[]) {
-  // console.log("fetch", correctorProps)
+async function saveSurveyData(url : string, correctors: CorrProps[]) {
+   console.log("fetch", correctors)
   return await fetch(url, {
     method: "POST",
-    body: JSON.stringify(correctorProps),
+    body: JSON.stringify({correctors}),
     headers: {
       "Content-Type": "application/json"
     }

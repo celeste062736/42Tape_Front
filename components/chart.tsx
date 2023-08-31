@@ -28,7 +28,7 @@ ChartJS.register(
 
 type RadarChartProps = {
   stats: number[];
-  current_rank: number;
+  current_rank: string;
 };
 
 export function RadarChart({stats, current_rank} : RadarChartProps) {
