@@ -77,31 +77,49 @@ export const getServerSideProps: GetServerSideProps<{
                 intra_id: "unknown",
                 intra_picture: "unknown",
                 rank: 0,
+                season_id: 0,
+                start_at : "unknown",
+                end_at : "unknown",
             },
             {
                 intra_id: "unknown",
                 intra_picture: "unknown",
                 rank: 0,
+                season_id: 0,
+                start_at : "unknown",
+                end_at : "unknown",
             },
             {
                 intra_id: "unknown",
                 intra_picture: "unknown",
                 rank: 0,
+                season_id: 0,
+                start_at : "unknown",
+                end_at : "unknown",
             },
             {
                 intra_id: "unknown",
                 intra_picture: "unknown",
                 rank: 0,
+                season_id: 0,
+                start_at : "unknown",
+                end_at : "unknown",
             },
             {
                 intra_id: "unknown",
                 intra_picture: "unknown",
                 rank: 0,
+                season_id: 0,
+                start_at : "unknown",
+                end_at : "unknown",
             },
             {
                 intra_id: "unknown",
                 intra_picture: "unknown",
                 rank: 0,
+                season_id: 0,
+                start_at : "unknown",
+                end_at : "unknown",
             }
         ]
     }
@@ -116,7 +134,7 @@ export const getServerSideProps: GetServerSideProps<{
     } else {
         userId = token.sub;
     }
-    const resp = await fetch(process.env.FETCH_URL+'ranking/1', {
+    const resp = await fetch(process.env.FETCH_URL+'ranking', {
       method: "GET",
       headers: userId ? { "user-id": userId } : {}
     })
@@ -134,11 +152,13 @@ export const getServerSideProps: GetServerSideProps<{
     //     },
     // ]
 
-
     const RankInfo: RankInfo = RankInfo_db.rankList.map((item) => ({
         intra_id: item.login,
         intra_picture: item.intra_picture || "./default-profile.png",
         rank: item.rank,
+        season_id: RankInfo_db.currentSeason.season_id,
+        start_at : RankInfo_db.currentSeason.start_at,
+        end_at : RankInfo_db.currentSeason.end_at,
     }));
 
     // const RankInfo : RankInfo = {
@@ -173,8 +193,8 @@ export const getServerSideProps: GetServerSideProps<{
     //             rank: RankInfo_db.rankList[5].rank,
     //         }
     //     }
-    console.log('RankInfo_db');    
-    console.log(RankInfo_db);
+    // console.log('RankInfo_db');    
+    // console.log(RankInfo_db);
     const resp2 = await fetch(process.env.FETCH_URL+'notification', {
         method: "GET",
         headers: userId ? { "user-id": userId } : {}
@@ -183,7 +203,7 @@ export const getServerSideProps: GetServerSideProps<{
     // console.log('notification');
     // console.log(token);
     // console.log('notification');
-    //notificationList에 데이터 수동으로 넣기
+    // notificationList에 데이터 수동으로 넣기
     // repo2.notificationList = [
     //     {
     //         "type": "got_new_vote",
@@ -201,6 +221,8 @@ export const getServerSideProps: GetServerSideProps<{
     //         "notified": true
     //     }
     //     ]
+    // repo2.notificationList = []
+
     const NotiInfo : NotificationResponse = {
     user_sub:  String(token.sub),
     receiver: repo2.receiver,

@@ -122,7 +122,7 @@ export const getServerSideProps: GetServerSideProps<{
   //notificationList에 데이터 수동으로 넣기
   repo2.notificationList = [
     {
-        "type": "got_new_vote",
+        "type": "now_no_reward",
         "createdAt": "Mon Aug 28 2023",
         "notified": false
     },

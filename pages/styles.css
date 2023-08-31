@@ -9,6 +9,21 @@
   background-color: red;
 } */
 
+#rank_page_index_button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px; /* 위아래 패딩 크기 */
+  width: 100px; /* 가로 크기를 50px로 설정 */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
 .grey-out {
   color: grey;
 }
