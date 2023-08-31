@@ -9,6 +9,8 @@ import type { GetServerSideProps } from "next";
 import { themeJson } from "../../survey";
 import { FunctionFactory } from "survey-core";
 import type { NotificationResponse } from "../../components/topbar"
+import { useEffect } from "react";
+
 // import QuestionImagePickerModel from "survey-core";
 // import { isItemSelected } from "survey-core";
 // import { useRouter } from "next/router";
@@ -29,7 +31,7 @@ export const json = {
      {
       "type": "imagepicker",
       "name": "vote_user",
-      "title": "How is the best corrector?",
+      "title": "최고의 평가자들을 선택해주세요.",
       // "isRequired": true,
       "hideNumber": true,
       "choices": [] as Choices[],
@@ -43,7 +45,7 @@ export const json = {
       // }],
      },
     ],
-    "title": "pick_cadets"
+    // "title": "pick_cadets"
    }
   ],
   "showCompletedPage": false,
@@ -125,12 +127,20 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user});
     saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps);
   });
+  /* 툴팁 관련 코드 Start*/
+  useEffect(() => {
+    const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
+
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  }, []);
+  /* 툴팁 관련 코드 End */
   return (
     <div id="root">
-        <TopBar NotiInfo={ props.notiInfo }></TopBar>
-        <NonSSRWrapper>
-          <Survey model={survey}></Survey>
-        </NonSSRWrapper>
+      <TopBar NotiInfo={ props.notiInfo }></TopBar>
+      <NonSSRWrapper>
+        <Survey model={survey}></Survey>
+      </NonSSRWrapper>
     </div>
   );
 }
