@@ -34,10 +34,12 @@ type RadarChartProps = {
 export function RadarChart({stats, current_rank} : RadarChartProps) {
   const data = {
     labels: ['Rigorous', 'Communication', 'Constructive Suggestions', 'Informative', 'Sharp Questions'],
+
     datasets: [
       {
-        label: 'Evaluation stats',
-        data: [stats[0], stats[1], stats[2], stats[3], stats[4]],
+        label: 'stats',
+        // data: [stats[0], stats[1], stats[2], stats[3], stats[4]],
+        data: [10, 9, 8, 9, 2],
         fill: true,
         backgroundColor: 'rgba(228,234,240,0.5)',
         borderColor: 'rgba(40,181,225,1)',
@@ -103,42 +105,55 @@ export interface XLabels {
 
 type LineChartProps = {
   yData: Coordinate[],
-  xLabels: XLabels
+  xLabels: string[][],
 };
 
 export function LineChart({ yData, xLabels }: LineChartProps) {
   const yData1= [
     {
       x: 0,
-      y: 0
+      y: 0,
+      date: "2013. 3. 26."
     },
     {
       x: 1.6666666666666667,
-      y: 3
+      y: 3,
+      date: "2013. 8. 26."
     },
     {
       x: 3.3333333333333335,
-      y: 7
+      y: 7,
+      date: "2013. 10. 26."
     },
     {
       x: 5,
-      y: 10
+      y: 10,
+      date: "2023. 1. 13."
     },
     {
       x: 6.666666666666667,
-      y: 13
+      y: 13,
+      date: "2023. 3. 13."
     },
     {
       x: 8.333333333333334,
-      y: 15
+      y: 15,
+      date: "2023. 6. 13."
     },
     {
       x: 10,
-      y: 0
+      y: 16,
+      date: "2023. 8. 13."
+    },
+    {
+      x: 10,
+      y: 0,
+      date: "2023. 8. 13."
     },
     {
       x: 12,
-      y: 10
+      y: 10,
+      date: "2023. 8. 27."
     }
   ];
 
@@ -151,7 +166,7 @@ export function LineChart({ yData, xLabels }: LineChartProps) {
         data: yData1,  //props에 따라 바꿀것
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
+        tension: 0, //0.1
         pointBackgroundColor: 'rgb(75, 192, 192)',
         pointBorderColor: 'rgb(45, 162, 162)',
         pointRadius: 3
@@ -160,17 +175,46 @@ export function LineChart({ yData, xLabels }: LineChartProps) {
   };
 
   const options : ChartOptions<"line"> = {
+    parsing: {
+      xAxisKey: 'x',
+      yAxisKey: 'y',
+      key: 'date',
+    },
     maintainAspectRatio: false,
     responsive: true,
     plugins: {
       legend: {
         labels: {
           font: {
-            size: 16,
+            size: 10,
             weight: 'bold'
           },
         },
       },
+      // tooltip: {
+      //   callbacks: {
+      //     label: function(context) {
+      //       var label = context.dataset.label || '';
+      //       if (label) {
+      //         label += ': ';
+      //       }
+      //       if (context.parsed.y !== null) {
+      //         label += context.parsed.y;
+      //       }
+      //       return label;
+      //     },
+      //     title: function(context) {
+      //       var title = context[0].dataset.label || '';
+      //       if (title) {
+      //         title += ': ';
+      //       }
+      //       if (context[0].parsed.y !== null) {
+      //         title += context[0].
+      //       }
+      //       return title;
+      //     }
+      //   }
+      // },
     },
     scales: {
       y: {

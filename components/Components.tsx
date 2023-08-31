@@ -61,7 +61,7 @@ export interface UserInfo {
   stats: number[];
   current_rank: string;
   yData: Coordinate[];
-  xLabels: XLabels;
+  xLabels: string[][];
   sub: string;
 };
 
