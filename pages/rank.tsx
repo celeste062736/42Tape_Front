@@ -238,5 +238,7 @@ export const getServerSideProps: GetServerSideProps<{
     // console.log('data----------1');
     // console.log(data);
     // console.log('data-----------2');
+
+    
     return { props: { rankInfo_NotiInfo : data}}
 }
