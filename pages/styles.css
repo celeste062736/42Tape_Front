@@ -340,12 +340,31 @@ ul {
   color: #d3d3d3;
   font-family: "Arial", sans-serif;
 }
+.sd-body--responsive {
+  padding-top: 10px !important;
+}
+#sp_105 {
+  padding-top: 10px;
+}
+#sp_106 {
+  padding-top: 10px;
+}
+#sp_107 {
+  padding-top: 10px;
+}
+#sp_108 {
+  padding-top: 10px;
+}
+#sp_109 {
+  padding-top: 10px;
+}
 .sd-imagepicker__check-icon {
   width: 10px;
   height: 10px;
 }
 /* Q1 중앙 정렬 */
 .sd-page.sd-body__page.sd-page__empty-header {
+  padding-top: 0 !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -406,6 +425,16 @@ ul {
 }
 .sd-imagepicker__image-container::before {
   all: initial !important;
+}
+.tooltip-inner {
+  font-weight: bold;
+  max-width: 600px !important; /* 원하는 크기로 설정 */
+  width: auto !important;
+  word-wrap: break-all !important;
+}
+#survey {
+  margin: 10px;
+  margin-top: 50px;
 }
 
 /* xl 브레이크포인트에서 반응형 디자인 적용 */

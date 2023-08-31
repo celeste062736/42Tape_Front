@@ -8,6 +8,7 @@ import 'survey-core/defaultV2.min.css';
 import { themeJson } from "../../survey";
 import type { GetServerSideProps } from "next";
 import type { NotificationResponse } from "../../components/topbar"
+import { useState, useEffect } from "react";
 
 export const json = {
  "logoPosition": "right",
@@ -18,14 +19,14 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat1",
-     "title": "엄밀함?",
+     "title": "1. 엄밀하게 평가해주신 분들을 모두 선택해주세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
+     "hideNumber": true,
      "showLabel": true,
      "multiSelect": true
     }
    ],
-   "title": "q1"
   },
   {
    "name": "page2",
@@ -33,13 +34,14 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat2",
+     "title": "2. 건설적인 제안을 해주신 분들을 모두 선택해주세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
+     "hideNumber": true,
      "showLabel": true,
      "multiSelect": true
     }
    ],
-   "title": "q2"
   },
   {
    "name": "page3",
@@ -47,13 +49,14 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat3",
+     "title": "3. 의사 소통 능력이 좋으신 분들을 모두 선택해주세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
+     "hideNumber": true,
      "showLabel": true,
      "multiSelect": true
     }
    ],
-   "title": "q3"
   },
   {
    "name": "page4",
@@ -61,13 +64,14 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat4",
+     "title": "4. 퀄리티 높은 질문을 해주신 분들을 모두 선택해주세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
+     "hideNumber": true,
      "showLabel": true,
      "multiSelect": true
     }
    ],
-   "title": "q4"
   },
   {
    "name": "page5",
@@ -75,19 +79,20 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat5",
+     "title": "5. 양질의 정보를 공유해주신 분들을 모두 선택주세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
+     "hideNumber": true,
      "showLabel": true,
      "multiSelect": true
     }
    ],
-   "title": "q5"
   }
  ],
 //  "cookieName": "questions",
  "showPageNumbers": true,
  "completeText": "Complete",
- "showPreviewBeforeComplete": "showAnsweredQuestions",
+//  "showPreviewBeforeComplete": "showAnsweredQuestions",
  "widthMode": "responsive"
 }
 
@@ -164,34 +169,79 @@ async function saveSurveyData(url : string, correctorProps: CorrProps[]) {
     }
   }).catch((error) => console.log(error))
 }
+interface MemoizedSvgProps {
+  description: string;
+}
 
 export default function Vote(props : {choices: Choices[], voteId: number, notiInfo: NotificationResponse}) {
-  if (props.choices[0].value === "unknown") {
-    return (
-      <div id="root">
-        <TopBar NotiInfo={ props.notiInfo }></TopBar>
-        <AccessDenied></AccessDenied>
-      </div>
-    )
+  const [description, setDescription] = useState("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
+  const [survey, setSurvey] = useState<Model | null>(null);
+
+  useEffect(() => {
+    for (const page of json.pages) {
+      page.elements[0].choices = props.choices;
+    }
+    
+    const newSurvey = new Model(json);
+    newSurvey.applyTheme(themeJson);
+
+    newSurvey.onComplete.add((sender, options) => {
+      const { correctors } = generateCorrectors(sender.data);
+      saveSurveyData(`/api/save-survey/${props.voteId}`, correctors);
+    });
+
+    newSurvey.onCurrentPageChanged.add((sender, options) => {
+      console.log("Current Page:", sender.currentPageNo, sender.currentPage.name);
+      switch(sender.currentPageNo) {
+        case 0:
+          setDescription("엄밀함: \n과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
+          break;
+        case 1:
+          setDescription("건설적인 제안: 과제의 수준을 높일 수 있는 방법이나 다른 방향성을 제시하였는가?");
+          break;
+        case 2:
+          setDescription("의사 소통 능력: 상대방의 디펜스 논리를 존중하며 비판적인 평가를 진행했는가?");
+          break;
+        case 3:
+          setDescription("질문 퀄리티: 놓칠 수 있는 부분에 대해서 짚어주거나 피평가자가 모호하게 설명하는 내용에 대해 명확한 질문을 던졌는가?");
+          break;
+        case 4:
+          setDescription("정보 공유: 부족한 점을 보완할 수 있는 자료나 추가적으로 좋은 정보를 공유하였는가?");
+          break;
+        default:
+          setDescription("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
+          break;
+      }
+    });
+    setSurvey(newSurvey);  // 상태 업데이트
+  }, []); // 빈 dependency 배열을 사용하여 컴포넌트가 마운트될 때만 실행
+
+  useEffect(() => {
+    const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  }, [description, []]);  // description 상태가 바뀔 때마다 툴팁을 다시 초기화, 빈 배열을 추가하여 페이지가 처음 렌더링될 때 초기화
+
+  if (!survey) {
+    return <div>Loading...</div>;
   }
-  for (const page of json.pages) {
-    page.elements[0].choices = props.choices;
-  }
-  const survey = new Model(json);
-  survey.applyTheme(themeJson);
-  survey.onComplete.add((sender, options) => {
-    // console.log(JSON.stringify(sender.data, null, 2));
-    // console.log("sender.data", sender.data)
-    const { correctors } = generateCorrectors(sender.data);
-    // const correctorProps = generateSurvey(props.choices, {vote_user: sender.data.vote_user});
-    saveSurveyData(`/api/save-survey/${props.voteId}`, correctors);
-  });
+  
+  console.log("description:", description);
   return (
     <div id="root">
         <TopBar NotiInfo={ props.notiInfo }></TopBar>
-        <NonSSRWrapper>
-          <Survey model={survey}></Survey>
-        </NonSSRWrapper>
+        <div id="survey" className="col">
+          <div className="row d-flex align-items-center justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-question-circle-fill" viewBox="0 0 16 16">
+              <path data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title={description} d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+            </svg>
+          </div>
+          <div className="row">
+            <NonSSRWrapper>
+              <Survey model={survey}></Survey>
+            </NonSSRWrapper>
+          </div>
+        </div>
     </div>
   );
 }
