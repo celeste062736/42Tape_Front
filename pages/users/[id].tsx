@@ -101,23 +101,23 @@ export const getServerSideProps: GetServerSideProps<{
   // console.log(token);
   // console.log('notification');
   //notificationList에 데이터 수동으로 넣기
-  repo2.notificationList = [
-    {
-        "type": "now_no_reward",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": false
-    },
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": true
-    },
-    {
-      "type": "got_new_vote",
-      "createdAt": "Mon Aug 28 2023",
-      "notified": true
-    }
-  ]
+  // repo2.notificationList = [
+  //   {
+  //       "type": "now_no_reward",
+  //       "createdAt": "Mon Aug 28 2023",
+  //       "notified": false
+  //   },
+  //   {
+  //       "type": "got_new_vote",
+  //       "createdAt": "Mon Aug 28 2023",
+  //       "notified": true
+  //   },
+  //   {
+  //     "type": "got_new_vote",
+  //     "createdAt": "Mon Aug 28 2023",
+  //     "notified": true
+  //   }
+  // ]
   const NotiInfo : NotificationResponse = {
     user_sub: String(token.sub),
     receiver: repo2.receiver,
