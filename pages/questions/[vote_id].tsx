@@ -19,7 +19,7 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat1",
-     "title": "1. 엄밀하게 평가해주신 분들을 모두 선택해주세요.",
+     "title": "1. 엄밀하게 평가해주신 분들을 모두 선택하세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
      "hideNumber": true,
@@ -34,7 +34,7 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat2",
-     "title": "2. 건설적인 제안을 해주신 분들을 모두 선택해주세요.",
+     "title": "2. 건설적인 제안을 해주신 분들을 모두 선택하세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
      "hideNumber": true,
@@ -49,7 +49,7 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat3",
-     "title": "3. 의사 소통 능력이 좋으신 분들을 모두 선택해주세요.",
+     "title": "3. 의사 소통 능력이 좋으신 분들을 모두 선택하세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
      "hideNumber": true,
@@ -64,7 +64,7 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat4",
-     "title": "4. 퀄리티 높은 질문을 해주신 분들을 모두 선택해주세요.",
+     "title": "4. 퀄리티 높은 질문을 해주신 분들을 모두 선택하세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
      "hideNumber": true,
@@ -79,7 +79,7 @@ export const json = {
     {
      "type": "imagepicker",
      "name": "stat5",
-     "title": "5. 양질의 정보를 공유해주신 분들을 모두 선택주세요.",
+     "title": "5. 양질의 정보를 공유해주신 분들을 모두 선택하세요.",
      "choices": [] as Choices[],
      "imageFit": "cover",
      "hideNumber": true,
@@ -194,7 +194,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, notiIn
       console.log("Current Page:", sender.currentPageNo, sender.currentPage.name);
       switch(sender.currentPageNo) {
         case 0:
-          setDescription("엄밀함: \n과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
+          setDescription("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
           break;
         case 1:
           setDescription("건설적인 제안: 과제의 수준을 높일 수 있는 방법이나 다른 방향성을 제시하였는가?");
@@ -203,7 +203,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, notiIn
           setDescription("의사 소통 능력: 상대방의 디펜스 논리를 존중하며 비판적인 평가를 진행했는가?");
           break;
         case 3:
-          setDescription("질문 퀄리티: 놓칠 수 있는 부분에 대해서 짚어주거나 피평가자가 모호하게 설명하는 내용에 대해 명확한 질문을 던졌는가?");
+          setDescription("질문 퀄리티: 질문을 통해서 놓칠 수 있는 부분 및 피평가자가 모호하게 설명하는 내용을 짚어주었는가?");
           break;
         case 4:
           setDescription("정보 공유: 부족한 점을 보완할 수 있는 자료나 추가적으로 좋은 정보를 공유하였는가?");

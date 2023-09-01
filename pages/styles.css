@@ -10,7 +10,7 @@
 } */
 
 #rank_page_index_button {
-  background-color: #4CAF50;
+  background-color: #6181ff;
   border: none;
   color: white;
   padding: 15px; /* 위아래 패딩 크기 */
@@ -22,6 +22,9 @@
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 12px;
+}
+#rank_page_index_button:hover {
+  background-color: #0A58CA;
 }
 
 .grey-out {
@@ -225,7 +228,12 @@ ul {
   border-width: 3px;
   border: 1px solid #ccc;  /* 테두리 */
   margin: 10px;
-  text-align: center;
+  width: 400px;
+  /* text-align: center; */
+}
+#logo_in_alarm_list {
+  width: 30px;
+  height: 30px;
 }
 /* INFO 스타일 */
 .overlay {
@@ -275,7 +283,7 @@ ul {
 }
 #card_2nd_3rd {
   width: 200px;
-  height: 220px;
+  height: 230px;
 }
 .centered-container {
   display: flex;
@@ -347,6 +355,14 @@ ul {
   background-color: #0A58CA;
   color: white;
 }
+#vote_main_description {
+  font-size: 20px;
+  font-weight: bold;
+}
+#vote_sub_description {
+  
+}
+
 /* CopyRight */
 #copyright {
   margin-top: 50px;
@@ -443,7 +459,7 @@ ul {
 }
 .tooltip-inner {
   font-weight: bold;
-  max-width: 600px !important; /* 원하는 크기로 설정 */
+  max-width: 1000px !important; /* 원하는 크기로 설정 */
   width: auto !important;
   word-wrap: break-all !important;
 }
@@ -472,7 +488,7 @@ ul {
   }
   #card_2nd_3rd {
     width: 100px;
-    height: 180px;
+    height: 160px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   }
   .card_123
@@ -500,6 +516,14 @@ ul {
     height: 200px;
   }
   .alarm-list {
+    width: 200px;
     font-size: 12px;
+  }
+  .alarm-list.show {
+    transform: translate(-20px, -20px);
+  }
+  #logo_in_alarm_list {
+    width: 20px;
+    height: 20px;
   }
 }

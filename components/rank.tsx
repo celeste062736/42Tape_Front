@@ -2,7 +2,6 @@
 import { Copyright } from './Components';
 import { Button } from './button';
 import { Blank } from './blank';
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 export interface IndividualRank {
@@ -217,9 +216,11 @@ export function RankLayout({rand_data}: RankInfoProps) {
           ))}
         </div>
         {/* 페이지네이션 */}
-        <div className="row" style={{ display: 'flex', justifyContent: 'center' }}>
-        <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)}>Previous</button>
-        <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage < Math.ceil(rand_data.length / itemsPerPage) ? currentPage + 1 : currentPage)}>Next</button>
+        <div className="row">
+          <div className="col-xl-10 d-flex justify-content-center align-items-center">
+            <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)}>Previous</button>
+            <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage < Math.ceil(rand_data.length / itemsPerPage) ? currentPage + 1 : currentPage)}>Next</button>
+          </div>
         </div>
         <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center">
