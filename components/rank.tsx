@@ -112,25 +112,6 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
 
   return (
     <div className="row" style={{margin: '0px'}}>
-        <div className="row" style={{ display: 'flex', justifyContent: 'center' }}>
-          {pageSeason > 1 && (
-          <button id="rank_page_index_button" onClick={() => {
-            setPageSeason(pageSeason - 1);
-            router.push(`/rank/${pageSeason - 1}`); // 페이지 라우팅
-          }}>
-            Season Previous
-          </button>       
-          )}
-            {pageSeason < currentSeason && (
-            <button id="rank_page_index_button" onClick={() => {
-              setPageSeason(pageSeason + 1);
-              router.push(`/rank/${pageSeason + 1}`); // 페이지 라우팅
-            }}>
-              Season Next
-            </button>
-          )}
-        </div>
-
       {/* {pageSeason > 1 && (
         <button onClick={() => {
           setPageSeason(pageSeason - 1);
@@ -168,33 +149,62 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
       </div>
       <div className="col">
         {/* 시즌 정보 코드 ... */}
-        <div className="row d-flex align-items-center justify-content-center" style={{position: 'relative', padding: '0px',height: '100px', marginLeft: '90px'}}onMouseEnter={() => setShowSeasonInfo(true)}  // 마우스를 올렸을 때
-               onMouseLeave={() => setShowSeasonInfo(false)} // 마우스를 내렸을 때
+        <div className="row">
+          <div
+            className="col-xl-10" 
+            onMouseEnter={() => setShowSeasonInfo(true)}  // 마우스를 올렸을 때
+            onMouseLeave={() => setShowSeasonInfo(false)} // 마우스를 내렸을 때
+            style={{paddingLeft:'80px', height:'80px'}}
           >
-            
-        <span style={{
-                    fontSize: '30px', 
-                    fontWeight: 'bold', 
-                    color: '#4CAF50'
-                  }}>Season {pageSeason}</span>
-                {showSeasonInfo && (
-              <div style={{
-                position: 'absolute',
-                top: '55%', 
-                left: '1%',
-                backgroundColor: 'rgba(128, 128, 128, 0.8)', // 투명한 회색
-                color: 'white', // 텍스트를 흰색으로
-                border: 'none',
-                padding: '5px',
-                borderRadius: '12px', // 모서리 라운드 설정
-                zIndex: 1000,
-                width: '210px',
-                textAlign: 'center', // 텍스트를 중앙에 배치
-                  }}
+            <span style={{fontSize: '30px', fontWeight: 'bold', color: '#6181ff'}}>
+              Season {pageSeason}
+            </span>
+            {showSeasonInfo && (
+              <div 
+                style={{
+                  backgroundColor: 'rgba(128, 128, 128, 0.8)', // 투명한 회색
+                  color: 'white', // 텍스트를 흰색으로
+                  border: 'none',
+                  padding: '5px',
+                  borderRadius: '12px', // 모서리 라운드 설정
+                  zIndex: 1000,
+                  width: '220px',
+                  textAlign: 'center', // 텍스트를 중앙에 배치
+                }}
               >
-                  {formatDate(SeasonInfo.pageSeason.start_at)} ~ {formatDate(SeasonInfo.pageSeason.end_at)}
+                {formatDate(SeasonInfo.pageSeason.start_at)} ~ {formatDate(SeasonInfo.pageSeason.end_at)}
               </div>
             )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xl-10 d-flex justify-content-center align-items-center">
+            <button 
+              className="rank_page_index_button" 
+              disabled={pageSeason <= 1} // pageSeason이 1 이하이면 버튼 비활성화
+              onClick={() => {
+                if (pageSeason > 1) {
+                  setPageSeason(pageSeason - 1);
+                  router.push(`/rank/${pageSeason - 1}`); // 페이지 라우팅
+                }
+              }}
+            >
+              Season Previous
+            </button>
+
+            <button 
+              className="rank_page_index_button" 
+              disabled={pageSeason >= currentSeason} // pageSeason이 currentSeason 이상이면 버튼 비활성화
+              onClick={() => {
+                if (pageSeason < currentSeason) {
+                  setPageSeason(pageSeason + 1);
+                  router.push(`/rank/${pageSeason + 1}`); // 페이지 라우팅
+                }
+              }}
+            >
+              Season Next
+            </button>
+          </div>
         </div>
         {/* 첫번째 페이지인 경우에만 1,2,3등을 따로 표시 */}
         {currentPage === 1 && (
@@ -224,8 +234,8 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
         {/* 페이지네이션 */}
         <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center">
-            <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)}>Previous</button>
-            <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage < Math.ceil(rand_data.length / itemsPerPage) ? currentPage + 1 : currentPage)}>Next</button>
+            <button className="pretty-button rank_page_index_button" onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)}>Rank Previous</button>
+            <button className="pretty-button rank_page_index_button" onClick={() => setCurrentPage(currentPage < Math.ceil(rand_data.length / itemsPerPage) ? currentPage + 1 : currentPage)}>Rank Next</button>
           </div>
         </div>
         <div className="row">
@@ -234,7 +244,6 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
           </div>
           <Blank name="main"></Blank>
         </div>
-        {/* ... */}
       </div>
     </div>
   )
