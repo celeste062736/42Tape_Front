@@ -8,8 +8,9 @@ import { themeJson } from "../../survey";
 import type { GetServerSideProps } from "next";
 import type { NotificationResponse } from "../../components/topbar"
 import { useState, useEffect } from "react";
+import { redirect } from "next/navigation";
 
-export const json = {
+export const jsonData = {
  "logoPosition": "right",
  "pages": [
   {
@@ -89,7 +90,8 @@ export const json = {
   }
  ],
  "showPageNumbers": true,
-//  "navigateToUrl": "http://localhost:3000",
+ "showProgressBar": "top",
+ "navigateToUrl": "https://42tape.com",
  "completeText": "Complete",
  "widthMode": "responsive"
 }
@@ -97,7 +99,7 @@ export const json = {
 interface Choices {
   "value": string;
   "text": string;
-  "imageLink": string;
+  "imageLink": string | null;
 }
 
 interface Corrector {
@@ -115,11 +117,6 @@ export interface CorrectorResult {
 
 interface StatsInput {
   [key: string]: string[];
-}
-
-interface Corr {
-  corrector_id: number;
-  [key: string]: number;
 }
 
 interface CorrProps {
@@ -170,13 +167,25 @@ async function saveSurveyData(url : string, correctors: CorrProps[]) {
 export default function Vote(props : {choices: Choices[], voteId: number, notiInfo: NotificationResponse}) {
   const [description, setDescription] = useState("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
   const [survey, setSurvey] = useState<Model | null>(null);
-
+  const updatedJsonData = {
+    ...jsonData,
+    pages: jsonData.pages.map((page) => {
+      return {
+        ...page,
+        elements: page.elements.map((element) => {
+          if (element.type === "imagepicker") {
+            return {
+              ...element,
+              choices: props.choices
+            };
+          }
+          return element;
+        })
+      };
+    })
+  };
   useEffect(() => {
-    for (const page of json.pages) {
-      page.elements[0].choices = props.choices;
-    }
-    
-    const newSurvey = new Model(json);
+    const newSurvey = new Model(updatedJsonData);
     newSurvey.applyTheme(themeJson);
 
     newSurvey.onComplete.add((sender, options) => {
@@ -207,6 +216,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, notiIn
           break;
       }
     });
+    newSurvey.completedHtml = "<span></span>";
     setSurvey(newSurvey);  // 상태 업데이트
   }, []); // 빈 dependency 배열을 사용하여 컴포넌트가 마운트될 때만 실행
 
@@ -225,7 +235,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, notiIn
     <div id="root">
         <TopBar NotiInfo={ props.notiInfo }></TopBar>
         <div id="survey" className="col">
-          <div className="row d-flex align-items-center justify-content-center">
+          <div className="tooltip_area row d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-question-circle-fill" viewBox="0 0 16 16">
               <path data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title={description} d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
             </svg>
@@ -285,7 +295,7 @@ export const getServerSideProps: GetServerSideProps<{
   let choices = await result.map((corrector: Corrector) => ({
     "value": corrector.corrector_id,
     "text": corrector.intra_login,
-    "imageLink": corrector.intra_picture,
+    "imageLink": corrector.intra_picture || './default-profile.png',
   }));
 
 

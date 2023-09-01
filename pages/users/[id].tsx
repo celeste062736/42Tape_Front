@@ -52,6 +52,7 @@ export const getServerSideProps: GetServerSideProps<{
       yData: [{x: 0, y:0}],
       xLabels: [["0"]],
       sub: '',
+      is_active: false,
     },
     NotiInfo: {
       user_sub: '',
@@ -90,6 +91,7 @@ export const getServerSideProps: GetServerSideProps<{
     yData: repo.yData,
     xLabels: repo.xLabels,
     sub: repo.clientTapeUser.user_id,
+    is_active: repo.clientTapeUser.is_activated,
   }
 
   const resp2 = await fetch(process.env.FETCH_URL+'notification', {
@@ -97,37 +99,13 @@ export const getServerSideProps: GetServerSideProps<{
     headers: userId ? { "user-id": userId } : {}
   })
   const repo2 : NotificationResponse = await resp2.json()
-  // console.log('notification');
-  // console.log(token);
-  // console.log('notification');
-  //notificationList에 데이터 수동으로 넣기
-  // repo2.notificationList = [
-  //   {
-  //       "type": "now_no_reward",
-  //       "createdAt": "Mon Aug 28 2023",
-  //       "notified": false
-  //   },
-  //   {
-  //       "type": "got_new_vote",
-  //       "createdAt": "Mon Aug 28 2023",
-  //       "notified": true
-  //   },
-  //   {
-  //     "type": "got_new_vote",
-  //     "createdAt": "Mon Aug 28 2023",
-  //     "notified": true
-  //   }
-  // ]
   const NotiInfo : NotificationResponse = {
     user_sub: String(token.sub),
     receiver: repo2.receiver,
     number_notifications: repo2.number_notifications,
     need_notify: repo2.need_notify,
-    // number_notifications: 3,
-    // need_notify: true,
     notificationList: repo2.notificationList,
   }
-  // console.log(repo2.notificationList);
   console.log(NotiInfo);
   const data : UserInfo_NotiInfo = {
     UserInfo: UserInfo,
@@ -135,33 +113,3 @@ export const getServerSideProps: GetServerSideProps<{
   }
   return { props: {userInfo_NotiInfo: data}}
 }
-
-// const data : UserInfo_NotiInfo = {
-//   UserInfo: {
-//     intra_pic: "https://cdn.intra.42.fr/users/medium_soohkang.jpg",
-//     level: 0,
-//     user_id: "soohkang",
-//     stats: [0, 0, 0, 0, 0],
-//     current_rank: 0,
-//     yData: [{x: 0, y:0}],
-//     xLabels: {key:"0", label:"0"},
-//     sub: '',
-//   },
-//   NotiInfo: {
-//   "receiver": "soohkang",
-//   "number_notifications": 0,
-//   "need_notify": false,
-//   "notificationList": [
-//       {
-//           "type": "got_new_vote",
-//           "createdAt": "Mon Aug 28 2023",
-//           "notified": true
-//       },
-//       {
-//           "type": "got_new_vote",
-//           "createdAt": "Mon Aug 28 2023",
-//           "notified": true
-//       }
-//   ]
-// }
-// }

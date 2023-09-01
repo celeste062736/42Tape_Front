@@ -36,8 +36,8 @@ export type RankItemProps = {
     if (userDetails.rank === 1) {
       content = <div className="card_123" id="card_1st">
         <div className="centered-container">
-          <div>
-            <span className="bold_text">Rank </span>
+          <div style={{marginBottom:'5px'}}>
+            <span className="bold_text">Rank</span>
             <span>#{userDetails.rank}</span>
           </div>
           <img className="rank_picture_1 rounded-circle" src={userDetails.intra_picture} alt="intra picture"/>
@@ -49,7 +49,7 @@ export type RankItemProps = {
     } else if (userDetails.rank === 2 || userDetails.rank === 3) {
       content = <div className="card_123" id="card_2nd_3rd">
         <div className="centered-container">
-          <div>
+          <div style={{marginBottom:'2px'}}>
             <span className='bold_text'>Rank </span>
             <span>#{userDetails.rank}</span>
           </div>

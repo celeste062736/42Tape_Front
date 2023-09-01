@@ -15,6 +15,7 @@ export interface ClientTapeUser {
   number_notifications: number;
   need_notify: boolean;
   candidate_for_reward: boolean;
+  is_activated: boolean;
 }
 
 export interface TargetTapeUser {
@@ -63,6 +64,7 @@ export interface UserInfo {
   yData: Coordinate[];
   xLabels: string[][];
   sub: string;
+  is_active: boolean;
 };
 
 export interface UserInfoProps {
