@@ -54,7 +54,7 @@ export interface RankInfoNotiInfoProps {
     rankLayoutProps: RankLayoutProps;
 }
   
-export default function Rank_Page(props: RankInfoNotiInfoProps) {
+export default function Rank_Page(props: {rankInfoNotiInfoProps: RankInfoNotiInfoProps}) {
     // console.log('--------------------props.rankInfo_NotiInfo.NotiInfo');
     // console.log(props.rankInfoNotiInfoProps);
     // // console.log(props.rankInfo_NotiInfo.NotiInfo);
