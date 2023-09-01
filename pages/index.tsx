@@ -75,6 +75,7 @@ export const getServerSideProps: GetServerSideProps<{
   const resp = await fetch(process.env.FETCH_URL+'user', {
     method: "GET",
     headers: userId ? { "user-id": userId } : {}
+    // headers: {"user-id" : "141408"}
   })
   const repo : Repo = await resp.json()
   const UserInfo : UserInfo = {
@@ -91,6 +92,7 @@ export const getServerSideProps: GetServerSideProps<{
   const resp2 = await fetch(process.env.FETCH_URL+'notification', {
     method: "GET",
     headers: userId ? { "user-id": userId } : {}
+    // headers: {"user-id" : "141408"}
   })
   const repo2 : NotificationResponse = await resp2.json()
   // console.log('notification');

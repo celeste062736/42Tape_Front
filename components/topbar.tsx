@@ -89,6 +89,7 @@ export default function ListButton() {
     //console.log("postredy", notiInfo)
     return await fetch(url, {
       method: "POST",
+      // headers: {"user-id" : "141408"},
       headers: userId ? { "user-id": userId } : {},
       body: JSON.stringify({}),
   }).catch((error) => console.log(error))
