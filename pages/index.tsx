@@ -209,30 +209,11 @@ export const getServerSideProps: GetServerSideProps<{
     headers: userId ? { "user-id": userId } : {}
   })
   const repo2 : NotificationResponse = await resp2.json()
-  repo2.notificationList = [
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": false
-    },
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": true
-    },
-    {
-        "type": "got_new_vote",
-        "createdAt": "Mon Aug 28 2023",
-        "notified": true
-    }
-  ]
-  repo2.number_notifications = 3;
   const notiInfo : NotificationResponse = {
     user_sub: String(token.sub),
     receiver: repo2.receiver,
     number_notifications: repo2.number_notifications,
-    // need_notify: repo2.need_notify,
-    need_notify: true,
+    need_notify: repo2.need_notify,
     notificationList: repo2.notificationList,
   }
   return { props: { userInfo : userInfo, notiInfo : notiInfo }}
