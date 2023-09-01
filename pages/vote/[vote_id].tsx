@@ -4,9 +4,9 @@ import { Survey } from "survey-react-ui";
 import { getToken } from "next-auth/jwt"
 import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
-import type { GetServerSideProps } from "next";
 import { themeJson } from "../../survey";
-import type { NotificationResponse } from "../../components/topbar"
+import type { GetServerSideProps } from "next";
+import type { NotificationResponse, Notification } from "../../components/topbar"
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
 
@@ -30,7 +30,7 @@ export const json = {
    }
   ],
   "showCompletedPage": false,
-  "navigateToUrl": "https://42tape.com/questions",
+  "navigateToUrl": 'https://42tape.com/questions',
   "completeText": "Start voting!",
   "widthMode": "responsive"
  }
@@ -82,7 +82,7 @@ async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
   }).catch((error) => console.log(error))
 }
 
-export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[], notiInfo: NotificationResponse}) {
+export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[], notiInfo: NotificationResponse, baseUrl: string}) {
   useEffect(() => {
     const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
 
@@ -93,7 +93,8 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     redirect('/signin')
   }
   json.pages[0].elements[0].choices = props.choices;
-  json["navigateToUrl"] = `https://42tape.com/questions/${props.voteId}`
+  json["navigateToUrl"] = props.baseUrl + `/questions/${props.voteId}`
+  // console.log(json["navigateToUrl"])
   const survey = new Model(json);
   survey.applyTheme(themeJson);
   survey.onValidateQuestion.add((sender, options) => {
@@ -119,7 +120,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  choices: Choices[], voteId: number, round_data: number[]
+  choices: Choices[], voteId: number, round_data: number[], notiInfo: NotificationResponse, baseUrl: string
 }> = async ({ req, res, params }) => {
   let round_data = new Array<number>(2);
   round_data[0] = -1;
@@ -131,9 +132,21 @@ export const getServerSideProps: GetServerSideProps<{
       "imageLink": "unknown",
     }
   ]
+  const notiUnknown1 : Notification = {
+    type: "unknown",
+    createdAt: "unknown",
+    notified: false,
+  }
+  const notiUnknown : NotificationResponse = {
+    user_sub: 'unknown',
+    receiver: 'unknown',
+    number_notifications: 0,
+    need_notify: false,
+    notificationList: [notiUnknown1],
+  }
   const token = await getToken({req})
   if (!token) {
-    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data, notiInfo: notiUnknown, baseUrl: String(process.env.HOME_URL)} }
   }
   let userId : string | undefined;
   if(token.sub === null) {
@@ -142,11 +155,11 @@ export const getServerSideProps: GetServerSideProps<{
     userId = token.sub;
   }
   if (params === undefined) {
-    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data, notiInfo: notiUnknown, baseUrl: String(process.env.HOME_URL)} }
   }
   let pid = params.vote_id;
   if (pid === undefined) {
-    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data, notiInfo: notiUnknown, baseUrl: String(process.env.HOME_URL)} }
   }
   let voteId = Number(pid.toString());
   const resp = await fetch(process.env.FETCH_URL+`vote/${voteId}`, {
@@ -166,8 +179,6 @@ export const getServerSideProps: GetServerSideProps<{
     "text": corrector.intra_login,
     "imageLink": corrector.intra_picture,
   }));
-
-
 
   const resp2 = await fetch(process.env.FETCH_URL+'notification', {
     method: "GET",
@@ -199,7 +210,5 @@ export const getServerSideProps: GetServerSideProps<{
     need_notify: repo2.need_notify,
     notificationList: repo2.notificationList,
   }
-
-  // console.log("choices:", choices)
-  return { props: {choices: choices, voteId: voteId, round_data: round_data, notiInfo: NotiInfo}}
+  return { props: {choices: choices, voteId: voteId, round_data: round_data, notiInfo: NotiInfo, baseUrl: String(process.env.HOME_URL)}}
 }

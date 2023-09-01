@@ -89,6 +89,7 @@ export const json = {
   }
  ],
  "showPageNumbers": true,
+//  "navigateToUrl": "http://localhost:3000",
  "completeText": "Complete",
  "widthMode": "responsive"
 }
