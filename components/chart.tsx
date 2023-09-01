@@ -38,8 +38,7 @@ export function RadarChart({stats, current_rank} : RadarChartProps) {
     datasets: [
       {
         label: 'stats',
-        // data: [stats[0], stats[1], stats[2], stats[3], stats[4]],
-        data: [10, 9, 8, 9, 2],
+        data: [stats[0], stats[1], stats[2], stats[3], stats[4]],
         fill: true,
         backgroundColor: 'rgba(228,234,240,0.5)',
         borderColor: 'rgba(40,181,225,1)',
