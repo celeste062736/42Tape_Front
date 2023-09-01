@@ -99,71 +99,19 @@ export interface Coordinate {
   y : number;
 }
 
-export interface XLabels {
-  [key: string]: string;
-}
-
 type LineChartProps = {
   yData: Coordinate[],
   xLabels: string[][],
 };
 
 export function LineChart({ yData, xLabels }: LineChartProps) {
-  const yData1= [
-    {
-      x: 0,
-      y: 0,
-      date: "2013. 3. 26."
-    },
-    {
-      x: 1.6666666666666667,
-      y: 3,
-      date: "2013. 8. 26."
-    },
-    {
-      x: 3.3333333333333335,
-      y: 7,
-      date: "2013. 10. 26."
-    },
-    {
-      x: 5,
-      y: 10,
-      date: "2023. 1. 13."
-    },
-    {
-      x: 6.666666666666667,
-      y: 13,
-      date: "2023. 3. 13."
-    },
-    {
-      x: 8.333333333333334,
-      y: 15,
-      date: "2023. 6. 13."
-    },
-    {
-      x: 10,
-      y: 16,
-      date: "2023. 8. 13."
-    },
-    {
-      x: 10,
-      y: 0,
-      date: "2023. 8. 13."
-    },
-    {
-      x: 12,
-      y: 10,
-      date: "2023. 8. 27."
-    }
-  ];
-
-  const label_set = [["2013. 3. 26."], ["2023. 8. 13."], ["2023. 8. 27."]];
+  const label_set = xLabels
   const data : ChartData<"line"> = {
     labels: label_set,
     datasets: [
       {
         label: 'Cumulative Score',
-        data: yData1,  //props에 따라 바꿀것
+        data: yData,  //props에 따라 바꿀것
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0, //0.1
@@ -191,30 +139,6 @@ export function LineChart({ yData, xLabels }: LineChartProps) {
           },
         },
       },
-      // tooltip: {
-      //   callbacks: {
-      //     label: function(context) {
-      //       var label = context.dataset.label || '';
-      //       if (label) {
-      //         label += ': ';
-      //       }
-      //       if (context.parsed.y !== null) {
-      //         label += context.parsed.y;
-      //       }
-      //       return label;
-      //     },
-      //     title: function(context) {
-      //       var title = context[0].dataset.label || '';
-      //       if (title) {
-      //         title += ': ';
-      //       }
-      //       if (context[0].parsed.y !== null) {
-      //         title += context[0].
-      //       }
-      //       return title;
-      //     }
-      //   }
-      // },
     },
     scales: {
       y: {

@@ -2,26 +2,14 @@ import { TopBar } from "../../components/topbar";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import { getToken } from "next-auth/jwt"
-import AccessDenied from "../../components/access-denied";
 import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import type { GetServerSideProps } from "next";
 import { themeJson } from "../../survey";
-import { FunctionFactory } from "survey-core";
 import type { NotificationResponse } from "../../components/topbar"
 import { useEffect } from "react";
+import { redirect } from "next/navigation";
 
-// import QuestionImagePickerModel from "survey-core";
-// import { isItemSelected } from "survey-core";
-// import { useRouter } from "next/router";
-
-function validateCounts (params: any) {
-  if (!params) return false;
-  for (let param in params) {
-
-  }
-}
-// QuestionImagePickerModel.isItemSelected
 export const json = {
   "logoPosition": "right",
   "pages": [
@@ -32,24 +20,17 @@ export const json = {
       "type": "imagepicker",
       "name": "vote_user",
       "title": "최고의 평가자들을 선택해주세요.",
-      // "isRequired": true,
       "hideNumber": true,
       "choices": [] as Choices[],
       "choicesOrder": "random",
       "showLabel": true,
       "multiSelect": true,
-      // "validators": [{
-      //   "type": "expression",
-      //   "text": "You must select at least 1 corrector!",
-      //   "expression": "countInArray({vote_user}) < 2 or countInArray({vote_user}) > 4"
-      // }],
      },
     ],
-    // "title": "pick_cadets"
    }
   ],
   "showCompletedPage": false,
-  "navigateToUrl": "http://localhost:3000/questions",
+  "navigateToUrl": "https://42tape.com/questions",
   "completeText": "Start voting!",
   "widthMode": "responsive"
  }
@@ -92,7 +73,6 @@ function generateCorrectors(choices: Choices[], voteData: VoteUser): { correctPr
 }
 
 async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
-  // console.log("fetch", correctorProps)
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify(correctorProps),
@@ -103,16 +83,17 @@ async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
 }
 
 export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[], notiInfo: NotificationResponse}) {
+  useEffect(() => {
+    const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
+
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  }, []);
   if (props.choices[0].value === "unknown") {
-    return (
-      <div id="root">
-        <TopBar NotiInfo={ props.notiInfo }></TopBar>
-        <AccessDenied></AccessDenied>
-      </div>
-    )
+    redirect('/signin')
   }
   json.pages[0].elements[0].choices = props.choices;
-  json["navigateToUrl"] = `http://localhost:3000/questions/${props.voteId}`
+  json["navigateToUrl"] = `https://42tape.com/questions/${props.voteId}`
   const survey = new Model(json);
   survey.applyTheme(themeJson);
   survey.onValidateQuestion.add((sender, options) => {
@@ -127,14 +108,6 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user});
     saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps);
   });
-  /* 툴팁 관련 코드 Start*/
-  useEffect(() => {
-    const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
-
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-  }, []);
-  /* 툴팁 관련 코드 End */
   return (
     <div id="root">
       <TopBar NotiInfo={ props.notiInfo }></TopBar>

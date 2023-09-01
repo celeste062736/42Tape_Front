@@ -1,7 +1,7 @@
 "use client";
-import Link from 'next/link'
-import React, { useEffect, useRef, useState } from 'react';
-import type { Coordinate, XLabels } from './chart';
+// import Link from 'next/link'
+import React from 'react';
+import type { Coordinate } from './chart';
 
 import { RadarChart, LineChart } from './chart';
 import { Profile } from './profile';
@@ -51,7 +51,7 @@ export interface Repo {
   targetTapeUser: TargetTapeUser;
   targetUserStats: TargetUserStats;
   yData: DataPoint[];
-  xLabels: XLabels;
+  xLabels: string[][];
 }
 
 export interface UserInfo {

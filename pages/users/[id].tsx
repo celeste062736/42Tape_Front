@@ -1,10 +1,10 @@
-import { MainLayout } from '../components/Components'
-import { TopBar } from '../components/topbar'
+import { MainLayout } from '../../components/Components'
+import { TopBar } from '../../components/topbar'
 import type { GetServerSideProps } from "next";
-import type { UserInfo } from '../components/Components'
-import type { Repo } from "../components/Components";
+import type { UserInfo } from '../../components/Components'
+import type { Repo } from "../../components/Components";
 import { getToken } from "next-auth/jwt"
-import type { NotificationResponse, Notification } from "../components/topbar"
+import type { NotificationResponse, Notification } from "../../components/topbar"
 import { redirect } from "next/navigation";
 
 export interface UserInfo_NotiInfo {
@@ -41,7 +41,7 @@ export interface UserInfo_NotiInfo {
 
 export const getServerSideProps: GetServerSideProps<{
   userInfo_NotiInfo: UserInfo_NotiInfo
-}> = async ({ req, res }) => {
+}> = async ({ req, res, params }) => {
   const dataUnknown : UserInfo_NotiInfo = {
     UserInfo: {
       intra_pic: "unknown",
@@ -67,14 +67,18 @@ export const getServerSideProps: GetServerSideProps<{
   }
 
   let userId : string | undefined;
-  if(token.sub === null) {
+  if (token.sub === null) {
     userId = undefined;
   } else {
     userId = token.sub;
   }
+  if (params === undefined) {
+    return { props : {userInfo_NotiInfo: dataUnknown} }
+  }
+  let otherId = params.id?.toString()
   const resp = await fetch(process.env.FETCH_URL+'user', {
     method: "GET",
-    headers: userId ? { "user-id": userId } : {}
+    headers: otherId ? { "user-id": otherId } : {}
   })
   const repo : Repo = await resp.json()
   const UserInfo : UserInfo = {
