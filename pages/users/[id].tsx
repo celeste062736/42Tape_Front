@@ -52,6 +52,7 @@ export const getServerSideProps: GetServerSideProps<{
       yData: [{x: 0, y:0}],
       xLabels: [["0"]],
       sub: '',
+      is_active: false,
     },
     NotiInfo: {
       user_sub: '',
@@ -90,6 +91,7 @@ export const getServerSideProps: GetServerSideProps<{
     yData: repo.yData,
     xLabels: repo.xLabels,
     sub: repo.clientTapeUser.user_id,
+    is_active: repo.clientTapeUser.is_activated,
   }
 
   const resp2 = await fetch(process.env.FETCH_URL+'notification', {
