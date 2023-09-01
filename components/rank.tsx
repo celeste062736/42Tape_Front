@@ -222,9 +222,11 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
           ))}
         </div>
         {/* 페이지네이션 */}
-        <div className="row" style={{ display: 'flex', justifyContent: 'center' }}>
-        <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)}>Previous</button>
-        <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage < Math.ceil(rand_data.length / itemsPerPage) ? currentPage + 1 : currentPage)}>Next</button>
+        <div className="row">
+          <div className="col-xl-10 d-flex justify-content-center align-items-center">
+            <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)}>Previous</button>
+            <button className="pretty-button" id="rank_page_index_button" onClick={() => setCurrentPage(currentPage < Math.ceil(rand_data.length / itemsPerPage) ? currentPage + 1 : currentPage)}>Next</button>
+          </div>
         </div>
         <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center">

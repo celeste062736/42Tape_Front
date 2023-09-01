@@ -33,7 +33,7 @@ type RadarChartProps = {
 
 export function RadarChart({stats, current_rank} : RadarChartProps) {
   const data = {
-    labels: ['Rigorous', 'Communication', 'Constructive Suggestions', 'Informative', 'Sharp Questions'],
+    labels: ['엄밀함', '의사 소통', '건설적인 제안', '정보 공유', '질문 퀄리티'],
 
     datasets: [
       {
@@ -72,7 +72,7 @@ export function RadarChart({stats, current_rank} : RadarChartProps) {
         },
         pointLabels: {
           font: {
-            size: 10,
+            size: 13,
             weight: '700',
             family: 'Pretendard',
           },
@@ -109,7 +109,7 @@ export function LineChart({ yData, xLabels }: LineChartProps) {
     labels: label_set,
     datasets: [
       {
-        label: 'Cumulative Score',
+        label: '시즌 별 누적 Stat 종합 점수',
         data: yData,  //props에 따라 바꿀것
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
@@ -133,7 +133,7 @@ export function LineChart({ yData, xLabels }: LineChartProps) {
       legend: {
         labels: {
           font: {
-            size: 10,
+            size: 14,
             weight: 'bold'
           },
         },
