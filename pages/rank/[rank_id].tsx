@@ -109,8 +109,8 @@ export const getServerSideProps: GetServerSideProps<{
         return { props : { rankInfoNotiInfoProps: dataUnknown }}
     }
     let rankId = Number(pid.toString());
-    console.log('test-----------------------------');
-    console.log(rankId);
+    // console.log('test-----------------------------');
+    // console.log(rankId);
     let userId : string | undefined;
     if(token.sub === null) {
         userId = undefined;

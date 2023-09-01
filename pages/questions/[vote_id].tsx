@@ -154,7 +154,7 @@ function generateCorrectors(data: StatsInput): { correctors: any } {
 }
 
 async function saveSurveyData(url : string, correctors: CorrProps[]) {
-   console.log("fetch", correctors)
+  //  console.log("fetch", correctors)
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify({correctors}),
@@ -194,7 +194,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, notiIn
     });
 
     newSurvey.onCurrentPageChanged.add((sender, options) => {
-      console.log("Current Page:", sender.currentPageNo, sender.currentPage.name);
+      // console.log("Current Page:", sender.currentPageNo, sender.currentPage.name);
       switch(sender.currentPageNo) {
         case 0:
           setDescription("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
@@ -230,7 +230,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, notiIn
     return <div>Loading...</div>;
   }
   
-  console.log("description:", description);
+  // console.log("description:", description);
   return (
     <div id="root">
         <TopBar NotiInfo={ props.notiInfo }></TopBar>
