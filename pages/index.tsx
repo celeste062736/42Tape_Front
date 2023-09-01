@@ -33,8 +33,10 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json())
 export default function Home(props: { userInfo: UserInfo, notiInfo: NotificationResponse }) {
   const [notiInfo, setNotiInfo] = useState<NotificationResponse>(props.notiInfo)
   const { data, error } = useSWR('/api/alarm', fetcher)
+  const [isModalOpen, setModalOpen] = useState(false);
+
   if (props.userInfo.user_id === null) {
-    redirect('/signin')
+    redirect('/signin');
   }
   const [showList, setShowList] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
@@ -144,6 +146,11 @@ export default function Home(props: { userInfo: UserInfo, notiInfo: Notification
         </div>
       </div>
       <MainLayout userInfo={ props.userInfo }></MainLayout>
+      {isModalOpen && (
+        <div className="overlay" onClick={() => setModalOpen(false)}>
+          <img src="/welcome.png" alt="welcome-image" className="welcome-image" />
+        </div>
+      )}
     </div>
   )
 }

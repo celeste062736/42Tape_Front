@@ -72,9 +72,11 @@ export interface UserInfoProps {
 }
 
 export const MainLayout = ({ userInfo } : UserInfoProps) => {
+
   if (userInfo.user_id === null) {
     userInfo.user_id = 'unknown'
   }
+
   return (
     <div className="row" style={{margin: '0px'}}>
       <div className="col-2 d-none d-xl-block">
