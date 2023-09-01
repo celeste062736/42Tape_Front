@@ -18,3 +18,4 @@ next-env.d.ts
 .next
 .vercel
 .env*.local
+vote_list_css_practice.tsx
