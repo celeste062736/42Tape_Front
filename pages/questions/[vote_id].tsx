@@ -8,8 +8,9 @@ import { themeJson } from "../../survey";
 import type { GetServerSideProps } from "next";
 import type { NotificationResponse } from "../../components/topbar"
 import { useState, useEffect } from "react";
+import { redirect } from "next/navigation";
 
-export const json = {
+export const jsonData = {
  "logoPosition": "right",
  "pages": [
   {
@@ -89,7 +90,8 @@ export const json = {
   }
  ],
  "showPageNumbers": true,
-//  "navigateToUrl": "http://localhost:3000",
+ "showProgressBar": "top",
+ "navigateToUrl": "https://42tape.com",
  "completeText": "Complete",
  "widthMode": "responsive"
 }
@@ -97,7 +99,7 @@ export const json = {
 interface Choices {
   "value": string;
   "text": string;
-  "imageLink": string;
+  "imageLink": string | null;
 }
 
 interface Corrector {
@@ -115,11 +117,6 @@ export interface CorrectorResult {
 
 interface StatsInput {
   [key: string]: string[];
-}
-
-interface Corr {
-  corrector_id: number;
-  [key: string]: number;
 }
 
 interface CorrProps {
@@ -170,13 +167,25 @@ async function saveSurveyData(url : string, correctors: CorrProps[]) {
 export default function Vote(props : {choices: Choices[], voteId: number, notiInfo: NotificationResponse}) {
   const [description, setDescription] = useState("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
   const [survey, setSurvey] = useState<Model | null>(null);
-
+  const updatedJsonData = {
+    ...jsonData,
+    pages: jsonData.pages.map((page) => {
+      return {
+        ...page,
+        elements: page.elements.map((element) => {
+          if (element.type === "imagepicker") {
+            return {
+              ...element,
+              choices: props.choices
+            };
+          }
+          return element;
+        })
+      };
+    })
+  };
   useEffect(() => {
-    for (const page of json.pages) {
-      page.elements[0].choices = props.choices;
-    }
-    
-    const newSurvey = new Model(json);
+    const newSurvey = new Model(updatedJsonData);
     newSurvey.applyTheme(themeJson);
 
     newSurvey.onComplete.add((sender, options) => {
@@ -207,6 +216,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, notiIn
           break;
       }
     });
+    newSurvey.completedHtml = "<span></span>";
     setSurvey(newSurvey);  // 상태 업데이트
   }, []); // 빈 dependency 배열을 사용하여 컴포넌트가 마운트될 때만 실행
 
@@ -285,7 +295,7 @@ export const getServerSideProps: GetServerSideProps<{
   let choices = await result.map((corrector: Corrector) => ({
     "value": corrector.corrector_id,
     "text": corrector.intra_login,
-    "imageLink": corrector.intra_picture,
+    "imageLink": corrector.intra_picture || './default-profile.png',
   }));
 
 

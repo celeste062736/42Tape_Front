@@ -30,6 +30,7 @@ export const json = {
    }
   ],
   "showCompletedPage": false,
+  "showProgressBar": "top",
   "navigateToUrl": "https://42tape.com/questions",
   "completeText": "설문 시작!",
   "widthMode": "responsive"
@@ -38,7 +39,7 @@ export const json = {
  interface Choices {
   "value": string;
   "text": string;
-  "imageLink": string;
+  "imageLink": string | null;
 }
 
  interface Corrector {
@@ -187,7 +188,7 @@ export const getServerSideProps: GetServerSideProps<{
   let choices = result.map((corrector: Corrector) => ({
     "value": corrector.corrector_id,
     "text": corrector.intra_login,
-    "imageLink": corrector.intra_picture,
+    "imageLink": corrector.intra_picture || './default-profile.png',
   }));
 
   const resp2 = await fetch(process.env.FETCH_URL+'notification', {
