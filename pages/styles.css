@@ -255,6 +255,12 @@ ul {
   /* 모서리 둥굴게 */
   border-radius: 10px;
 }
+.welcome-image {
+  width: 1000px;
+  height: 500px;
+  /* 모서리 둥굴게 */
+  border-radius: 10px;
+}
 
 /* 버튼 배경 삭제 스타일 */
 .Button {
@@ -526,5 +532,11 @@ ul {
   #logo_in_alarm_list {
     width: 20px;
     height: 20px;
+  }
+  .welcome-image {
+    width: 400px;
+    height: 200px;
+    /* 모서리 둥굴게 */
+    border-radius: 10px;
   }
 }
