@@ -88,10 +88,8 @@ export const json = {
    ],
   }
  ],
-//  "cookieName": "questions",
  "showPageNumbers": true,
  "completeText": "Complete",
-//  "showPreviewBeforeComplete": "showAnsweredQuestions",
  "widthMode": "responsive"
 }
 
@@ -137,7 +135,6 @@ function generateCorrectors(data: StatsInput): { correctors: any } {
   for (const statKey of Object.keys(data)) {
       for (const correctorIdStr of data[statKey]) {
           const correctorId = parseInt(correctorIdStr, 10);
-
           if (!statsMap.has(correctorId)) {
               // If the correctorId doesn't exist in the map, add it with default values
               statsMap.set(correctorId, {
@@ -167,9 +164,6 @@ async function saveSurveyData(url : string, correctors: CorrProps[]) {
       "Content-Type": "application/json"
     }
   }).catch((error) => console.log(error))
-}
-interface MemoizedSvgProps {
-  description: string;
 }
 
 export default function Vote(props : {choices: Choices[], voteId: number, notiInfo: NotificationResponse}) {
@@ -292,7 +286,6 @@ export const getServerSideProps: GetServerSideProps<{
     "text": corrector.intra_login,
     "imageLink": corrector.intra_picture,
   }));
-  // console.log("choices:", choices)
 
 
   const resp2 = await fetch(process.env.FETCH_URL+'notification', {
@@ -300,24 +293,7 @@ export const getServerSideProps: GetServerSideProps<{
     headers: userId ? { "user-id": userId } : {}
   })
   const repo2 : NotificationResponse = await resp2.json()
-  //notificationList에 데이터 수동으로 넣기
-  // repo2.notificationList = [
-  //   {
-  //       "type": "got_new_vote",
-  //       "createdAt": "Mon Aug 28 2023",
-  //       "notified": false
-  //   },
-  //   {
-  //       "type": "got_new_vote",
-  //       "createdAt": "Mon Aug 28 2023",
-  //       "notified": true
-  //   },
-  //   {
-  //     "type": "got_new_vote",
-  //     "createdAt": "Mon Aug 28 2023",
-  //     "notified": true
-  //   }
-  // ]
+
   const NotiInfo : NotificationResponse = {
     user_sub:  String(token.sub),
     receiver: repo2.receiver,
@@ -325,7 +301,5 @@ export const getServerSideProps: GetServerSideProps<{
     need_notify: repo2.need_notify,
     notificationList: repo2.notificationList,
   }
-
-
   return { props: {choices: choices, voteId: voteId, notiInfo: NotiInfo}}
 }

@@ -6,22 +6,10 @@ import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import type { GetServerSideProps } from "next";
 import { themeJson } from "../../survey";
-import { FunctionFactory } from "survey-core";
 import type { NotificationResponse } from "../../components/topbar"
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
 
-// import QuestionImagePickerModel from "survey-core";
-// import { isItemSelected } from "survey-core";
-// import { useRouter } from "next/router";
-
-function validateCounts (params: any) {
-  if (!params) return false;
-  for (let param in params) {
-
-  }
-}
-// QuestionImagePickerModel.isItemSelected
 export const json = {
   "logoPosition": "right",
   "pages": [
@@ -32,20 +20,13 @@ export const json = {
       "type": "imagepicker",
       "name": "vote_user",
       "title": "최고의 평가자들을 선택해주세요.",
-      // "isRequired": true,
       "hideNumber": true,
       "choices": [] as Choices[],
       "choicesOrder": "random",
       "showLabel": true,
       "multiSelect": true,
-      // "validators": [{
-      //   "type": "expression",
-      //   "text": "You must select at least 1 corrector!",
-      //   "expression": "countInArray({vote_user}) < 2 or countInArray({vote_user}) > 4"
-      // }],
      },
     ],
-    // "title": "pick_cadets"
    }
   ],
   "showCompletedPage": false,
@@ -92,7 +73,6 @@ function generateCorrectors(choices: Choices[], voteData: VoteUser): { correctPr
 }
 
 async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
-  // console.log("fetch", correctorProps)
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify(correctorProps),
@@ -111,12 +91,6 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
   }, []);
   if (props.choices[0].value === "unknown") {
     redirect('/signin')
-    // return (
-    //   <div id="root">
-    //     <TopBar NotiInfo={ props.notiInfo }></TopBar>
-    //     <AccessDenied></AccessDenied>
-    //   </div>
-    // )
   }
   json.pages[0].elements[0].choices = props.choices;
   json["navigateToUrl"] = `https://42tape.com/questions/${props.voteId}`
@@ -134,9 +108,6 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user});
     saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps);
   });
-  /* 툴팁 관련 코드 Start*/
-  
-  /* 툴팁 관련 코드 End */
   return (
     <div id="root">
       <TopBar NotiInfo={ props.notiInfo }></TopBar>
