@@ -36,7 +36,7 @@ export function VoteLayout({vote_data}: VoteListInfoProps) {
             </div>
           </div>
           <div className="row" style={{margin: '15px'}}>
-            <div className="col-xl-10 d-flex align-items-center justify-content-center">
+            <div id="vote_sub_description" className="col-xl-10 d-flex align-items-center justify-content-center">
               ※ 투표 대상은 과제를 통과할 때까지 만난 모든 평가자들입니다.
             </div>
           </div>
