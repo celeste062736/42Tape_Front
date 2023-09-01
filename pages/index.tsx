@@ -6,6 +6,7 @@ import type { Repo } from "../components/Components";
 import { getToken } from "next-auth/jwt"
 import type { NotificationResponse, Notification } from "../components/topbar"
 import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export interface UserInfo_NotiInfo {
   UserInfo : UserInfo;
@@ -22,14 +23,49 @@ export interface UserInfoNotiInfoProps {
 }
 
 export default function Home(props: { userInfo: UserInfo, notiInfo: NotificationResponse }) {
+  const [isModalOpen, setModalOpen] = useState(false);
+
   if (props.userInfo.user_id === null) {
-    redirect('/signin')
+    redirect('/signin');
   }
+  useEffect(() => {
+    if (props.userInfo.is_active === false) {
+      setModalOpen(true);
+    }
+  }, [props.userInfo]);
+
+  useEffect(() => {
+    // 이벤트 객체의 타입을 MouseEvent로 명시
+    function closeOnDocumentClick(event: MouseEvent) {
+      // target을 HTML Element로 타입 단언
+      const targetElement = event.target as HTMLElement;
+      if (targetElement && targetElement.className !== 'welcome-image') {
+        setModalOpen(false);
+      }
+    }
+  
+    if (isModalOpen) {
+      // 이벤트 리스너에 함수를 연결
+      document.addEventListener('click', closeOnDocumentClick);
+    }
+  
+    return () => {
+      // 컴포넌트 unmount 또는 isModalOpen 상태 변경 시 이벤트 리스너 제거
+      document.removeEventListener('click', closeOnDocumentClick);
+    };
+  }, [isModalOpen]);
+
   //props.param.id 로 접속한 인트라 아이디 가져오기
   return (
     <div id="root">
+
       <TopBar NotiInfo={ props.notiInfo }></TopBar>
       <MainLayout userInfo={ props.userInfo }></MainLayout>
+      {isModalOpen && (
+        <div className="overlay" onClick={() => setModalOpen(false)}>
+          <img src="/welcome.png" alt="welcome-image" className="welcome-image" />
+        </div>
+      )}
     </div>
   )
 }
