@@ -5,8 +5,9 @@ import type { GetServerSideProps } from "next";
 import type { UserInfoProps, UserInfo } from '../components/Components'
 import type { Repo } from "../components/Components";
 import { getToken } from "next-auth/jwt"
-import AccessDenied from "../components/access-denied";
+// import AccessDenied from "../components/access-denied";
 import type { NotificationResponse, Notification } from "../components/topbar"
+import { redirect } from "next/navigation";
 
 export interface UserInfo_NotiInfo {
   UserInfo : UserInfo;
@@ -26,11 +27,12 @@ export default function Home(props: UserInfoNotiInfoProps) {
   // console.log('props');
   // console.log(props);
   if (props.userInfo_NotiInfo.UserInfo.user_id === null) {
-    return (
-      <Layout>
-        <AccessDenied />
-      </Layout>
-    )
+    redirect('/signin')
+    // return (
+    //   <Layout>
+    //     <AccessDenied />
+    //   </Layout>
+    // )
   }
   //props.param.id 로 접속한 인트라 아이디 가져오기
   return (
@@ -70,7 +72,7 @@ export const getServerSideProps: GetServerSideProps<{
       stats: [0, 0, 0, 0, 0],
       current_rank: "-",
       yData: [{x: 0, y:0}],
-      xLabels: {key:"0", label:"0"},
+      xLabels: [["0"]],
       sub: '',
     },
     NotiInfo: {

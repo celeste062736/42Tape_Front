@@ -99,10 +99,6 @@ export interface Coordinate {
   y : number;
 }
 
-export interface XLabels {
-  [key: string]: string;
-}
-
 type LineChartProps = {
   yData: Coordinate[],
   xLabels: string[][],

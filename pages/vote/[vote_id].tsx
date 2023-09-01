@@ -2,7 +2,6 @@ import { TopBar } from "../../components/topbar";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import { getToken } from "next-auth/jwt"
-import AccessDenied from "../../components/access-denied";
 import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import type { GetServerSideProps } from "next";
@@ -10,6 +9,7 @@ import { themeJson } from "../../survey";
 import { FunctionFactory } from "survey-core";
 import type { NotificationResponse } from "../../components/topbar"
 import { useEffect } from "react";
+import { redirect } from "next/navigation";
 
 // import QuestionImagePickerModel from "survey-core";
 // import { isItemSelected } from "survey-core";
@@ -103,13 +103,20 @@ async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
 }
 
 export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[], notiInfo: NotificationResponse}) {
+  useEffect(() => {
+    const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
+
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  }, []);
   if (props.choices[0].value === "unknown") {
-    return (
-      <div id="root">
-        <TopBar NotiInfo={ props.notiInfo }></TopBar>
-        <AccessDenied></AccessDenied>
-      </div>
-    )
+    redirect('/signin')
+    // return (
+    //   <div id="root">
+    //     <TopBar NotiInfo={ props.notiInfo }></TopBar>
+    //     <AccessDenied></AccessDenied>
+    //   </div>
+    // )
   }
   json.pages[0].elements[0].choices = props.choices;
   json["navigateToUrl"] = `http://localhost:3000/questions/${props.voteId}`
@@ -128,12 +135,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps);
   });
   /* 툴팁 관련 코드 Start*/
-  useEffect(() => {
-    const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
-
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-  }, []);
+  
   /* 툴팁 관련 코드 End */
   return (
     <div id="root">

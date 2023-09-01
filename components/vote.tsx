@@ -31,7 +31,7 @@ export function VoteLayout({vote_data}: VoteListInfoProps) {
   
         <div className="col">
             {vote_data.map((item, index) => (
-                <div className="row">
+                <div key={index} className="row">
                     <div key={index} className="col-xl-10 d-flex align-items-center justify-content-center">
                         <button id="project_selector" className="btn btn-primary" onClick={(e) => {
                           router.push(`/vote/${item.vote_id}`)

@@ -1,4 +1,5 @@
 "use client"
+import Link from 'next/link'
 export function LogoImg() {
     var path = "/";
     return (
@@ -16,6 +17,6 @@ export function LogoImg() {
   
   export function LogoName() {
     return (
-      <a id="logo" href="/">42TAPE</a>
+      <Link id="logo" href="/">42TAPE</Link>
     )
   }

@@ -2,7 +2,6 @@ import { TopBar } from "../../components/topbar";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import { getToken } from "next-auth/jwt"
-import AccessDenied from "../../components/access-denied";
 import NonSSRWrapper from "../../components/noSSR";
 import 'survey-core/defaultV2.min.css';
 import { themeJson } from "../../survey";
