@@ -49,7 +49,7 @@ export const json = {
    }
   ],
   "showCompletedPage": false,
-  "navigateToUrl": "http://localhost:3000/questions",
+  "navigateToUrl": "https://42tape.com/questions",
   "completeText": "Start voting!",
   "widthMode": "responsive"
  }
