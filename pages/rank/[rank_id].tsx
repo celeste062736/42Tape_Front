@@ -1,67 +1,17 @@
-import { TopBar } from '../components/topbar'
-import { RankLayout } from '../components/rank'
 import type { GetServerSideProps } from 'next'
-import type { Season } from '../components/Components'
 import { getToken } from "next-auth/jwt"
-import type { RankLayoutProps } from '../components/rank'
-import type { NotificationResponse } from '../components/topbar'
-import type { RankInfo, SeasonInfo, IndividualRank, IndividualSeason } from '../components/rank'
+import type { NotificationResponse } from '../../components/topbar'
+import { TopBar } from '../../components/topbar'
+import { RankLayout, RankLayoutProps } from '../../components/rank'
+import type { RankInfo, IndividualSeason, SeasonInfo } from '../../components/rank'
+import type { RankInfo_DB, RankInfo_NotiInfo, RankInfoNotiInfoProps } from '../rank'
 
 
-export interface TapeUser {
-    user_id: number;
-    number_votes: number;
-    need_vote: boolean;
-    number_notifications: number;
-    need_notify: boolean;
-    candidate_for_reward: boolean;
-    is_activated: boolean;
-    createdAt: string;
-    updatedAt: string;
-}
-  
-export interface RankListEntry {
-  rank: number;
-  ranker_user_id: number;
-  login: string;
-  intra_picture: string;
-  candidate: boolean;
-  first_name: string;
-  last_name: string;
-  intra_level: number;
-  cumulative_total_score: number;
-  cumulative_stat1: number;
-  cumulative_stat2: number;
-  cumulative_stat3: number;
-  cumulative_stat4: number;
-  cumulative_stat5: number;
-}
-  
-export interface RankInfo_DB {
-  tape_user: TapeUser;
-  pageSeason: Season;
-  currentSeason: Season;
-  rankList: RankListEntry[];
-}
 
-export interface RankInfo_NotiInfo {
-    RankInfo : RankInfo;
-    NotiInfo : NotificationResponse;
-}
-
-export interface RankInfoNotiInfoProps {
-    rankInfo_NotiInfo : RankInfo_NotiInfo;
-    rankLayoutProps: RankLayoutProps;
-}
-  
 export default function Rank_Page(props: RankInfoNotiInfoProps) {
-    // console.log('--------------------props.rankInfo_NotiInfo.NotiInfo');
-    // console.log(props.rankInfoNotiInfoProps);
-    // // console.log(props.rankInfo_NotiInfo.NotiInfo);
-    // console.log('--------------------props.rankInfo_NotiInfo.NotiInfo');
     return (
         <div id="root">
-            <TopBar NotiInfo={ props.rankInfoNotiInfoProps.rankInfo_NotiInfo.NotiInfo }></TopBar>
+            <TopBar NotiInfo={props.rankInfoNotiInfoProps.rankInfo_NotiInfo.NotiInfo}></TopBar>
             <RankLayout RankLayoutProps={ props.rankInfoNotiInfoProps.rankLayoutProps }></RankLayout>
         </div>
   );
@@ -69,7 +19,7 @@ export default function Rank_Page(props: RankInfoNotiInfoProps) {
 
 export const getServerSideProps: GetServerSideProps<{
     rankInfoNotiInfoProps: RankInfoNotiInfoProps
-    }> = async ({ req, res }) => {
+    }> = async ({ req, res , params}) => {
     const dataUnknown : RankInfoNotiInfoProps = {
         rankInfo_NotiInfo: {
         NotiInfo: {
@@ -148,16 +98,26 @@ export const getServerSideProps: GetServerSideProps<{
 }
     const token = await getToken({req})
     if (!token) {
-      return { props : { rankInfoNotiInfoProps: dataUnknown }}
+        return { props : { rankInfoNotiInfoProps: dataUnknown }}
     }
 
+    if (params === undefined) {
+        return { props : { rankInfoNotiInfoProps: dataUnknown }}
+      }
+    let pid = params.rank_id;
+    if (pid === undefined) {
+        return { props : { rankInfoNotiInfoProps: dataUnknown }}
+    }
+    let rankId = Number(pid.toString());
+    console.log('test-----------------------------');
+    console.log(rankId);
     let userId : string | undefined;
     if(token.sub === null) {
         userId = undefined;
     } else {
         userId = token.sub;
     }
-    const resp = await fetch(process.env.FETCH_URL+'ranking', {
+    const resp = await fetch(process.env.FETCH_URL+`ranking/${rankId}`, {
       method: "GET",
       headers: userId ? { "user-id": userId } : {}
     })
@@ -183,7 +143,6 @@ export const getServerSideProps: GetServerSideProps<{
         start_at : RankInfo_db.currentSeason.start_at,
         end_at : RankInfo_db.currentSeason.end_at,
     }));
-
     const SeasonInfo: SeasonInfo = {
         currentSeason: RankInfo_db.currentSeason,
         pageSeason: RankInfo_db.pageSeason
@@ -269,9 +228,9 @@ export const getServerSideProps: GetServerSideProps<{
         rand_data: RankInfo,
         SeasonInfo: SeasonInfo
     }
-    const RankInfoNotiInfoProps : RankInfoNotiInfoProps = {
+    const RankInfoNotiINfoProps : RankInfoNotiInfoProps = {
         rankInfo_NotiInfo : rankInfo_NotiInfo,
         rankLayoutProps : rankLayoutProps
     }
-    return { props: { rankInfoNotiInfoProps : RankInfoNotiInfoProps}}
+    return { props: { rankInfoNotiInfoProps : RankInfoNotiINfoProps}}
 }

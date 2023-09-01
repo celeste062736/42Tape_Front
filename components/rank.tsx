@@ -2,8 +2,19 @@
 import { Copyright } from './Components';
 import { Button } from './button';
 import { Blank } from './blank';
-import axios from 'axios';
+import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
+
+export interface IndividualSeason {
+  season_id: number;
+  start_at: string;
+  end_at: string;
+}
+
+export interface SeasonInfo {
+  currentSeason: IndividualSeason;
+  pageSeason: IndividualSeason
+}
 
 export interface IndividualRank {
     intra_id: string;
@@ -14,9 +25,9 @@ export interface IndividualRank {
     end_at : string;
 }
 
-type RankItemProps = {
+export type RankItemProps = {
     userDetails: IndividualRank
-  };
+};
   
   export function Rank({ userDetails }: RankItemProps) {
     let content;
@@ -73,14 +84,18 @@ export interface DataPoint {
 
 export type RankInfo = IndividualRank[];
 
-interface RankInfoProps {
+export interface RankLayoutProps {
   rand_data: RankInfo;
+  SeasonInfo: SeasonInfo;
 }
 
-export function RankLayout({rand_data}: RankInfoProps) {
-  const [currentSeason, setCurrentSeason] = useState(rand_data[0].season_id); // 현재 시즌
-  const [pageSeason, setPageSeason] = useState(rand_data[0].season_id); // 현재 시즌
-  const [showSeasonInfo, setShowSeasonInfo] = useState(false);
+export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
+  const rand_data = props.RankLayoutProps.rand_data;
+  const SeasonInfo = props.RankLayoutProps.SeasonInfo;
+  const router = useRouter();
+  const [currentSeason, setCurrentSeason] = useState(SeasonInfo.currentSeason.season_id); // 현재 시즌
+  const [pageSeason, setPageSeason] = useState(SeasonInfo.pageSeason.season_id); // 현재 시즌
+  const [showSeasonInfo, setShowSeasonInfo] = useState(false); //시즌정보 툴팁
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const itemsPerPage = 30; // 페이지 당 아이템 개수
   const lastIndex = currentPage * itemsPerPage;
@@ -90,64 +105,57 @@ export function RankLayout({rand_data}: RankInfoProps) {
   rand_data.slice(3, lastIndex) : 
   rand_data.slice(firstIndex, lastIndex);
 
-    // 서버로부터 데이터를 가져오는 함수
-    const fetchData = async (seasonId: number) => {
-      try {
-        const response = await axios.get(process.env.FETCH_URL+'ranking/1');
-        // response.data를 적절하게 처리하여 state를 업데이트
-      } catch (error) {
-        console.error('There was an error fetching the data', error);
-      }
-    };
-  
-    // 버튼 클릭시 데이터 가져오기
-    const handlePreviousSeason = () => {
-      const newSeason = currentSeason - 1;
-      setCurrentSeason(newSeason);
-      fetchData(newSeason);
-    };
-  
-    const handleNextSeason = () => {
-      const newSeason = currentSeason + 1;
-      setCurrentSeason(newSeason);
-      fetchData(newSeason);
-    };
-  
+  const formatDate = (isoString:any) => {
+    const date = new Date(isoString);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  };
 
-
-
-
-    
   return (
     <div className="row" style={{margin: '0px'}}>
+        <div className="row" style={{ display: 'flex', justifyContent: 'center' }}>
+          {pageSeason > 1 && (
+          <button id="rank_page_index_button" onClick={() => {
+            setPageSeason(pageSeason - 1);
+            router.push(`/rank/${pageSeason - 1}`); // 페이지 라우팅
+          }}>
+            Season Previous
+          </button>       
+          )}
+            {pageSeason < currentSeason && (
+            <button id="rank_page_index_button" onClick={() => {
+              setPageSeason(pageSeason + 1);
+              router.push(`/rank/${pageSeason + 1}`); // 페이지 라우팅
+            }}>
+              Season Next
+            </button>
+          )}
+        </div>
 
-      {/* Season Previous 버튼 */}
-      {currentSeason > 1 && (
-        // <button onClick={() => setCurrentSeason(currentSeason - 1)}>Season Previous</button>
-        // <button onClick={handlePreviousSeason}>Season Previous</button>
-<button onClick={() => {
-  axios({
-    method: 'get',
-    url: 'http://10.19.235.127:8080/ranking/1',
-    headers: { "user-id": "131650" }
-  })
-  .then((res) => {
-    console.log(res.data);
-    console.log('성공할 경우 실행할 코드');
-  })
-  .catch(() => {
-    console.log('실패할 경우 실행할 코드');
-  });
-}}>Season Previous</button>
-
-        
+      {/* {pageSeason > 1 && (
+        <button onClick={() => {
+          setPageSeason(pageSeason - 1);
+          router.push(`/rank/${pageSeason - 1}`); // 페이지 라우팅
+        }}>
+          Season Previous
+        </button>       
       )}
 
-      {/* Season Next 버튼 */}
       {pageSeason < currentSeason && (
-              <button onClick={handleNextSeason}>Season Next</button>
-      // <button onClick={() => setCurrentSeason(currentSeason + 1)}>Season Next</button>
+        <button onClick={() => {
+          setPageSeason(pageSeason + 1);
+          router.push(`/rank/${pageSeason + 1}`); // 페이지 라우팅
+        }}>
+          Season Next
+        </button>
+      )} */}
+
+      {/* {currentSeason > 1 && (
+        <button onClick={() => setCurrentSeason(currentSeason - 1)}>Season Previous</button>       
       )}
+
+      {pageSeason < currentSeason && (
+      <button onClick={() => setCurrentSeason(currentSeason + 1)}>Season Next</button>
+      )} */}
 
       {/* ... 기존의 시즌 정보 코드 ... */}
       <div className="col-2 d-none d-xl-block">
@@ -163,15 +171,12 @@ export function RankLayout({rand_data}: RankInfoProps) {
         <div className="row d-flex align-items-center justify-content-center" style={{position: 'relative', padding: '0px',height: '100px', marginLeft: '90px'}}onMouseEnter={() => setShowSeasonInfo(true)}  // 마우스를 올렸을 때
                onMouseLeave={() => setShowSeasonInfo(false)} // 마우스를 내렸을 때
           >
-
-
-
-
+            
         <span style={{
                     fontSize: '30px', 
                     fontWeight: 'bold', 
                     color: '#4CAF50'
-                  }}>Season {rand_data[0].season_id}</span>
+                  }}>Season {pageSeason}</span>
                 {showSeasonInfo && (
               <div style={{
                 position: 'absolute',
@@ -187,7 +192,7 @@ export function RankLayout({rand_data}: RankInfoProps) {
                 textAlign: 'center', // 텍스트를 중앙에 배치
                   }}
               >
-              2023-10-11 ~ 2023-10-30
+                  {formatDate(SeasonInfo.pageSeason.start_at)} ~ {formatDate(SeasonInfo.pageSeason.end_at)}
               </div>
             )}
         </div>
