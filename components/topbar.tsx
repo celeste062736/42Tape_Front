@@ -1,9 +1,11 @@
 "use client"
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { LogoImg, LogoName } from './logo';
 import { Button } from './button';
 import { Blank } from './blank';
 import { LogoutButton } from './logout';
+// import { post_Notification } from '../pages/api/alarm/[id]';
 
 export interface Notification {
   type: string;
@@ -84,18 +86,30 @@ export default function ListButton() {
     )
   }
 
-  async function post_Notification(url : string, notiInfo : NotificationResponse) {
-    let userId = notiInfo.user_sub;
-    //console.log("postredy", notiInfo)
+  // async function post_Notification(url : string, notiInfo : NotificationResponse) {
+  //   let userId = notiInfo.user_sub;
+  //   //console.log("postredy", notiInfo)
+  //   return await fetch(url, {
+  //     method: "POST",
+  //     // headers: {"user-id" : "141408"},
+  //     headers: userId ? { "user-id": userId } : {},
+  //     body: JSON.stringify({}),
+  // }).catch((error) => console.log(error))
+  // }
+
+  async function alarm_api(url : string, user_id: string) {
     return await fetch(url, {
       method: "POST",
-      // headers: {"user-id" : "141408"},
-      headers: userId ? { "user-id": userId } : {},
       body: JSON.stringify({}),
-  }).catch((error) => console.log(error))
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    headers: {"user-id" : user_id}
+    }).catch((error) => console.log(error))
   }
  
-  export function Alarm(props: { NotiInfo: NotificationResponse }) {
+  export function Alarm(props: { NotiInfo: NotificationResponse }){
+    const router = useRouter();
     let noti_info = props.NotiInfo;
     const [showList, setShowList] = useState(false);
     const listRef = useRef<HTMLDivElement>(null);
@@ -128,8 +142,22 @@ export default function ListButton() {
           className={`Button ${noti_info.need_notify ? 'notify-active' : ''}`} 
           onClick={() => {
             setShowList(!showList);
-            post_Notification("http://localhost:8080/notification", noti_info);
-          }}
+            // post_Notification(process.env.FETCH_URL+'notification', noti_info);
+            // router.push(`/alarm/0`)
+            // router.push(`/alarm/0`);
+            // fetch('http://localhost:3000/alarm', {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json',
+            //   },
+            //   body: JSON.stringify({}),
+            // }
+            // )
+            console.log('noti_info.user_sub');
+            console.log(noti_info.user_sub);
+            alarm_api('http://localhost:3000/alarm', noti_info.user_sub);
+          }
+        }
         >
           {/* SVG 코드 생략 */}
           <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
