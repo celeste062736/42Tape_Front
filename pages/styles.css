@@ -204,7 +204,7 @@ ul {
   position: absolute;  /* 혹은 position: fixed; */
   top: 80px;  /* 버튼 아래에 위치하게 하기 위해 */
   left: 0;
-  z-index: 1;  /* 다른 엘리먼트 위에 나타나도록 */
+  z-index: 1000;  /* 다른 엘리먼트 위에 나타나도록 */
   background-color: white;  /* 배경 색 */
   /*테두리 둥글게 */
   border-radius: 10px;
@@ -460,6 +460,9 @@ ul {
   max-width: 1000px !important; /* 원하는 크기로 설정 */
   width: auto !important;
   word-wrap: break-all !important;
+}
+.tooltip_area {
+  margin: 10px;
 }
 #survey {
   margin: 10px;
