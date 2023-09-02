@@ -72,6 +72,5 @@ export const getServerSideProps: GetServerSideProps<{
     sub: repo.clientTapeUser.user_id,
     is_active: repo.clientTapeUser.is_activated,
   }
-  console.log(userInfo)
   return { props: { userInfo : userInfo }}
 }
