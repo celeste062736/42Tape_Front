@@ -221,7 +221,7 @@ ul {
   top: 80px;  /* 버튼 아래에 위치하게 하기 위해 */
   right: 0;
   /* 클릭한 위치 기준으로 왼쪽으로 10px 이동 */
-  z-index: 1;  /* 다른 엘리먼트 위에 나타나도록 */
+  z-index: 1000;  /* 다른 엘리먼트 위에 나타나도록 */
   background-color: white;  /* 배경 색 */
   /*테두리 둥글게 */
   border-radius: 10px;
@@ -261,7 +261,6 @@ ul {
   /* 모서리 둥굴게 */
   border-radius: 10px;
 }
-
 /* 버튼 배경 삭제 스타일 */
 .Button {
   border: none;
@@ -538,5 +537,16 @@ ul {
     height: 200px;
     /* 모서리 둥굴게 */
     border-radius: 10px;
+  }
+  #vote_main_description {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  #vote_sub_description {
+    font-size: 12px;
+  }
+  #project_selector {
+    font-size: 16px;
+    margin: 10px;
   }
 }

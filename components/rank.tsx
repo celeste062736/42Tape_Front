@@ -110,6 +110,15 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   };
 
+  let description = "투표는 과제를 통과한 날짜를 기준으로 해당 시즌에 반영됩니다. 랭킹은 2주마다 새 시즌이 시작되며, 시즌이 종료된 후 이틀 이내에 제출된 모든 표를 집계하여 보상 대상을 결정합니다. 42TAPE에 최소 한 번 로그인하고, 마지막으로 통과한 과제에 대한 투표를 완료해야만 보상을 받을 수 있습니다. 집계 시점에 이 조건을 만족하는 상위 3명과 무작위로 추첨된 15명에게 리워드를 제공할 예정입니다."
+
+  useEffect(() => {
+    const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
+
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  }, []);
+
   return (
     <div className="row" style={{margin: '0px'}}>
       {/* {pageSeason > 1 && (
@@ -148,13 +157,20 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
         </div>
       </div>
       <div className="col">
+        <div className="row">
+          <div className="col-xl-10" style={{paddingLeft:'60px', width:'auto'}}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-question-circle-fill" viewBox="0 0 16 16">
+              <path data-bs-toggle="tooltip" data-bs-placement="right" data-bs-custom-class="custom-tooltip" data-bs-title={description} d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+            </svg>
+          </div>
+        </div>
         {/* 시즌 정보 코드 ... */}
         <div className="row">
           <div
             className="col-xl-10" 
             onMouseEnter={() => setShowSeasonInfo(true)}  // 마우스를 올렸을 때
             onMouseLeave={() => setShowSeasonInfo(false)} // 마우스를 내렸을 때
-            style={{paddingLeft:'80px', height:'80px'}}
+            style={{paddingLeft:'60px', height:'80px', width:'auto'}}
           >
             <span style={{fontSize: '30px', fontWeight: 'bold', color: '#6181ff'}}>
               Season {pageSeason}
@@ -178,7 +194,7 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
           </div>
         </div>
         <div className="row">
-          <div className="col-xl-10 d-flex justify-content-center align-items-center">
+          <div className="col-xl-10" style={{paddingLeft:'50px'}}>
             <button 
               className="rank_page_index_button" 
               disabled={pageSeason <= 1} // pageSeason이 1 이하이면 버튼 비활성화

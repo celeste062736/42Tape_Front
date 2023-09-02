@@ -98,7 +98,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
   survey.onValidateQuestion.add((sender, options) => {
     if (options.name === "vote_user") {
       if (options.value.length < props.round_data[0] || options.value.length > props.round_data[1]) {
-        options.error = `You must select at least ${props.round_data[0]} correctors and at most ${props.round_data[1]} correctors!`;
+        options.error = `${props.round_data[0]}~${props.round_data[1]}명 사이의 평가자를 선택해주세요.`;
       }
     }
   });
