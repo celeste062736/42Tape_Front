@@ -4,7 +4,6 @@ import type { GetServerSideProps } from "next";
 import type { UserInfo } from '../components/Components'
 import type { Repo } from "../components/Components";
 import { getToken } from "next-auth/jwt"
-import type { NotificationResponse, Notification } from "../components/topbar"
 import { redirect } from "next/navigation";
 import React, { useState } from 'react';
 

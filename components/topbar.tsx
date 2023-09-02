@@ -5,7 +5,6 @@ import { Button } from './button';
 import { Blank } from './blank';
 import { LogoutButton } from './logout';
 import useSWR from 'swr';
-import { Loading } from './spinner';
 // import { post_Notification } from '../pages/api/alarm/[id]';
 
 export interface Notification {
