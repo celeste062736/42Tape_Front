@@ -1,15 +1,12 @@
+'use client'
 import { TopBar } from "../../components/topbar"
 import { Model } from "survey-core"
 import { Survey } from "survey-react-ui"
-import { getToken } from "next-auth/jwt"
 import NonSSRWrapper from "../../components/noSSR"
 import 'survey-core/defaultV2.min.css'
 import { themeJson } from "../../survey"
-import type { GetServerSideProps } from "next"
-import type { NotificationResponse } from "../../components/topbar"
 import React, { useState, useEffect } from "react"
 import { Loading } from "../../components/spinner"
-// import { useRouter } from "next/router";
 
 export const jsonData = {
  "logoPosition": "right",
@@ -164,7 +161,7 @@ async function saveSurveyData(url : string, correctors: CorrProps[]) {
   }).catch((error) => console.log(error))
 }
 
-export default function Vote(props : {choices: Choices[], voteId: number, notiInfo: NotificationResponse}) {
+export default function Vote(props : { voteId: string }) {
   const [description, setDescription] = useState("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
   const [survey, setSurvey] = useState<Model | null>(null);
   const [json, setJson] = useState(jsonData);
@@ -289,67 +286,11 @@ export default function Vote(props : {choices: Choices[], voteId: number, notiIn
   );
 }
 
-export const getServerSideProps: GetServerSideProps<{
-  choices: Choices[], voteId: number
-}> = async ({ req, res, params }) => {
-  const dataUnknown : Choices[] = [
-    {
-      "value": "unknown",
-      "text": "unknown",
-      "imageLink": "unknown",
-    }
-  ]
-  const token = await getToken({req})
-  if (!token) {
-    return { props : {choices: dataUnknown, voteId: -1} }
-  }
-
-  let userId : string | undefined;
-  if(token.sub === null) {
-    userId = undefined;
-  } else {
-    userId = token.sub;
-  }
-  if (params === undefined) {
-    return { props : {choices: dataUnknown, voteId: -1} }
-  }
-  let pid = params.vote_id;
-  if (pid === undefined) {
-    return { props : {choices: dataUnknown, voteId: -1} }
-  }
-  let voteId = parseInt(pid.toString(), 10);
-  const resp = await fetch(process.env.FETCH_URL+`vote/${voteId}`, {
-    headers: userId ? { "user-id": userId } : {},
-  });
-  const data = await resp.json();
-  const getData : Corrector[] = await data.correctors.map((corrector : any) => ({
-    corrector_id: corrector.corrector_id,
-    intra_login: corrector.intra_login,
-    intra_picture: corrector.intra_picture,
-    comment: corrector.comment,
-    selected: corrector.selected,
-  }));
-  //filter result if selected is true
-  let result = getData.filter((corrector: Corrector) => corrector.selected === true);
-  let choices = await result.map((corrector: Corrector) => ({
-    "value": corrector.corrector_id,
-    "text": corrector.intra_login,
-    "imageLink": corrector.intra_picture || './default-profile.png',
-  }));
-
-
-  const resp2 = await fetch(process.env.FETCH_URL+'notification', {
-    method: "GET",
-    headers: userId ? { "user-id": userId } : {}
-  })
-  const repo2 : NotificationResponse = await resp2.json()
-
-  const NotiInfo : NotificationResponse = {
-    user_sub:  String(token.sub),
-    receiver: repo2.receiver,
-    number_notifications: repo2.number_notifications,
-    need_notify: repo2.need_notify,
-    notificationList: repo2.notificationList,
-  }
-  return { props: {choices: choices, voteId: voteId, notiInfo: NotiInfo}}
+export async function getServerSideProps(context: any) {
+  const voteId = String(context.params.vote_id)
+  return {
+    props: {
+      voteId,
+    },
+  };
 }

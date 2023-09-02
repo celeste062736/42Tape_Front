@@ -92,7 +92,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     redirect('/signin')
   }
   json.pages[0].elements[0].choices = props.choices;
-  json["navigateToUrl"] = "http://localhost:3000" + `/questions/${props.voteId}`
+  json["navigateToUrl"] = "https://42tape.com" + `/questions/${props.voteId}`
   const survey = new Model(json);
   survey.applyTheme(themeJson);
   survey.onValidateQuestion.add((sender, options) => {
