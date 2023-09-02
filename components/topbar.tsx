@@ -1,9 +1,11 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import { LogoImg, LogoName } from './logo';
 import { Button } from './button';
 import { Blank } from './blank';
 import { LogoutButton } from './logout';
+import Link from 'next/link'
 // import { post_Notification } from '../pages/api/alarm/[id]';
 
 export interface Notification {
@@ -71,17 +73,24 @@ export function ListButton() {
   }
   
   export function SearchBar() {
+    const router = useRouter();
+
+    const handleSearchClick = () => {
+      let inputValue = document.getElementById('searchSpace').value;
+      if (inputValue !== "")
+        router.push(`/search/${inputValue}`);
+    }
+    
     return (
-      <div></div>
-      // <div className="input-group">
-      //   <input id="searchSpace" type="text" className="form-control" placeholder="Search"></input>
-      //   <button id="searchButton" className="Button">
-      //     <svg width="30" height="30" viewBox="0 0 35 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      //       <path d="M27.0693 14.6968C27.0693 22.0257 21.3055 27.8936 14.2847 27.8936C7.26382 27.8936 1.5 22.0257 1.5 14.6968C1.5 7.3679 7.26382 1.5 14.2847 1.5C21.3055 1.5 27.0693 7.3679 27.0693 14.6968Z" stroke="#000000" strokeWidth="3"/>
-      //       <line x1="24.1149" y1="24.9966" x2="33.1149" y2="34.9966" stroke="#000000" strokeWidth="3"/>
-      //     </svg>
-      //   </button>
-      // </div>
+      <div className="input-group">
+        <input id="searchSpace" type="text" className="form-control" placeholder="Search"></input>
+          <button id="searchButton" className="Button" onClick={handleSearchClick}>
+            <svg width="30" height="30" viewBox="0 0 35 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M27.0693 14.6968C27.0693 22.0257 21.3055 27.8936 14.2847 27.8936C7.26382 27.8936 1.5 22.0257 1.5 14.6968C1.5 7.3679 7.26382 1.5 14.2847 1.5C21.3055 1.5 27.0693 7.3679 27.0693 14.6968Z" stroke="#000000" strokeWidth="3"/>
+              <line x1="24.1149" y1="24.9966" x2="33.1149" y2="34.9966" stroke="#000000" strokeWidth="3"/>
+            </svg>
+          </button>
+      </div>
     )
   }
 
