@@ -4,8 +4,7 @@ import type { GetServerSideProps } from 'next'
 import type { Season } from '../components/Components'
 import { getToken } from "next-auth/jwt"
 import type { RankLayoutProps } from '../components/rank'
-import type { NotificationResponse } from '../components/topbar'
-import type { RankInfo, SeasonInfo, IndividualRank, IndividualSeason } from '../components/rank'
+import type { RankInfo, SeasonInfo, IndividualSeason } from '../components/rank'
 
 
 export interface TapeUser {
@@ -44,17 +43,12 @@ export interface RankInfo_DB {
   rankList: RankListEntry[];
 }
 
-export interface RankInfo_NotiInfo {
-    RankInfo : RankInfo;
-    NotiInfo : NotificationResponse;
-}
-
 export interface RankInfoNotiInfoProps {
-    rankInfo_NotiInfo : RankInfo_NotiInfo;
+    rankInfo : RankInfo;
     rankLayoutProps: RankLayoutProps;
 }
   
-export default function Rank_Page(props: {rankInfoNotiInfoProps: RankInfoNotiInfoProps}) {
+export default function Rank_Page(props: { rankLayoutProps: RankLayoutProps }) {
     // console.log('--------------------props.rankInfo_NotiInfo.NotiInfo');
     // console.log(props.rankInfoNotiInfoProps);
     // // console.log(props.rankInfo_NotiInfo.NotiInfo);
@@ -62,93 +56,89 @@ export default function Rank_Page(props: {rankInfoNotiInfoProps: RankInfoNotiInf
     return (
         <div id="root">
             <TopBar></TopBar>
-            <RankLayout RankLayoutProps={ props.rankInfoNotiInfoProps.rankLayoutProps }></RankLayout>
+            <RankLayout RankLayoutProps={ props.rankLayoutProps }></RankLayout>
         </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<{
-    rankInfoNotiInfoProps: RankInfoNotiInfoProps
-    }> = async ({ req, res }) => {
-    const dataUnknown : RankInfoNotiInfoProps = {
-        rankInfo_NotiInfo: {
-        NotiInfo: {
-            user_sub: '',
-            receiver: '',
-            number_notifications: 0,
-            need_notify: false,
-            notificationList: [],
-        },
-        RankInfo: [
-            {
-                intra_id: "unknown",
-                intra_picture: "unknown",
-                rank: 0,
-                season_id: 0,
-                start_at : "unknown",
-                end_at : "unknown",
-            },
-            {
-                intra_id: "unknown",
-                intra_picture: "unknown",
-                rank: 0,
-                season_id: 0,
-                start_at : "unknown",
-                end_at : "unknown",
-            },
-            {
-                intra_id: "unknown",
-                intra_picture: "unknown",
-                rank: 0,
-                season_id: 0,
-                start_at : "unknown",
-                end_at : "unknown",
-            },
-            {
-                intra_id: "unknown",
-                intra_picture: "unknown",
-                rank: 0,
-                season_id: 0,
-                start_at : "unknown",
-                end_at : "unknown",
-            },
-            {
-                intra_id: "unknown",
-                intra_picture: "unknown",
-                rank: 0,
-                season_id: 0,
-                start_at : "unknown",
-                end_at : "unknown",
-            },
-            {
-                intra_id: "unknown",
-                intra_picture: "unknown",
-                rank: 0,
-                season_id: 0,
-                start_at : "unknown",
-                end_at : "unknown",
-            }
-        ]
-    },
-    rankLayoutProps: {
-        rand_data: [],
-        SeasonInfo: {
-            currentSeason: {
-                season_id: 0,
-                start_at: "unknown",
-                end_at: "unknown",
-            },
-            pageSeason: {
-                season_id: 0,
-                start_at: "unknown",
-                end_at: "unknown",
-            }
-        }
+    rankLayoutProps: RankLayoutProps
+  }> = async ({ req, res }) => {
+    const unknownRank : RankInfo[] = [
+      {
+        intra_id: "unknown",
+        user_id: 0,
+        intra_picture: "unknown",
+        rank: 0,
+        season_id: 0,
+        start_at : "unknown",
+        end_at : "unknown",
+      },
+      {
+        intra_id: "unknown",
+        user_id: 0,
+        intra_picture: "unknown",
+        rank: 0,
+        season_id: 0,
+        start_at : "unknown",
+        end_at : "unknown",
+      },
+      {
+        intra_id: "unknown",
+        user_id: 0,
+        intra_picture: "unknown",
+        rank: 0,
+        season_id: 0,
+        start_at : "unknown",
+        end_at : "unknown",
+      },
+      {
+        intra_id: "unknown",
+        user_id: 0,
+        intra_picture: "unknown",
+        rank: 0,
+        season_id: 0,
+        start_at : "unknown",
+        end_at : "unknown",
+      },
+      {
+          intra_id: "unknown",
+          user_id: 0,
+          intra_picture: "unknown",
+          rank: 0,
+          season_id: 0,
+          start_at : "unknown",
+          end_at : "unknown",
+      },
+      {
+          intra_id: "unknown",
+          user_id: 0,
+          intra_picture: "unknown",
+          rank: 0,
+          season_id: 0,
+          start_at : "unknown",
+          end_at : "unknown",
+      }
+    ]
+  
+    const unknownLayout : RankLayoutProps = {
+      rand_data: unknownRank,
+      SeasonInfo: {
+          currentSeason: {
+              season_id: 0,
+              start_at: "unknown",
+              end_at: "unknown",
+          },
+          pageSeason: {
+              season_id: 0,
+              start_at: "unknown",
+              end_at: "unknown",
+          }
+      }
     }
-}
     const token = await getToken({req})
     if (!token) {
-      return { props : { rankInfoNotiInfoProps: dataUnknown }}
+      return { props : { rankLayoutProps: unknownLayout }}
     }
 
     let userId : string | undefined;
@@ -175,9 +165,10 @@ export const getServerSideProps: GetServerSideProps<{
     //     },
     // ]
 
-    const RankInfo: RankInfo = RankInfo_db.rankList.map((item) => ({
+    const rankInfo: RankInfo[] = RankInfo_db.rankList.map((item) => ({
         intra_id: item.login,
-        intra_picture: item.intra_picture || "./default-profile.png",
+        user_id: item.ranker_user_id,
+        intra_picture: item.intra_picture || "https://drive.google.com/uc?export=view&id=1YudY4jHYsgzBp4fI31iW5Yx-_lZPASuo",
         rank: item.rank,
         season_id: RankInfo_db.currentSeason.season_id,
         start_at : RankInfo_db.currentSeason.start_at,
@@ -220,58 +211,14 @@ export const getServerSideProps: GetServerSideProps<{
     //             rank: RankInfo_db.rankList[5].rank,
     //         }
     //     }
-    // console.log('RankInfo_db');    
-    // console.log(RankInfo_db);
-    const resp2 = await fetch(process.env.FETCH_URL+'notification', {
-        method: "GET",
-        headers: userId ? { "user-id": userId } : {}
-    })
-    const repo2 : NotificationResponse = await resp2.json()
-    // console.log('notification');
-    // console.log(token);
-    // console.log('notification');
-    // notificationList에 데이터 수동으로 넣기
-    // repo2.notificationList = [
-    //     {
-    //         "type": "got_new_vote",
-    //         "createdAt": "Mon Aug 28 2023",
-    //         "notified": false
-    //     },
-    //     {
-    //         "type": "got_new_vote",
-    //         "createdAt": "Mon Aug 28 2023",
-    //         "notified": true
-    //     },
-    //     {
-    //         "type": "got_new_vote",
-    //         "createdAt": "Mon Aug 28 2023",
-    //         "notified": true
-    //     }
-    //     ]
-    // repo2.notificationList = []
 
-    const NotiInfo : NotificationResponse = {
-    user_sub:  String(token.sub),
-    receiver: repo2.receiver,
-    number_notifications: repo2.number_notifications,
-    need_notify: repo2.need_notify,
-    notificationList: repo2.notificationList,
-    }
-    // console.log(repo2.notificationList);
-    const rankInfo_NotiInfo : RankInfo_NotiInfo = {
-      RankInfo: RankInfo,
-      NotiInfo: NotiInfo,
-    }
+
     // console.log('data----------1');
     // console.log(data);
     // console.log('data-----------2');
     const rankLayoutProps : RankLayoutProps = {
-        rand_data: RankInfo,
+        rand_data: rankInfo,
         SeasonInfo: SeasonInfo
     }
-    const RankInfoNotiInfoProps : RankInfoNotiInfoProps = {
-        rankInfo_NotiInfo : rankInfo_NotiInfo,
-        rankLayoutProps : rankLayoutProps
-    }
-    return { props: { rankInfoNotiInfoProps : RankInfoNotiInfoProps}}
+    return { props : { rankLayoutProps: rankLayoutProps }}
 }

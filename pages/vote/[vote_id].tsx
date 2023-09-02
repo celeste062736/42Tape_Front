@@ -92,7 +92,11 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     redirect('/signin')
   }
   json.pages[0].elements[0].choices = props.choices;
-  json["navigateToUrl"] = "https://42tape.com" + `/questions/${props.voteId}`
+  if (process.env.NEXT_PUBLIC_ENV === "production") {
+    json["navigateToUrl"] = "https://42tape.com" + `/questions/${props.voteId}`
+  } else {
+    json["navigateToUrl"] = "http://localhost:3000" + `/questions/${props.voteId}`
+  }
   const survey = new Model(json);
   survey.applyTheme(themeJson);
   survey.onValidateQuestion.add((sender, options) => {
@@ -171,7 +175,7 @@ export const getServerSideProps: GetServerSideProps<{
   let choices = result.map((corrector: Corrector) => ({
     "value": corrector.corrector_id,
     "text": corrector.intra_login,
-    "imageLink": corrector.intra_picture || './default-profile.png',
+    "imageLink": corrector.intra_picture || 'https://drive.google.com/uc?export=view&id=1YudY4jHYsgzBp4fI31iW5Yx-_lZPASuo',
   }));
   return { props: {choices: choices, voteId: voteId, round_data: round_data}}
 }

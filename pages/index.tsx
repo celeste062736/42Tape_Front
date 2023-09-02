@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps<{
   const userInfo : UserInfo = {
     user_id: repo.targetTapeUser.login,
     level: repo.targetTapeUser.level,
-    intra_pic: repo.targetTapeUser.intra_picture || "./default-profile.png",
+    intra_pic: repo.targetTapeUser.intra_picture || "https://drive.google.com/uc?export=view&id=1YudY4jHYsgzBp4fI31iW5Yx-_lZPASuo",
     stats: [repo.targetUserStats.cumulative_stat1, repo.targetUserStats.cumulative_stat2, repo.targetUserStats.cumulative_stat3, repo.targetUserStats.cumulative_stat4, repo.targetUserStats.cumulative_stat5],
     current_rank: repo.targetTapeUser.current_season_rank,
     yData: repo.yData,
@@ -72,5 +72,6 @@ export const getServerSideProps: GetServerSideProps<{
     sub: repo.clientTapeUser.user_id,
     is_active: repo.clientTapeUser.is_activated,
   }
+  console.log(userInfo)
   return { props: { userInfo : userInfo }}
 }

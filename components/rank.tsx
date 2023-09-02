@@ -11,30 +11,36 @@ export interface IndividualSeason {
   end_at: string;
 }
 
+export interface RankInfo {
+  intra_id: string;
+  user_id: number;
+  intra_picture: string;
+  rank: number;
+  season_id: number;
+  start_at: string;
+  end_at: string;
+}
+
 export interface SeasonInfo {
   currentSeason: IndividualSeason;
   pageSeason: IndividualSeason
 }
 
-export interface IndividualRank {
-    intra_id: string;
-    intra_picture: string;
-    rank: number;
-    season_id: number;
-    start_at : string;
-    end_at : string;
-}
-
 export type RankItemProps = {
-    userDetails: IndividualRank
+    userDetails: RankInfo
 };
   
-  export function Rank({ userDetails }: RankItemProps) {
+  export function Rank({ userDetails }: {userDetails: RankInfo}) {
     let content;
+    const router = useRouter();
     // console.log("userDetails")
     // console.log(userDetails);
     if (userDetails.rank === 1) {
-      content = <div className="card_123" id="card_1st">
+      content =
+      <div className="card_123" id="card_1st">
+        <button onClick={()=>{
+          router.push(`/users/${userDetails.user_id}`)
+        }}>
         <div className="centered-container">
           <div style={{marginBottom:'5px'}}>
             <span className="bold_text">Rank</span>
@@ -45,9 +51,14 @@ export type RankItemProps = {
             <p>{userDetails.intra_id}</p>
           </div>
         </div>
-      </div>;
+      </button>
+      </div>
     } else if (userDetails.rank === 2 || userDetails.rank === 3) {
-      content = <div className="card_123" id="card_2nd_3rd">
+      content = 
+      <div className="card_123" id="card_2nd_3rd">
+        <button onClick={()=>{
+          router.push(`/users/${userDetails.user_id}`)
+        }}>
         <div className="centered-container">
           <div style={{marginBottom:'2px'}}>
             <span className='bold_text'>Rank </span>
@@ -58,9 +69,14 @@ export type RankItemProps = {
             <p>{userDetails.intra_id}</p>
           </div>
         </div>
+        </button>
       </div>
     } else if (userDetails.rank >= 4) {
-      content = <div className="card_4" id="card_4th">
+      content =
+      <div className="card_4" id="card_4th">
+        <button onClick={()=>{
+          router.push(`/users/${userDetails.user_id}`)
+        }}>
         <div className="left-section">
           <img className="rank_picture_4 rounded-circle" src={userDetails.intra_picture} alt="intra picture" />
           <span>{userDetails.intra_id}</span>
@@ -69,6 +85,7 @@ export type RankItemProps = {
           <span className="bold_text">Rank </span>
           <span className="space">#{userDetails.rank}</span>
         </div>
+        </button>
       </div>
     } else {
       content = null; // 위의 조건 중 어떤 것도 만족하지 않을 때 반환할 내용
@@ -82,10 +99,8 @@ export interface DataPoint {
   y: number;
 }
 
-export type RankInfo = IndividualRank[];
-
 export interface RankLayoutProps {
-  rand_data: RankInfo;
+  rand_data: RankInfo[];
   SeasonInfo: SeasonInfo;
 }
 
