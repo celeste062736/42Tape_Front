@@ -122,11 +122,6 @@ export function LineChart({ yData, xLabels }: LineChartProps) {
   };
 
   const options : ChartOptions<"line"> = {
-    parsing: {
-      xAxisKey: 'x',
-      yAxisKey: 'y',
-      key: 'date',
-    },
     maintainAspectRatio: false,
     responsive: true,
     plugins: {

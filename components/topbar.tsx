@@ -5,7 +5,8 @@ import { LogoImg, LogoName } from './logo';
 import { Button } from './button';
 import { Blank } from './blank';
 import { LogoutButton } from './logout';
-import Link from 'next/link'
+import useSWR from 'swr';
+import { Loading } from './spinner';
 // import { post_Notification } from '../pages/api/alarm/[id]';
 
 export interface Notification {
@@ -105,13 +106,35 @@ export function ListButton() {
   // }).catch((error) => console.log(error))
   // }
 
- 
-  export function Alarm(props: { notiInfo: NotificationResponse }){
-    const [notiInfo, setNotiInfo] = useState(props.notiInfo);
+  export function SvgIconRing({number_notifications} : {number_notifications : number}) {
+    return (
+    <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#000000"/>
+      <path d="M25 5.99453L22.5088 6.49766C16.7985 7.6509 12.5001 12.702 12.5001 18.75C12.5001 20.712 12.0802 25.6164 11.0661 30.4443C10.5627 32.8409 9.88919 35.3363 8.99404 37.5H41.006C40.1108 35.3363 39.4373 32.8409 38.934 30.4442C37.9199 25.6164 37.5001 20.7119 37.5001 18.75C37.5001 12.7019 33.2016 7.65084 27.4913 6.49764L25 5.99453ZM44.4353 37.5C45.133 38.8981 45.9421 40.0031 46.875 40.625H3.125C4.0579 40.0031 4.86702 38.8981 5.56469 37.5C8.37257 31.873 9.37507 21.4974 9.37507 18.75C9.37507 11.1854 14.7506 4.8764 21.8901 3.43451C21.8801 3.33269 21.875 3.22944 21.875 3.125C21.875 1.39911 23.2741 0 25 0C26.7259 0 28.125 1.39911 28.125 3.125C28.125 3.22944 28.1199 3.33267 28.1099 3.43448C35.2494 4.87632 40.6251 11.1854 40.6251 18.75C40.6251 21.4974 41.6275 31.873 44.4353 37.5Z" fill="#000000"/>
+
+      {number_notifications > 0 && (
+        <circle cx="38" cy="10" r="10" fill="#FF0000"/>
+      )}
+    </svg>
+    )
+  }
+
+  const fetcher = (url: string) => fetch(url).then((res) => res.json())
+  const unknown : NotificationResponse = {
+    user_sub: '',
+    receiver: '',
+    number_notifications: 0,
+    need_notify: false,
+    notificationList: [],
+  }
+  export function Alarm(){
+    const [notiInfo, setNotiInfo] = useState(unknown);
     const [showList, setShowList] = useState(false);
+    const { data, error } = useSWR<NotificationResponse>('/api/alarm', fetcher)
+    // const [notiData, setnotiData] = useState(data);
     const listRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLDivElement>(null)
-  
+    
     const handleClickOutside = (event: MouseEvent) => {
       if (
         listRef.current &&
@@ -123,47 +146,48 @@ export function ListButton() {
       }
     };
     useEffect(() => {
-      //remove red dot when click
-      if (notiInfo.need_notify) {
-        setNotiInfo({
-          ...notiInfo,
-          need_notify: false,
-          number_notifications: 0,
-        });
-        console.log("notiInfo.need_notify", notiInfo.need_notify)
-      }  
-    }, [notiInfo])
-    useEffect(() => {
+      if (data && data !== notiInfo) {
+        setNotiInfo(data)
+      }
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
     }, []);
+    useEffect(() => {
+      if (data && data !== notiInfo) {
+        setNotiInfo(data)
+      }
+    }, [data])
+    useEffect(() => {
+      if (notiInfo.number_notifications === 0) {
+        fetch('/api/alarm', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({}),
 
-
+        });
+      }
+    }, [notiInfo])
+    if (error) return <SvgIconRing number_notifications={0}/>
+    if (!data) return <SvgIconRing number_notifications={0}/>
     return (
       <div>
         <button 
           className={`Button ${notiInfo.need_notify ? 'notify-active' : ''}`} 
           onClick={() => {
             setShowList(!showList);
-            setNotiInfo({
-              ...notiInfo,
-              need_notify: false,
-              number_notifications: 0,
-            })
+            if (notiInfo.need_notify) {
+                setNotiInfo({
+                  ...notiInfo,
+                  need_notify: false,
+                  number_notifications: 0,
+                })
+              }
           }
         }
         >
-          {/* SVG 코드 생략 */}
-          <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#000000"/>
-            <path d="M25 5.99453L22.5088 6.49766C16.7985 7.6509 12.5001 12.702 12.5001 18.75C12.5001 20.712 12.0802 25.6164 11.0661 30.4443C10.5627 32.8409 9.88919 35.3363 8.99404 37.5H41.006C40.1108 35.3363 39.4373 32.8409 38.934 30.4442C37.9199 25.6164 37.5001 20.7119 37.5001 18.75C37.5001 12.7019 33.2016 7.65084 27.4913 6.49764L25 5.99453ZM44.4353 37.5C45.133 38.8981 45.9421 40.0031 46.875 40.625H3.125C4.0579 40.0031 4.86702 38.8981 5.56469 37.5C8.37257 31.873 9.37507 21.4974 9.37507 18.75C9.37507 11.1854 14.7506 4.8764 21.8901 3.43451C21.8801 3.33269 21.875 3.22944 21.875 3.125C21.875 1.39911 23.2741 0 25 0C26.7259 0 28.125 1.39911 28.125 3.125C28.125 3.22944 28.1199 3.33267 28.1099 3.43448C35.2494 4.87632 40.6251 11.1854 40.6251 18.75C40.6251 21.4974 41.6275 31.873 44.4353 37.5Z" fill="#000000"/>
-      
-            {notiInfo.number_notifications > 0 && (
-              <circle cx="38" cy="10" r="10" fill="#FF0000"/>
-            )}
-          </svg>
+        <SvgIconRing number_notifications={notiInfo.number_notifications}/>
         </button>
         {showList && (
           <div className={`alarm-list ${showList ? "show" : ""}`} ref={listRef}>
@@ -218,17 +242,17 @@ export function ListButton() {
     );
   }
   
-  export function Tools(props: {NotiInfo: NotificationResponse}) {
+  export function Tools() {
     return (
       <>
-        <Alarm notiInfo={props.NotiInfo}></Alarm>
+        <Alarm></Alarm>
         <Info></Info>
         <LogoutButton></LogoutButton>
       </>
     )
   }
   
-  export function TopBar(props: {NotiInfo: NotificationResponse}) {
+  export function TopBar() {
     return (
       <div className="row align-items-center" style={{margin: '0px'}}>
         <div className="col-1 d-flex justify-content-center align-items-center d-block d-xl-none">
@@ -246,7 +270,7 @@ export function ListButton() {
         </div>
         <div className="col-2 d-none d-xl-block"></div>
         <div className="col-2 d-flex justify-content-around align-items-center" style={{width: '150px'}}>
-          <Tools NotiInfo={props.NotiInfo}></Tools>
+          <Tools></Tools>
         </div>
       </div>
     )
