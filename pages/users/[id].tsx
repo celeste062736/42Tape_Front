@@ -28,7 +28,7 @@ export default function Home(props: UserInfoNotiInfoProps) {
   //props.param.id 로 접속한 인트라 아이디 가져오기
   return (
     <div id="root">
-      <TopBar NotiInfo={ props.userInfo_NotiInfo.NotiInfo }></TopBar>
+      <TopBar></TopBar>
       <MainLayout userInfo={ props.userInfo_NotiInfo.UserInfo }></MainLayout>
     </div>
   )

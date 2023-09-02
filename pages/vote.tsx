@@ -41,7 +41,7 @@ export default function Vote(props: VoteListNotiInfoProps) {
     
     return (
         <div id="root">
-            <TopBar NotiInfo={ props.voteList_NotiInfo.NotiInfo }></TopBar>
+            <TopBar></TopBar>
             <VoteLayout vote_data={props.voteList_NotiInfo.voteList}></VoteLayout>
         </div>
     );

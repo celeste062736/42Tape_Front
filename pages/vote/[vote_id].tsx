@@ -1,14 +1,13 @@
-import { TopBar } from "../../components/topbar";
-import { Model } from "survey-core";
-import { Survey } from "survey-react-ui";
+import { TopBar } from "../../components/topbar"
+import { Model } from "survey-core"
+import { Survey } from "survey-react-ui"
 import { getToken } from "next-auth/jwt"
-import NonSSRWrapper from "../../components/noSSR";
-import 'survey-core/defaultV2.min.css';
-import { themeJson } from "../../survey";
-import type { GetServerSideProps } from "next";
-import type { NotificationResponse, Notification } from "../../components/topbar"
-import { useEffect } from "react";
-import { redirect } from "next/navigation";
+import NonSSRWrapper from "../../components/noSSR"
+import 'survey-core/defaultV2.min.css'
+import { themeJson } from "../../survey"
+import type { GetServerSideProps } from "next"
+import React, { useEffect, useState } from "react"
+import { redirect } from "next/navigation"
 
 export const json = {
   "logoPosition": "right",
@@ -47,7 +46,6 @@ export const json = {
   intra_login: string;
   intra_picture: string;
   comment: string;
-
 }
 
 interface VoteUser {
@@ -83,10 +81,9 @@ async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
   }).catch((error) => console.log(error))
 }
 
-export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[], notiInfo: NotificationResponse, baseUrl: string}) {
+export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[]}) {
   useEffect(() => {
     const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
-
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
   }, []);
@@ -95,8 +92,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     redirect('/signin')
   }
   json.pages[0].elements[0].choices = props.choices;
-  json["navigateToUrl"] = props.baseUrl + `/questions/${props.voteId}`
-  // console.log(json["navigateToUrl"])
+  json["navigateToUrl"] = "http://localhost:3000" + `/questions/${props.voteId}`
   const survey = new Model(json);
   survey.applyTheme(themeJson);
   survey.onValidateQuestion.add((sender, options) => {
@@ -107,13 +103,12 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     }
   });
   survey.onComplete.add((sender, options) => {
-    // console.log(JSON.stringify(sender.data, null, 2));
     const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user});
     saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps);
   });
   return (
     <div id="root">
-        <TopBar NotiInfo={ props.notiInfo }></TopBar>
+        <TopBar></TopBar>
         <div id="survey" className="col">
           <div className="tooltip_area row d-flex align-items-center justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-question-circle-fill" viewBox="0 0 16 16">
@@ -131,7 +126,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  choices: Choices[], voteId: number, round_data: number[], notiInfo: NotificationResponse, baseUrl: string
+  choices: Choices[], voteId: number, round_data: number[]
 }> = async ({ req, res, params }) => {
   let round_data = new Array<number>(2);
   round_data[0] = -1;
@@ -143,21 +138,9 @@ export const getServerSideProps: GetServerSideProps<{
       "imageLink": "unknown",
     }
   ]
-  const notiUnknown1 : Notification = {
-    type: "unknown",
-    createdAt: "unknown",
-    notified: false,
-  }
-  const notiUnknown : NotificationResponse = {
-    user_sub: 'unknown',
-    receiver: 'unknown',
-    number_notifications: 0,
-    need_notify: false,
-    notificationList: [notiUnknown1],
-  }
   const token = await getToken({req})
   if (!token) {
-    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data, notiInfo: notiUnknown, baseUrl: String(process.env.HOME_URL)} }
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
   }
   let userId : string | undefined;
   if(token.sub === null) {
@@ -166,11 +149,11 @@ export const getServerSideProps: GetServerSideProps<{
     userId = token.sub;
   }
   if (params === undefined) {
-    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data, notiInfo: notiUnknown, baseUrl: String(process.env.HOME_URL)} }
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
   }
   let pid = params.vote_id;
   if (pid === undefined) {
-    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data, notiInfo: notiUnknown, baseUrl: String(process.env.HOME_URL)} }
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
   }
   let voteId = Number(pid.toString());
   const resp = await fetch(process.env.FETCH_URL+`vote/${voteId}`, {
@@ -190,36 +173,5 @@ export const getServerSideProps: GetServerSideProps<{
     "text": corrector.intra_login,
     "imageLink": corrector.intra_picture || './default-profile.png',
   }));
-
-  const resp2 = await fetch(process.env.FETCH_URL+'notification', {
-    method: "GET",
-    headers: userId ? { "user-id": userId } : {}
-  })
-  const repo2 : NotificationResponse = await resp2.json()
-  //notificationList에 데이터 수동으로 넣기
-  // repo2.notificationList = [
-  //   {
-  //       "type": "got_new_vote",
-  //       "createdAt": "Mon Aug 28 2023",
-  //       "notified": false
-  //   },
-  //   {
-  //       "type": "got_new_vote",
-  //       "createdAt": "Mon Aug 28 2023",
-  //       "notified": true
-  //   },
-  //   {
-  //     "type": "got_new_vote",
-  //     "createdAt": "Mon Aug 28 2023",
-  //     "notified": true
-  //   }
-  // ]
-  const NotiInfo : NotificationResponse = {
-    user_sub:  String(token.sub),
-    receiver: repo2.receiver,
-    number_notifications: repo2.number_notifications,
-    need_notify: repo2.need_notify,
-    notificationList: repo2.notificationList,
-  }
-  return { props: {choices: choices, voteId: voteId, round_data: round_data, notiInfo: NotiInfo, baseUrl: String(process.env.HOME_URL)}}
+  return { props: {choices: choices, voteId: voteId, round_data: round_data}}
 }

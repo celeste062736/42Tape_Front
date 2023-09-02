@@ -11,7 +11,7 @@ import type { RankInfo_DB, RankInfo_NotiInfo, RankInfoNotiInfoProps } from '../r
 export default function Rank_Page(props: {rankInfoNotiInfoProps: RankInfoNotiInfoProps}) {
     return (
         <div id="root">
-            <TopBar NotiInfo={props.rankInfoNotiInfoProps.rankInfo_NotiInfo.NotiInfo}></TopBar>
+            <TopBar></TopBar>
             <RankLayout RankLayoutProps={ props.rankInfoNotiInfoProps.rankLayoutProps }></RankLayout>
         </div>
   );

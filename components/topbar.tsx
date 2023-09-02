@@ -4,6 +4,8 @@ import { LogoImg, LogoName } from './logo';
 import { Button } from './button';
 import { Blank } from './blank';
 import { LogoutButton } from './logout';
+import useSWR from 'swr';
+import { Loading } from './spinner';
 // import { post_Notification } from '../pages/api/alarm/[id]';
 
 export interface Notification {
@@ -96,13 +98,22 @@ export function ListButton() {
   // }).catch((error) => console.log(error))
   // }
 
- 
-  export function Alarm(props: { notiInfo: NotificationResponse }){
-    const [notiInfo, setNotiInfo] = useState(props.notiInfo);
+  const fetcher = (url: string) => fetch(url).then((res) => res.json())
+  const unknown : NotificationResponse = {
+    user_sub: '',
+    receiver: '',
+    number_notifications: 0,
+    need_notify: false,
+    notificationList: [],
+  }
+  export function Alarm(){
+    const [notiInfo, setNotiInfo] = useState(unknown);
     const [showList, setShowList] = useState(false);
+    const { data, error } = useSWR<NotificationResponse>('/api/alarm', fetcher)
+    // const [notiData, setnotiData] = useState(data);
     const listRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLDivElement>(null)
-  
+    
     const handleClickOutside = (event: MouseEvent) => {
       if (
         listRef.current &&
@@ -114,35 +125,44 @@ export function ListButton() {
       }
     };
     useEffect(() => {
-      //remove red dot when click
-      if (notiInfo.need_notify) {
-        setNotiInfo({
-          ...notiInfo,
-          need_notify: false,
-          number_notifications: 0,
-        });
-        console.log("notiInfo.need_notify", notiInfo.need_notify)
-      }  
-    }, [notiInfo])
-    useEffect(() => {
+      if (data && data !== notiInfo) {
+        setNotiInfo(data)
+      }
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
     }, []);
+    useEffect(() => {
+      if (data && data !== notiInfo) {
+        setNotiInfo(data)
+      }
+    }, [data])
+    useEffect(() => {
+      if (notiInfo.number_notifications === 0) {
+        fetch('/api/alarm', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({}),
 
-
+        });
+      }
+    }, [notiInfo])
+    if (error) return <div>Error!</div>
+    if (!data) return <Loading/>
     return (
       <div>
         <button 
           className={`Button ${notiInfo.need_notify ? 'notify-active' : ''}`} 
           onClick={() => {
             setShowList(!showList);
-            setNotiInfo({
-              ...notiInfo,
-              need_notify: false,
-              number_notifications: 0,
-            })
+            if (notiInfo.need_notify) {
+                setNotiInfo({
+                  ...notiInfo,
+                  need_notify: false,
+                  number_notifications: 0,
+                })
+              }
           }
         }
         >
@@ -209,17 +229,17 @@ export function ListButton() {
     );
   }
   
-  export function Tools(props: {NotiInfo: NotificationResponse}) {
+  export function Tools() {
     return (
       <>
-        <Alarm notiInfo={props.NotiInfo}></Alarm>
+        <Alarm></Alarm>
         <Info></Info>
         <LogoutButton></LogoutButton>
       </>
     )
   }
   
-  export function TopBar(props: {NotiInfo: NotificationResponse}) {
+  export function TopBar() {
     return (
       <div className="row align-items-center" style={{margin: '0px'}}>
         <div className="col-1 d-flex justify-content-center align-items-center d-block d-xl-none">
@@ -237,7 +257,7 @@ export function ListButton() {
         </div>
         <div className="col-2 d-none d-xl-block"></div>
         <div className="col-2 d-flex justify-content-around align-items-center" style={{width: '150px'}}>
-          <Tools NotiInfo={props.NotiInfo}></Tools>
+          <Tools></Tools>
         </div>
       </div>
     )

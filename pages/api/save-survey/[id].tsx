@@ -17,7 +17,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (voteId === undefined) {
     res.status(400).end();
   }
-  if (req.method === 'POST') {
+  if (req.method === 'GET') {
+    const resp = await fetch(process.env.FETCH_URL+`vote/${voteId}`, {
+      method: 'GET',
+      headers: userId ? { "Content-Type": "application/json", "user-id": userId} : {},
+    });
+    const data = await resp.json();
+    if (resp.status !== 200)
+      res.status(400).end();
+    res.status(200).json(data);
+  } else if (req.method === 'POST') {
     // console.log("req.body", req.body)
     const resp = await fetch(process.env.FETCH_URL+`survey/${voteId}`, {
       method: 'POST',

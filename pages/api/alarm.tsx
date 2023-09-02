@@ -1,4 +1,3 @@
-// import type { NotificationResponse } from "../../../components/topbar"
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 import type { NotificationResponse } from '../../components/topbar';
