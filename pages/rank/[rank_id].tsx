@@ -124,7 +124,7 @@ export const getServerSideProps: GetServerSideProps<{
   const rankInfo: RankInfo[] = RankInfo_db.rankList.map((item) => ({
       intra_id: item.login,
       user_id: item.ranker_user_id,
-      intra_picture: item.intra_picture || "https://drive.google.com/uc?export=view&id=1YudY4jHYsgzBp4fI31iW5Yx-_lZPASuo",
+      intra_picture: item.intra_picture || process.env.Next_PUBLIC_PICTURE!,
       rank: item.rank,
       season_id: RankInfo_db.currentSeason.season_id,
       start_at : RankInfo_db.currentSeason.start_at,

@@ -190,7 +190,7 @@ export default function Vote(props : { voteId: string }) {
         let choices = result.map((corrector: Corrector) => ({
           "value": corrector.corrector_id,
           "text": corrector.intra_login,
-          "imageLink": corrector.intra_picture || 'https://drive.google.com/uc?export=view&id=1YudY4jHYsgzBp4fI31iW5Yx-_lZPASuo',
+          "imageLink": corrector.intra_picture || process.env.Next_PUBLIC_PICTURE!,
         }));
         const updatedJsonData = {
           ...jsonData,
