@@ -128,11 +128,6 @@ interface CorrProps {
 
 function generateCorrectors(data: StatsInput): { correctors: any } {
   const statsMap: Map<number, { [key: string]: number }> = new Map();
-  if (process.env.NEXT_PUBLIC_ENV === "production") {
-    jsonData["navigateToUrl"] = "https://42tape.com"
-  } else {
-    jsonData["navigateToUrl"] = "http://localhost:3000"
-  }
   for (const statKey of Object.keys(data)) {
       for (const correctorIdStr of data[statKey]) {
           const correctorId = parseInt(correctorIdStr, 10);
@@ -223,6 +218,11 @@ export default function Vote(props : { voteId: string }) {
     fetchData();
   }, []);
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_ENV === "production") {
+      jsonData["navigateToUrl"] = "https://42tape.com"
+    } else {
+      jsonData["navigateToUrl"] = "http://localhost:3000"
+    }
     const newSurvey = new Model(json);
     newSurvey.applyTheme(themeJson);
 

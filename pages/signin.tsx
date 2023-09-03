@@ -1,10 +1,8 @@
 import { LoginLayout, LoginTopBar } from '../components/login'
-import { NextRequest, NextResponse } from 'next/server'
-
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getProviders } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]";
+import type { GetServerSidePropsContext } from "next";
 
 export default function SignIn() {
   return (

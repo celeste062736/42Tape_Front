@@ -1,12 +1,12 @@
+import 'survey-core/defaultV2.min.css'
 import { TopBar } from "../../components/topbar"
 import { Model } from "survey-core"
 import { Survey } from "survey-react-ui"
 import { getToken } from "next-auth/jwt"
 import NonSSRWrapper from "../../components/noSSR"
-import 'survey-core/defaultV2.min.css'
 import { themeJson } from "../../survey"
 import type { GetServerSideProps } from "next"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { redirect } from "next/navigation"
 
 export const json = {
@@ -120,9 +120,9 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
             </svg>
           </div>
           <div className="row">
-            <NonSSRWrapper>
+            {/* <NonSSRWrapper> */}
               <Survey model={survey}></Survey>
-            </NonSSRWrapper>
+            {/* </NonSSRWrapper> */}
           </div>
         </div>
     </div>

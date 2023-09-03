@@ -4,8 +4,7 @@ import type { GetServerSideProps } from 'next'
 import type { Season } from '../components/Components'
 import { getToken } from "next-auth/jwt"
 import type { RankLayoutProps } from '../components/rank'
-import type { RankInfo, SeasonInfo, IndividualSeason } from '../components/rank'
-
+import type { RankInfo, SeasonInfo } from '../components/rank'
 
 export interface TapeUser {
     user_id: number;
