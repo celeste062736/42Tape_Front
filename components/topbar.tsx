@@ -213,8 +213,7 @@ export function ListButton() {
         )}
       </div>
     );
-
-}
+  }
 
   export function Info() {
     const [isModalOpen, setModalOpen] = useState(false);
@@ -242,7 +241,7 @@ export function ListButton() {
         <Modal.Body>
           <h5>Description</h5>
           <p>
-            TAPE'는 The Art of Peer-Evaluation' 의 약자로 Intra 나침반의 동료평가 문서를 참고하여 만든 서비스입니다. 
+            TAPE는 &apos;The Art of Peer-Evaluation&apos; 의 약자로 Intra 나침반의 동료평가 문서를 참고하여 만든 서비스입니다. 
             <br></br>우리의 목표는 단순한 포인트 획득이나 과제 통과가 아닌 양질의 평가 문화를 만드는 것입니다.
             <br></br>과제와 일상생활에 바쁜 사람들도 부담 없이 참여 할 수 있도록 가이드라인을 제공하고 잘 수행한 분들에게는 리워드를 제공하여 평가 문 화를 지속하려고 합니다.
           </p>
@@ -252,7 +251,7 @@ export function ListButton() {
           <p>
           <h5>Credit</h5>
           <h6>Front-end Developer</h6>
-          soohlee woosekim<br></br>
+          soohlee | woosekim<br></br>
           <h6>Front_end 기술 스택</h6>
           react [next.is](http://next.is/)
           </p>
@@ -260,7 +259,7 @@ export function ListButton() {
           <h6>Back-end Developer</h6>
           joonhlee | yonghyle | mingekim<br></br>
           <h6>Back-end 기술 스택</h6>
-          [express.is](http://express.is/) | mvsal | Sequelize
+          [express.is](http://express.is/) | mysql | Sequelize
           </p>
 
         </Modal.Body>
