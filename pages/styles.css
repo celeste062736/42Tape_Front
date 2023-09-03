@@ -386,6 +386,7 @@ ul {
   color: white;
   /* 아래 간격 */
   margin: 20px;
+  margin-left: 0;
   /* width 자동 조정*/
   width: auto;
 }
@@ -393,6 +394,28 @@ ul {
   background-color: #0A58CA;
   color: white;
 }
+#season_display {
+  background-color: white;
+  color: #6181ff;
+  margin-right: 0;
+  font-size: 20px;
+  font-weight: bold;
+  /* 텍스트 중앙 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: auto;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-right: 12px;
+  padding-left: 12px;
+  /* 둥근 모서리 */
+  border-radius: 5px;
+  /* 테두리 */
+  border: 3px solid #6181ff;
+}
+
 #vote_main_description {
   font-size: 20px;
   font-weight: bold;
@@ -574,6 +597,10 @@ ul {
   #project_selector {
     font-size: 16px;
     margin: 10px;
+    margin-left: 0;
+  }
+  #season_display {
+    font-size: 12px;
   }
   #season-info {
     padding-left: 0;

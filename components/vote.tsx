@@ -43,10 +43,13 @@ export function VoteLayout({vote_data}: VoteListInfoProps) {
             {vote_data.map((item, index) => (
                 <div key={index} className="row">
                     <div key={index} className="col-xl-10 d-flex align-items-center justify-content-center">
+                        <div id="season_display">
+                          Season {item.season_id}
+                        </div>
                         <button id="project_selector" className="btn btn-primary" onClick={(e) => {
                           router.push(`/vote/${item.vote_id}`)
                         }}>
-                            {item.project_name} 평가자 투표
+                          {item.project_name} 평가자 투표
                         </button>
                     </div>
                 </div>
