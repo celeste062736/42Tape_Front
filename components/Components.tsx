@@ -105,7 +105,6 @@ export const MainLayout = ({ userInfo } : UserInfoProps) => {
         </div>
         <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center">
-            {/* 월요일 우성님이 만든 랭크history 병합예정 */}
             <LineChart yData={userInfo.yData} xLabels={userInfo.xLabels}></LineChart>
           </div>
           <Blank name="main"></Blank>
