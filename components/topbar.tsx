@@ -101,7 +101,7 @@ export function ListButton() {
 
   export function SvgIconRing({number_notifications} : {number_notifications : number}) {
     return (
-    <svg width="22" height="22" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#000000"/>
       <path d="M25 5.99453L22.5088 6.49766C16.7985 7.6509 12.5001 12.702 12.5001 18.75C12.5001 20.712 12.0802 25.6164 11.0661 30.4443C10.5627 32.8409 9.88919 35.3363 8.99404 37.5H41.006C40.1108 35.3363 39.4373 32.8409 38.934 30.4442C37.9199 25.6164 37.5001 20.7119 37.5001 18.75C37.5001 12.7019 33.2016 7.65084 27.4913 6.49764L25 5.99453ZM44.4353 37.5C45.133 38.8981 45.9421 40.0031 46.875 40.625H3.125C4.0579 40.0031 4.86702 38.8981 5.56469 37.5C8.37257 31.873 9.37507 21.4974 9.37507 18.75C9.37507 11.1854 14.7506 4.8764 21.8901 3.43451C21.8801 3.33269 21.875 3.22944 21.875 3.125C21.875 1.39911 23.2741 0 25 0C26.7259 0 28.125 1.39911 28.125 3.125C28.125 3.22944 28.1199 3.33267 28.1099 3.43448C35.2494 4.87632 40.6251 11.1854 40.6251 18.75C40.6251 21.4974 41.6275 31.873 44.4353 37.5Z" fill="#000000"/>
 
@@ -216,60 +216,59 @@ export function ListButton() {
 
 }
 
-  export function Info() {
-    const [isModalOpen, setModalOpen] = useState(false);
-  
-    const handleClick = () => {
-      setModalOpen(true);
-    };
-  
-    const closeModal = () => {
-      setModalOpen(false);
-    };
-  
-    return (
-      <div>
-        <button className="Button" onClick={handleClick}>
-        <svg width="20" height="22" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11 22.5C5.68426 22.5 1.375 17.799 1.375 12C1.375 6.20101 5.68426 1.5 11 1.5C16.3157 1.5 20.625 6.20101 20.625 12C20.625 17.799 16.3157 22.5 11 22.5ZM11 24C17.0751 24 22 18.6274 22 12C22 5.37258 17.0751 0 11 0C4.92487 0 0 5.37258 0 12C0 18.6274 4.92487 24 11 24Z" fill="black"/>
-          <path d="M7.22578 8.67922C7.21534 8.88355 7.36987 9.04907 7.55746 9.04907H8.69113C8.88098 9.04907 9.03193 8.88019 9.05744 8.67496C9.17975 7.69077 9.79894 6.97339 10.9027 6.97339C11.8453 6.97339 12.7094 7.48755 12.7094 8.72534C12.7094 9.67749 12.1944 10.1155 11.3827 10.782C10.4575 11.5151 9.72439 12.3721 9.77676 13.7622L9.78084 14.0874C9.78342 14.2925 9.93655 14.4573 10.1246 14.4573H11.2397C11.4296 14.4573 11.5835 14.2894 11.5835 14.0823V13.9241C11.5835 12.8481 11.9588 12.5339 12.9712 11.696C13.8091 11.001 14.6819 10.2297 14.6819 8.61108C14.6819 6.34497 12.9276 5.25 11.0074 5.25C9.26518 5.25 7.35575 6.13592 7.22578 8.67922ZM9.36654 17.3232C9.36654 18.123 9.95132 18.7134 10.7543 18.7134C11.5922 18.7134 12.1682 18.123 12.1682 17.3232C12.1682 16.4949 11.5922 15.9141 10.7543 15.9141C9.95132 15.9141 9.36654 16.4949 9.36654 17.3232Z" fill="black"/>
-        </svg>
-        </button>
-        <Modal show={isModalOpen} onHide={closeModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title><h4>42TAPE The Art of Peer Evaluation</h4></Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h5>Description</h5>
-          <p>
-            TAPE'는 The Art of Peer-Evaluation' 의 약자로 Intra 나침반의 동료평가 문서를 참고하여 만든 서비스입니다. 
-            <br></br>우리의 목표는 단순한 포인트 획득이나 과제 통과가 아닌 양질의 평가 문화를 만드는 것입니다.
-            <br></br>과제와 일상생활에 바쁜 사람들도 부담 없이 참여 할 수 있도록 가이드라인을 제공하고 잘 수행한 분들에게는 리워드를 제공하여 평가 문 화를 지속하려고 합니다.
-          </p>
-          <br></br>
-          <br></br>
-          <br></br>
-          <p>
-          <h5>Credit</h5>
-          <h6>Front-end Developer</h6>
-          soohlee woosekim<br></br>
-          <h6>Front_end 기술 스택</h6>
-          react [next.is](http://next.is/)
-          </p>
-          <p>
-          <h6>Back-end Developer</h6>
-          joonhlee | yonghyle | mingekim<br></br>
-          <h6>Back-end 기술 스택</h6>
-          [express.is](http://express.is/) | mvsal | Sequelize
-          </p>
+export function Info() {
+  const [isModalOpen, setModalOpen] = useState(false);
 
-        </Modal.Body>
-        {/* <Modal.Footer>
-        </Modal.Footer> */}
-      </Modal>
-      </div>
-    );
-  }
+  const handleClick = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  return (
+    <div>
+      <button className="Button" onClick={handleClick}>
+      <svg width="20" height="22" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11 22.5C5.68426 22.5 1.375 17.799 1.375 12C1.375 6.20101 5.68426 1.5 11 1.5C16.3157 1.5 20.625 6.20101 20.625 12C20.625 17.799 16.3157 22.5 11 22.5ZM11 24C17.0751 24 22 18.6274 22 12C22 5.37258 17.0751 0 11 0C4.92487 0 0 5.37258 0 12C0 18.6274 4.92487 24 11 24Z" fill="black"/>
+        <path d="M7.22578 8.67922C7.21534 8.88355 7.36987 9.04907 7.55746 9.04907H8.69113C8.88098 9.04907 9.03193 8.88019 9.05744 8.67496C9.17975 7.69077 9.79894 6.97339 10.9027 6.97339C11.8453 6.97339 12.7094 7.48755 12.7094 8.72534C12.7094 9.67749 12.1944 10.1155 11.3827 10.782C10.4575 11.5151 9.72439 12.3721 9.77676 13.7622L9.78084 14.0874C9.78342 14.2925 9.93655 14.4573 10.1246 14.4573H11.2397C11.4296 14.4573 11.5835 14.2894 11.5835 14.0823V13.9241C11.5835 12.8481 11.9588 12.5339 12.9712 11.696C13.8091 11.001 14.6819 10.2297 14.6819 8.61108C14.6819 6.34497 12.9276 5.25 11.0074 5.25C9.26518 5.25 7.35575 6.13592 7.22578 8.67922ZM9.36654 17.3232C9.36654 18.123 9.95132 18.7134 10.7543 18.7134C11.5922 18.7134 12.1682 18.123 12.1682 17.3232C12.1682 16.4949 11.5922 15.9141 10.7543 15.9141C9.95132 15.9141 9.36654 16.4949 9.36654 17.3232Z" fill="black"/>
+      </svg>
+      </button>
+      <Modal show={isModalOpen} onHide={closeModal} centered>
+      <Modal.Header closeButton>
+        <Modal.Title><h4>42TAPE The Art of Peer Evaluation</h4></Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h5>Description</h5>
+        <p>
+          TAPE'는 The Art of Peer-Evaluation' 의 약자로 Intra 나침반의 동료평가 문서를 참고하여 만든 서비스입니다. 
+          <br></br>우리의 목표는 단순한 포인트 획득이나 과제 통과가 아닌 양질의 평가 문화를 만드는 것입니다.
+          <br></br>과제와 일상생활에 바쁜 사람들도 부담 없이 참여 할 수 있도록 가이드라인을 제공하고 잘 수행한 분들에게는 리워드를 제공하여 평가 문 화를 지속하려고 합니다.
+        </p>
+        <br></br>
+        <br></br>
+        <br></br>
+        <p>
+        <h5>Credit</h5>
+        <h6>Front-end Developer</h6>
+        soohlee woosekim<br></br>
+        <h6>Front_end 기술 스택</h6>
+        react [next.is](http://next.is/)
+        </p>
+        <p>
+        <h6>Back-end Developer</h6>
+        joonhlee | yonghyle | mingekim<br></br>
+        <h6>Back-end 기술 스택</h6>
+        [express.is](http://express.is/) | mvsal | Sequelize
+        </p>
+      </Modal.Body>
+      {/* <Modal.Footer>
+      </Modal.Footer> */}
+    </Modal>
+    </div>
+  );
+}
   
   export function Tools() {
     return (
