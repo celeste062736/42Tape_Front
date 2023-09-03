@@ -5,6 +5,7 @@ import { Button } from './button';
 import { Blank } from './blank';
 import { LogoutButton } from './logout';
 import useSWR from 'swr';
+import { Modal } from 'react-bootstrap';
 // import { post_Notification } from '../pages/api/alarm/[id]';
 
 export interface Notification {
@@ -224,11 +225,38 @@ export function ListButton() {
           <path d="M7.22578 8.67922C7.21534 8.88355 7.36987 9.04907 7.55746 9.04907H8.69113C8.88098 9.04907 9.03193 8.88019 9.05744 8.67496C9.17975 7.69077 9.79894 6.97339 10.9027 6.97339C11.8453 6.97339 12.7094 7.48755 12.7094 8.72534C12.7094 9.67749 12.1944 10.1155 11.3827 10.782C10.4575 11.5151 9.72439 12.3721 9.77676 13.7622L9.78084 14.0874C9.78342 14.2925 9.93655 14.4573 10.1246 14.4573H11.2397C11.4296 14.4573 11.5835 14.2894 11.5835 14.0823V13.9241C11.5835 12.8481 11.9588 12.5339 12.9712 11.696C13.8091 11.001 14.6819 10.2297 14.6819 8.61108C14.6819 6.34497 12.9276 5.25 11.0074 5.25C9.26518 5.25 7.35575 6.13592 7.22578 8.67922ZM9.36654 17.3232C9.36654 18.123 9.95132 18.7134 10.7543 18.7134C11.5922 18.7134 12.1682 18.123 12.1682 17.3232C12.1682 16.4949 11.5922 15.9141 10.7543 15.9141C9.95132 15.9141 9.36654 16.4949 9.36654 17.3232Z" fill="black"/>
         </svg>
         </button>
-        {isModalOpen && (
-          <div className="overlay" onClick={closeModal}>
-            <img src="/info.png" alt="info-image" className="info-image" />
-          </div>
-        )}
+        <Modal show={isModalOpen} onHide={closeModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title><h4>42TAPE The Art of Peer Evaluation</h4></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>Description</h5>
+          <p>
+            TAPE'는 The Art of Peer-Evaluation' 의 약자로 Intra 나침반의 동료평가 문서를 참고하여 만든 서비스입니다. 
+            <br></br>우리의 목표는 단순한 포인트 획득이나 과제 통과가 아닌 양질의 평가 문화를 만드는 것입니다.
+            <br></br>과제와 일상생활에 바쁜 사람들도 부담 없이 참여 할 수 있도록 가이드라인을 제공하고 잘 수행한 분들에게는 리워드를 제공하여 평가 문 화를 지속하려고 합니다.
+          </p>
+          <br></br>
+          <br></br>
+          <br></br>
+          <p>
+          <h5>Credit</h5>
+          <h6>Front-end Developer</h6>
+          soohlee woosekim<br></br>
+          <h6>Front_end 기술 스택</h6>
+          react [next.is](http://next.is/)
+          </p>
+          <p>
+          <h6>Back-end Developer</h6>
+          joonhlee | yonghyle | mingekim<br></br>
+          <h6>Back-end 기술 스택</h6>
+          [express.is](http://express.is/) | mvsal | Sequelize
+          </p>
+
+        </Modal.Body>
+        {/* <Modal.Footer>
+        </Modal.Footer> */}
+      </Modal>
       </div>
     );
   }
