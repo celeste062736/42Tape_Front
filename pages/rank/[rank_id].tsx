@@ -19,7 +19,7 @@ export default function Rank_Page(props: { rankInfo: RankInfo, rankLayoutProps: 
 
 export const getServerSideProps: GetServerSideProps<{
   rankLayoutProps: RankLayoutProps
-  }> = async ({ req, res }) => {
+  }> = async ({ req, res, params }) => {
     const unknownRank : RankInfo[] = [
       {
         intra_id: "unknown",
@@ -103,7 +103,8 @@ export const getServerSideProps: GetServerSideProps<{
   } else {
       userId = token.sub;
   }
-  const resp = await fetch(process.env.FETCH_URL+'ranking', {
+  let rankId = params?.rank_id
+  const resp = await fetch(process.env.FETCH_URL+'ranking' + `/${String(rankId)}`, {
     method: "GET",
     headers: userId ? { "user-id": userId } : {}
   })
