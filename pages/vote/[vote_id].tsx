@@ -6,10 +6,9 @@ import { getToken } from "next-auth/jwt"
 import NonSSRWrapper from "../../components/noSSR"
 import { themeJson } from "../../survey"
 import type { GetServerSideProps } from "next"
-import React, { useEffect } from "react"
-import { redirect } from "next/navigation"
+import React, { useEffect, useState } from "react"
 
-export const json = {
+export const jsonData = {
   "logoPosition": "right",
   "pages": [
    {
@@ -82,34 +81,45 @@ async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
 }
 
 export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[]}) {
+  jsonData.pages[0].elements[0].choices = [
+    {
+      "value": "unknown",
+      "text": "unknown",
+      "imageLink": "unknown",
+    }
+  ]
+  const [survey, setSurvey] = useState<Model>(new Model(jsonData))
+  const [json, setJson] = useState(jsonData);
+  let description = "이 투표는 익명성이 보장됩니다. 자유롭게 투표해주세요!"
   useEffect(() => {
     const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-  }, []);
-  let description = "이 투표는 익명성이 보장됩니다. 자유롭게 투표해주세요!"
-  if (props.choices[0].value === "unknown") {
-    redirect('/signin')
-  }
-  json.pages[0].elements[0].choices = props.choices;
-  if (process.env.NEXT_PUBLIC_ENV === "production") {
-    json["navigateToUrl"] = "https://42tape.com" + `/questions/${props.voteId}`
-  } else {
-    json["navigateToUrl"] = "http://localhost:3000" + `/questions/${props.voteId}`
-  }
-  const survey = new Model(json);
-  survey.applyTheme(themeJson);
-  survey.onValidateQuestion.add((sender, options) => {
-    if (options.name === "vote_user") {
-      if (options.value.length < props.round_data[0] || options.value.length > props.round_data[1]) {
-        options.error = `${props.round_data[0]}~${props.round_data[1]}명 사이의 평가자를 선택해주세요.`;
-      }
+    jsonData.pages[0].elements[0].choices = props.choices;
+    if (process.env.NEXT_PUBLIC_ENV === "production") {
+      jsonData["navigateToUrl"] = "https://42tape.com" + `/questions/${props.voteId}`
+    } else {
+      jsonData["navigateToUrl"] = "http://localhost:3000" + `/questions/${props.voteId}`
     }
-  });
-  survey.onComplete.add((sender, options) => {
-    const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user});
-    saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps);
-  });
+    setJson(jsonData)
+    const newSurvey = new Model(json);
+    newSurvey.applyTheme(themeJson);
+    newSurvey.onValidateQuestion.add((sender, options) => {
+      if (options.name === "vote_user") {
+        if (options.value.length < props.round_data[0] || options.value.length > props.round_data[1]) {
+          options.error = `${props.round_data[0]}~${props.round_data[1]}명 사이의 평가자를 선택해주세요.`
+        }
+      }
+    });
+    newSurvey.onComplete.add((sender, options) => {
+      const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user})
+      saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps)
+    });
+    setSurvey(newSurvey);
+  }, []);
+  if (props.choices[0].value === "unknown") {
+    return <>Loading</>
+  }
   return (
     <div id="root">
         <TopBar></TopBar>
@@ -120,9 +130,9 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
             </svg>
           </div>
           <div className="row">
-            {/* <NonSSRWrapper> */}
+            <NonSSRWrapper>
               <Survey model={survey}></Survey>
-            {/* </NonSSRWrapper> */}
+            </NonSSRWrapper>
           </div>
         </div>
     </div>
@@ -164,6 +174,9 @@ export const getServerSideProps: GetServerSideProps<{
     headers: userId ? { "user-id": userId } : {},
   });
   const data = await resp.json();
+  if (data.correctors === undefined || data.min_1st_round === undefined || data.max_1st_round === undefined) {
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
+  }
   round_data[0] = data.min_1st_round
   round_data[1] = data.max_1st_round
   const result : Corrector[] = data.correctors.map((corrector : any) => ({
@@ -175,7 +188,7 @@ export const getServerSideProps: GetServerSideProps<{
   let choices = result.map((corrector: Corrector) => ({
     "value": corrector.corrector_id,
     "text": corrector.intra_login,
-    "imageLink": corrector.intra_picture || 'https://drive.google.com/uc?export=view&id=1YudY4jHYsgzBp4fI31iW5Yx-_lZPASuo',
+    "imageLink": corrector.intra_picture || process.env.Next_PUBLIC_PICTURE!,
   }));
   return { props: {choices: choices, voteId: voteId, round_data: round_data}}
 }
