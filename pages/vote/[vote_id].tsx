@@ -80,7 +80,7 @@ async function saveSurveyData(url : string, correctorProps: CorrectorProps) {
   }).catch((error) => console.log(error))
 }
 
-export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[]}) {
+export default function Vote(props : {choices: Choices[], voteId: number, round_data: number[], comments?: string[]}) {
   jsonData.pages[0].elements[0].choices = [
     {
       "value": "unknown",
@@ -115,6 +115,15 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
       const correctorProps = generateCorrectors(props.choices, {vote_user: sender.data.vote_user})
       saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps)
     });
+    function updateToolTipComponents(_ : any, options : any) {
+      options.htmlElement.querySelectorAll('.sd-imagepicker__item-decorator').forEach((element : any, index : number) => {
+        new bootstrap.Tooltip(element, {
+          title: 'comment: ' + props.comments![index], // 툴팁에 표시될 텍스트
+          placement: 'top' // 툴팁이 표시될 위치
+        });
+      })
+    }
+    newSurvey.onAfterRenderSurvey.add(updateToolTipComponents);
     setSurvey(newSurvey);
   }, []);
   if (props.choices[0].value === "unknown") {
@@ -140,7 +149,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  choices: Choices[], voteId: number, round_data: number[]
+  choices: Choices[], voteId: number, round_data: number[], comments?: string[]
 }> = async ({ req, res, params }) => {
   let round_data = new Array<number>(2);
   round_data[0] = -1;
@@ -194,5 +203,5 @@ export const getServerSideProps: GetServerSideProps<{
     "text": corrector.intra_login,
     "imageLink": corrector.intra_picture || process.env.NEXT_PUBLIC_PICTURE!,
   }));
-  return { props: {choices: choices, voteId: voteId, round_data: round_data}}
+  return { props: {choices: choices, voteId: voteId, round_data: round_data, comments: result.map((corrector: Corrector) => corrector.comment)}}
 }
