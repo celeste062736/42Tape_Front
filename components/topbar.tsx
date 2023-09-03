@@ -122,6 +122,7 @@ export function ListButton() {
     const [notiInfo, setNotiInfo] = useState(unknown);
     const [showList, setShowList] = useState(false);
     const { data, error } = useSWR<NotificationResponse>('/api/alarm', fetcher)
+    const [isOpened, setIsOpened] = useState(false);
     // const [notiData, setnotiData] = useState(data);
     const listRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLDivElement>(null)
@@ -151,15 +152,25 @@ export function ListButton() {
       }
     }, [data])
     useEffect(() => {
-      if (notiInfo.number_notifications === 0) {
-        fetch('/api/alarm', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({}),
-
-        });
+      if (isOpened === false) {
+        notiInfo.notificationList.map((notification, index) => {
+          notification.notified = true
+        })
+      } else {
+        if (notiInfo.need_notify) {
+          setNotiInfo({
+            ...notiInfo,
+            need_notify: false,
+            number_notifications: 0,
+          })
+          fetch('/api/alarm', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({}),
+          });
+        }
       }
-    }, [notiInfo])
+    }, [isOpened])
     if (error) return <SvgIconRing number_notifications={0}/>
     if (!data) return <SvgIconRing number_notifications={0}/>
     return (
@@ -168,13 +179,11 @@ export function ListButton() {
           className={`Button ${notiInfo.need_notify ? 'notify-active' : ''}`} 
           onClick={() => {
             setShowList(!showList);
-            if (notiInfo.need_notify) {
-                setNotiInfo({
-                  ...notiInfo,
-                  need_notify: false,
-                  number_notifications: 0,
-                })
-              }
+            if (isOpened === false) {
+              setIsOpened(true)
+            } else {
+              setIsOpened(false)
+            }
           }
         }
         >
