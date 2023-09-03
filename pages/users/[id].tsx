@@ -6,11 +6,6 @@ import type { Repo } from "../../components/Components";
 import { getToken } from "next-auth/jwt"
 import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: '42TAPE',
-  description: '42 The Art of Peer Evaluation',
-}
-
 export default function Home( {userInfo } : { userInfo : UserInfo}) {
   if (userInfo.user_id === null) {
     redirect('/signin')
