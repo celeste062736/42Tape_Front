@@ -16,6 +16,7 @@
     "eslint": "^8.48.0",
     "eslint-config-next": "^13.4.19",
     "install": "^0.13.0",
+    "jquery": "^3.7.1",
     "next": "^13.4.12",
     "next-auth": "latest",
     "react": "^18.2.0",

@@ -94,6 +94,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    
     jsonData.pages[0].elements[0].choices = props.choices;
     if (process.env.NEXT_PUBLIC_ENV === "production") {
       jsonData["navigateToUrl"] = "https://42tape.com" + `/questions/${props.voteId}`
@@ -124,6 +125,10 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     }
     newSurvey.onAfterRenderSurvey.add(updateToolTipComponents);
     setSurvey(newSurvey);
+    // 여기서 페이지가 언마운트되면 Tooltip을 제거합니다.
+    return () => {
+      tooltipList.forEach((tooltip) => tooltip.dispose());
+    };
   }, []);
   if (props.choices[0].value === "unknown") {
     return <>Loading</>
