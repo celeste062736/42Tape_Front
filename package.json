@@ -30,6 +30,7 @@
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.6",
     "@types/node": "^18.16.2",
     "@types/react": "^18.2.0",
     "postcss": "^8.4.28",

@@ -7,6 +7,7 @@ import NonSSRWrapper from "../../components/noSSR"
 import { themeJson } from "../../survey"
 import type { GetServerSideProps } from "next"
 import React, { useEffect, useState } from "react"
+import { Tooltip } from 'bootstrap';
 
 export const jsonData = {
   "logoPosition": "right",
@@ -89,7 +90,8 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
   ]
   const [survey, setSurvey] = useState<Model>(new Model(jsonData))
   const [json, setJson] = useState(jsonData);
-  let description = "이 투표는 익명성이 보장됩니다. 자유롭게 투표해주세요!"
+  let description = "이 투표는 익명성이 보장됩니다. 자유롭게 투표해주세요!";
+  const tooltipInstances: Tooltip[] = [];  // 명시적으로 타입을 지정
   useEffect(() => {
     const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -116,11 +118,17 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
       saveSurveyData(`/api/save-vote-user/${props.voteId}`, correctorProps.correctProps)
     });
     function updateToolTipComponents(_ : any, options : any) {
+      // 기존에 생성되었던 툴팁 인스턴스 제거
+      tooltipInstances.forEach(instance => instance.dispose());
+      // 배열 초기화
+      tooltipInstances.length = 0;
       options.htmlElement.querySelectorAll('.sd-imagepicker__item-decorator').forEach((element : any, index : number) => {
-        new bootstrap.Tooltip(element, {
+        const tooltip = new bootstrap.Tooltip(element, {
           title: 'comment: ' + props.comments![index], // 툴팁에 표시될 텍스트
           placement: 'top' // 툴팁이 표시될 위치
         });
+        // 새로운 툴팁 인스턴스를 배열에 저장
+        tooltipInstances.push(tooltip);
       })
     }
     newSurvey.onAfterRenderSurvey.add(updateToolTipComponents);
@@ -128,6 +136,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     // 여기서 페이지가 언마운트되면 Tooltip을 제거합니다.
     return () => {
       tooltipList.forEach((tooltip) => tooltip.dispose());
+      tooltipInstances.forEach((tooltip) => tooltip.dispose());
     };
   }, []);
   if (props.choices[0].value === "unknown") {
