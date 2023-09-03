@@ -53,10 +53,11 @@ export function ListButton() {
     return (
       <div>
         <button ref={buttonRef} className="Button" onClick={() => setShowList(!showList)}>
-          <svg width="30" height="27" viewBox="0 0 30 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 1H30" stroke="black" strokeWidth="2"/>
-            <path d="M0 13.5H30" stroke="black" strokeWidth="2"/>
-            <path d="M0 26H30" stroke="black" strokeWidth="2"/>
+          <svg width="65" height="80" viewBox="0 0 65 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="65" height="80" fill="white"/>
+            <path d="M17 28H47" stroke="#3E3E3E" stroke-width="2"/>
+            <path d="M17 40H47" stroke="#3E3E3E" stroke-width="2"/>
+            <path d="M17 52H47" stroke="#3E3E3E" stroke-width="2"/>
           </svg>
         </button>
   

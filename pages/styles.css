@@ -519,12 +519,12 @@ ul {
     object-fit: cover;
   }
   #card_1st {
-    width: 160px;
+    width: 140px;
     height: 200px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   }
   #card_2nd_3rd {
-    width: 120px;
+    width: 100px;
     height: 160px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   }
