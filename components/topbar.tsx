@@ -228,42 +228,41 @@ export function Info() {
 
   return (
     <div>
-      <button className="Button" onClick={handleClick}>
+      <button className="Button" onClick={handleClick} style={{margin:'15px'}}>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-info-square-fill" viewBox="0 0 16 16">
           <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
         </svg>
       </button>
-      <Modal show={isModalOpen} onHide={closeModal} centered>
-      <Modal.Header closeButton>
-        <Modal.Title><h4>42TAPE The Art of Peer Evaluation</h4></Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h5>Description</h5>
-        <p>
-          TAPE는 &apos;The Art of Peer-Evaluation&apos; 의 약자로 Intra 나침반의 동료평가 문서를 참고하여 만든 서비스입니다. 
-          <br></br>우리의 목표는 단순한 포인트 획득이나 과제 통과가 아닌 양질의 평가 문화를 만드는 것입니다.
-          <br></br>과제와 일상생활에 바쁜 사람들도 부담 없이 참여 할 수 있도록 가이드라인을 제공하고 잘 수행한 분들에게는 리워드를 제공하여 평가 문 화를 지속하려고 합니다.
-        </p>
-        <br></br>
-        <br></br>
-        <br></br>
-        <p>
-        <h5>Credit</h5>
-        <h6>Front-end Developer</h6>
-        soohlee woosekim<br></br>
-        <h6>Front_end 기술 스택</h6>
-        react [next.is](http://next.is/)
-        </p>
-        <p>
-        <h6>Back-end Developer</h6>
-        joonhlee | yonghyle | mingekim<br></br>
-        <h6>Back-end 기술 스택</h6>
-        [express.is](http://express.is/) | mvsal | Sequelize
-        </p>
-      </Modal.Body>
-      {/* <Modal.Footer>
-      </Modal.Footer> */}
-    </Modal>
+      <div id="info_modal">
+        <Modal show={isModalOpen} onHide={closeModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title><h4><strong>man 42TAPE</strong></h4></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h5><strong>Description</strong></h5>
+            <p>
+              &nbsp;'TAPE'는 <strong>'The Art of Peer-Evaluation'</strong>의 약자로 Intra 나침반의 동료평가 문서를 참고하여 만든 서비스입니다.
+              <br></br>
+              &nbsp;우리의 목표는 단순한 포인트 획득이나 과제 통과가 아닌 <strong>양질의 평가 문화를 만드는 것입니다.</strong>
+              <br></br>
+              &nbsp;과제와 일상생활에 바쁜 사람들도 부담 없이 참여할 수 있도록 가이드라인을 제공하고 잘 수행한 분들에게는 <strong>리워드를 제공하여 평가 문화를 지속하려고 합니다.</strong>
+            </p>
+            <h5><strong>Credit</strong></h5>
+            <h6>Front-end Developer</h6>
+            <p><li>soohlee | woosekim</li></p>
+            <h6>Back-end Developer</h6>
+            <p><li>joonhlee | yonghyle | mingekim</li></p>
+            <h6>Front-end 기술 스택</h6>
+            <p><li>react | next.js</li></p>
+            <h6>Back-end 기술 스택</h6>
+            <p><li>express.js | mysql | Sequelize</li></p>
+            <h5><strong>Contact us</strong></h5>
+            <p>e-mail</p>
+          </Modal.Body>
+          {/* <Modal.Footer>
+          </Modal.Footer> */}
+        </Modal>
+      </div>
     </div>
   );
 }
