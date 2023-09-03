@@ -91,6 +91,11 @@ export const MainLayout = ({ userInfo } : UserInfoProps) => {
       <div className="col">
         <div className="row">
           <div className="col-xl-5 d-flex justify-content-center align-items-center">
+            <a id="intra_link" href={`https://profile.intra.42.fr/users/${userInfo.user_id}`} target="_blank" rel="noreferrer">Intra</a>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xl-5 d-flex justify-content-center align-items-center">
             <Profile intra_pic={userInfo.intra_pic} level={userInfo.level} user_id={userInfo.user_id}/>
           </div>
           <div className="col-xl-5 d-flex justify-content-center align-items-center">

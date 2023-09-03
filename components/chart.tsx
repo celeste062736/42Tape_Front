@@ -84,9 +84,9 @@ export function RadarChart({stats, current_rank} : RadarChartProps) {
     }
   };
   return (
-      <div className="profile" id="profile_rank">
+      <div id="profile_radar">
         <Radar data={data} options={options}/>
-        <div id="profile_rank_text">
+        <div id="profile_radar_text">
           Rank #{current_rank}
         </div>
       </div>
@@ -155,7 +155,7 @@ export function LineChart({ yData, xLabels }: LineChartProps) {
   };
 
   return (
-    <div className="profile_line_chart">
+    <div id="profile_line_chart">
       <Line data={data} options={options} />
     </div>
   );
