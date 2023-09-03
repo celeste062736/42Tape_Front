@@ -20,7 +20,6 @@ export const jsonData = {
       "title": "최고의 평가자들을 선택하세요.",
       "hideNumber": true,
       "choices": [] as Choices[],
-      "choicesOrder": "random",
       "showLabel": true,
       "multiSelect": true,
      },
