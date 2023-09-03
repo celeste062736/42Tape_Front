@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps<{
   const userInfo : UserInfo = {
     user_id: repo.targetTapeUser.login,
     level: repo.targetTapeUser.level,
-    intra_pic: repo.targetTapeUser.intra_picture || process.env.Next_PUBLIC_PICTURE!,
+    intra_pic: repo.targetTapeUser.intra_picture || process.env.NEXT_PUBLIC_PICTURE!,
     stats: [repo.targetUserStats.cumulative_stat1, repo.targetUserStats.cumulative_stat2, repo.targetUserStats.cumulative_stat3, repo.targetUserStats.cumulative_stat4, repo.targetUserStats.cumulative_stat5],
     current_rank: repo.targetTapeUser.current_season_rank,
     yData: repo.yData,

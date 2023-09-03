@@ -190,7 +190,7 @@ export default function Vote(props : { voteId: string }) {
         let choices = result.map((corrector: Corrector) => ({
           "value": corrector.corrector_id,
           "text": corrector.intra_login,
-          "imageLink": corrector.intra_picture || process.env.Next_PUBLIC_PICTURE!,
+          "imageLink": corrector.intra_picture || process.env.NEXT_PUBLIC_PICTURE!,
         }));
         const updatedJsonData = {
           ...jsonData,
