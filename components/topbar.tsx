@@ -1,4 +1,5 @@
 "use client"
+import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { LogoImg, LogoName } from './logo';
 import { Button } from './button';
@@ -235,7 +236,7 @@ export function ListButton() {
         </button>
         {isModalOpen && (
           <div className="overlay" onClick={closeModal}>
-            <img src="/info.png" alt="info-image" className="info-image" />
+            <Image src="/info.png" alt="info-image"  width={500} height={500} className="info-image" />
           </div>
         )}
       </div>

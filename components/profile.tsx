@@ -1,5 +1,7 @@
 "use client"
 
+import Image from "next/image";
+
 type ProfileProps = {
     intra_pic: string;
     level: number;
@@ -11,7 +13,7 @@ type ProfileProps = {
       <div className="profile">
         <div className="centered-container">
           <a href={`https://profile.intra.42.fr/users/${user_id}`} target="_blank" rel="noreferrer">Intra</a>
-          <img id="intra_picture" src={intra_pic} alt="intra picture" className="rounded-circle"/>
+          <Image id="intra_picture" src={intra_pic} width={500} height={500} alt="intra picture" className="rounded-circle"/>
           <div id="profile_level">
             Lv. {level}
           </div>

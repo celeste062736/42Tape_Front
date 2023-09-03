@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { MainLayout } from '../components/Components'
 import { TopBar } from '../components/topbar'
 import type { GetServerSideProps } from "next";
@@ -23,7 +24,7 @@ export default function Home(props: { userInfo: UserInfo }) {
       <MainLayout userInfo={ props.userInfo }></MainLayout>
       {isModalOpen && (
         <div className="overlay" onClick={() => setModalOpen(false)}>
-          <img src="/welcome.png" alt="welcome-image" className="welcome-image" />
+          <Image src="/welcome.png" alt="welcome-image" width={500} height={500} className="welcome-image" />
         </div>
       )}
     </div>

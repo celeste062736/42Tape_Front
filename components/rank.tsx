@@ -1,4 +1,5 @@
 "use client"
+import Image from 'next/image';
 import { Copyright } from './Components';
 import { Button } from './button';
 import { Blank } from './blank';
@@ -46,7 +47,7 @@ export type RankItemProps = {
             <span className="bold_text">Rank</span>
             <span>#{userDetails.rank}</span>
           </div>
-          <img className="rank_picture_1 rounded-circle" src={userDetails.intra_picture}  alt="intra picture"/>
+          <Image className="rank_picture_1 rounded-circle" src={userDetails.intra_picture} width={500} height={500} alt="intra picture"/>
           <div>
             <p>{userDetails.intra_id}</p>
           </div>
@@ -64,7 +65,7 @@ export type RankItemProps = {
             <span className='bold_text'>Rank </span>
             <span>#{userDetails.rank}</span>
           </div>
-          <img className="rank_picture_2_3 rounded-circle" src={userDetails.intra_picture} alt="intra picture"/>
+          <Image className="rank_picture_2_3 rounded-circle" src={userDetails.intra_picture} width={500} height={500} alt="intra picture"/>
           <div>
             <p>{userDetails.intra_id}</p>
           </div>
@@ -78,7 +79,7 @@ export type RankItemProps = {
           router.push(`/users/${userDetails.user_id}`)
         }}>
         <div className="left-section">
-          <img className="rank_picture_4 rounded-circle" src={userDetails.intra_picture} width={500} height={500} alt="intra picture" />
+          <Image className="rank_picture_4 rounded-circle" src={userDetails.intra_picture} width={500} height={500} alt="intra picture" />
           <span>{userDetails.intra_id}</span>
         </div>
         <div className="right-section">
