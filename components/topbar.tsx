@@ -198,9 +198,9 @@ export function ListButton() {
                 {notiInfo.notificationList.map((notification, index) => (
                   <li key={index} style={{ color: notification.notified ? "grey" : "black", }}>
                     <SvgIcon />
-                    {notification.type === "now_no_reward" ? "평가자를 칭찬하면 응모권이 주어져요!!" : 
-                     notification.type === "now_reward_candidate" ? "투표를 진행하셨으므로 이번 시즌 이미 응모에 참여했습니다" :
-                     "누군가 당신을 최고의 평가자로 투표했습니다!"}
+                    {notification.type === "now_no_reward" ? "과제 통과를 축하드립니다! 최고의 평가자를 투표하고 이번 시즌 보상에 응모하세요!" : 
+                     notification.type === "now_reward_candidate" ? "이번 시즌 보상 응모권이 활성화되었습니다!" :
+                     "42서울 카뎃중 한 명이 " + notiInfo.receiver + "님을 최고의 평가자로 투표했습니다!"}
                   </li>
                 ))}
               </ul>
