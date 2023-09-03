@@ -241,7 +241,7 @@ export function Info() {
           <Modal.Body>
             <h5><strong>Description</strong></h5>
             <p>
-              &nbsp;'TAPE'는 <strong>'The Art of Peer-Evaluation'</strong>의 약자로 Intra 나침반의 동료평가 문서를 참고하여 만든 서비스입니다.
+              &nbsp;TAPE&nbsp;는 <strong>&nbsp;The Art of Peer-Evaluation&nbsp;</strong>의 약자로 Intra 나침반의 동료평가 문서를 참고하여 만든 서비스입니다.
               <br></br>
               &nbsp;우리의 목표는 단순한 포인트 획득이나 과제 통과가 아닌 <strong>양질의 평가 문화를 만드는 것입니다.</strong>
               <br></br>
