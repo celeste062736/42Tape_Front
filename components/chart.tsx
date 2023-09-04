@@ -79,7 +79,7 @@ export function RadarChart({stats, current_rank} : RadarChartProps) {
           color: '#000',
         },
         suggestedMin: 0,
-        suggestedMax: 20,
+        suggestedMax: 10,
       }
     }
   };
