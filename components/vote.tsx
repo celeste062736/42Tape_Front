@@ -61,21 +61,30 @@ export function VoteLayout({vote_data}: VoteListInfoProps) {
               ※ 투표 대상은 과제를 통과할 때까지 만난 모든 평가자들입니다.
             </div>
           </div>
-            {vote_data.map((item, index) => (
-                <div key={index} className="row">
-                    <div key={index} className="col-xl-10 d-flex align-items-center justify-content-center">
-                        {(index === 0 && (vote_data[0].candidate_for_reward === false)) ? <TicketSvgIcon/> : <div></div>}
-                        <div id="season_display">
-                          Season {item.season_id}
+
+            <div className="row">
+              <div className='col-xs-1 col-3'>
+              </div>
+              <div className='col-xs-10 col-6'>
+                {vote_data.map((item, index) => (
+                    <div key={index} className="row">
+                        <div key={index} className="col-xl-10 d-flex align-items-center justify-content-left">
+                            {(index === 0 && (vote_data[0].candidate_for_reward === false)) ? <TicketSvgIcon/> : <div></div>}
+                            <div id="season_display">
+                              Season {item.season_id}
+                            </div>
+                            <button id="project_selector" className="btn btn-primary" onClick={(e) => {
+                              router.push(`/vote/${item.vote_id}`)
+                            }}>
+                              {item.project_name} 평가자 투표
+                            </button>
                         </div>
-                        <button id="project_selector" className="btn btn-primary" onClick={(e) => {
-                          router.push(`/vote/${item.vote_id}`)
-                        }}>
-                          {item.project_name} 평가자 투표
-                        </button>
                     </div>
-                </div>
-            ))}
+                ))}
+              </div>
+              <div className='col-xs-1 col-3'>
+              </div>
+            </div>
             <div className="row">
                 <div className="col-xl-10 d-flex justify-content-center align-items-center">
                     <Copyright></Copyright>

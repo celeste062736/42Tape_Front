@@ -92,6 +92,7 @@ ul {
 #root {
   margin: 10px;
   margin-top : 0;
+  background-color: #FAFBFF;
 }
 
 /* Rank, Vote 버튼 */
@@ -443,6 +444,8 @@ ul {
   margin-left: 0;
   /* width 자동 조정*/
   width: auto;
+  /* //텍스트가 한줄로 표시되도록 */
+  white-space: nowrap;
 }
 #project_selector:hover {
   background-color: #0A58CA;
@@ -459,6 +462,8 @@ ul {
   justify-content: center;
   align-items: center;
   width: auto;
+  /* min-width: 100px; */
+  white-space: nowrap;
   height: auto;
   padding-top: 7px;
   padding-bottom: 7px;
@@ -721,12 +726,40 @@ ul {
     font-size: 12px;
   }
   #project_selector {
-    font-size: 16px;
     margin: 10px;
     margin-left: 0;
+    /* 아래 간격 */
+    margin: 10px;
+    margin-left: 0;
+    /* width 자동 조정*/
+    width: auto;
+    /* //텍스트가 한줄로 표시되도록 */
+    white-space: nowrap;
+    height: 27px;
+    font-size: 12px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 3px;
+    padding-left: 4px;
+    border-radius: 4px;
+    text-align: left;
   }
   #season_display {
-    font-size: 12px;
+    font-size: 8px;
+    margin-left: -25px;
+    margin-right: 0;
+    /* 가로최소사이즈 70지정 */
+    min-width: 55px;
+    width: 55px;
+    height: 25px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    /* 둥근 모서리 */
+    border-radius: 4px;
+    /* 테두리 */
+    border: 2px solid #6181ff;
   }
   #season-info {
     padding-left: 0;
@@ -763,5 +796,25 @@ ul {
   }
   .rank_page_index_button {
     font-size: 12px;
+  }
+}
+
+@media (max-width: 800px) and (min-width: 600px) {
+  #season_display {
+    font-size: 8px;
+    margin-left: 60px;
+    margin-right: 0;
+    /* 가로최소사이즈 70지정 */
+    min-width: 55px;
+    width: 55px;
+    height: 25px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    /* 둥근 모서리 */
+    border-radius: 4px;
+    /* 테두리 */
+    border: 2px solid #6181ff;
   }
 }
