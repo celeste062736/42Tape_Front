@@ -24,13 +24,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(400).end();
       return
     }
-    const resp : NotificationResponse = await data.json()
+    const resp : any = await data.json()
     const notiInfo : NotificationResponse = {
       user_sub: String(token.sub),
       receiver: resp.receiver,
       number_notifications: resp.number_notifications,
       need_notify: resp.need_notify,
       notificationList: resp.notificationList,
+      candidateForReward: resp.clientTapeUser.candidate_for_reward,
     }
     res.status(200).json(notiInfo);
   } else if (req.method === 'POST') {
