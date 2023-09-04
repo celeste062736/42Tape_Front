@@ -7,6 +7,7 @@ import type { Repo } from "../components/Components";
 import { getToken } from "next-auth/jwt"
 import { redirect } from "next/navigation";
 import React, { useState, useEffect } from 'react';
+import { Welcome } from '../components/welcome';
 
 export const metadata = {
   title: '42TAPE',
@@ -26,7 +27,7 @@ export default function Home(props: { userInfo: UserInfo }) {
       <MainLayout userInfo={ props.userInfo }></MainLayout>
       {!isModalOpen && (
         <div className="overlay" onClick={() => setModalOpen(true)}>
-          <Image src="/welcome.png" alt="welcome-image" width={1500} height={700} className="welcome-image" />
+          <Welcome></Welcome>
         </div>
       )}
     </div>
