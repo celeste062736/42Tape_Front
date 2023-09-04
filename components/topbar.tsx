@@ -281,7 +281,7 @@ export function Info() {
             <h6>Back-end 기술 스택</h6>
             <p><li>express.js | mysql | Sequelize</li></p>
             <h5><strong>Contact us</strong></h5>
-            <p>e-mail</p>
+            <p><li>fortytwo.tape@gmail.com</li></p>
           </Modal.Body>
           {/* <Modal.Footer>
           </Modal.Footer> */}
