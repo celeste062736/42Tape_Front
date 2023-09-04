@@ -203,6 +203,10 @@ export function ListButton() {
       )
     }
     return (
+      <>
+      <div>
+        <Ticket_Topbar/>
+      </div>
       <div>
         <button 
           className={`Button ${notiInfo.need_notify ? 'notify-active' : ''}`} 
@@ -250,6 +254,7 @@ export function ListButton() {
           </div>
         )}
       </div>
+      </>
     );
   }
 
