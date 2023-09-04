@@ -656,3 +656,31 @@ ul {
     width: auto;
   }
 }
+
+/* 가로 400px 이하 반응형 디자인 */
+@media (max-width: 430px) {
+  /* Rank 1~3 반응형 디자인 적용 */
+  .rank_picture_1 {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+  }
+  .rank_picture_2_3 {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }
+  #card_1st {
+    width: 110px;
+    height: 170px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  #card_2nd_3rd {
+    width: 70px;
+    height: 135px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  .rank_page_index_button {
+    font-size: 12px;
+  }
+}
