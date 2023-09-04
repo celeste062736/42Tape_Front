@@ -6,7 +6,7 @@ import type { UserInfo } from '../components/Components'
 import type { Repo } from "../components/Components";
 import { getToken } from "next-auth/jwt"
 import { redirect } from "next/navigation";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const metadata = {
   title: '42TAPE',
@@ -14,20 +14,19 @@ export const metadata = {
 }
 
 export default function Home(props: { userInfo: UserInfo }) {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(props.userInfo.is_active);
   if (props.userInfo.user_id === null) {
     redirect('/signin');
   }
-  console.log(props.userInfo)
-  if (props.userInfo.is_active === false) {
-    setModalOpen(true);
-  }
+  // console.log(props.userInfo)
+  useEffect(() => {
+  }, [isModalOpen])
   return (
     <div id="root">
       <TopBar></TopBar>
       <MainLayout userInfo={ props.userInfo }></MainLayout>
-      {isModalOpen && (
-        <div className="overlay" onClick={() => setModalOpen(false)}>
+      {!isModalOpen && (
+        <div className="overlay" onClick={() => setModalOpen(true)}>
           <Image src="/welcome.png" alt="welcome-image" width={500} height={500} className="welcome-image" />
         </div>
       )}
