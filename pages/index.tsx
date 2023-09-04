@@ -18,6 +18,7 @@ export default function Home(props: { userInfo: UserInfo }) {
   if (props.userInfo.user_id === null) {
     redirect('/signin');
   }
+  console.log(props.userInfo)
   if (props.userInfo.is_active === false) {
     setModalOpen(true);
   }
