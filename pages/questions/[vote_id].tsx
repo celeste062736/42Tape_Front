@@ -162,7 +162,7 @@ async function saveSurveyData(url : string, correctors: CorrProps[]) {
 }
 
 export default function Vote(props : { voteId: string }) {
-  const [description, setDescription] = useState("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
+  const [description, setDescription] = useState("질문에서의 엄밀함은 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지와 엄격하게 확인하는지 여부를 의미합니다.");
   const [survey, setSurvey] = useState<Model | null>(null);
   const [json, setJson] = useState(jsonData);
 
@@ -234,22 +234,22 @@ export default function Vote(props : { voteId: string }) {
     newSurvey.onCurrentPageChanged.add((sender, options) => {
       switch(sender.currentPageNo) {
         case 0:
-          setDescription("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
+          setDescription("질문에서의 엄밀함은 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지와 엄격하게 확인하는지 여부를 의미합니다.");
           break;
         case 1:
-          setDescription("건설적인 제안: 과제의 수준을 높일 수 있는 방법이나 다른 방향성을 제시하였는가?");
+          setDescription("질문에서의 건설적인 제안은 과제의 수준을 높일 수 있는 방법이나 다른 방향성을 제시하는지 여부를 의미합니다.");
           break;
         case 2:
-          setDescription("의사 소통 능력: 상대방의 디펜스 논리를 존중하며 비판적인 평가를 진행했는가?");
+          setDescription("질문에서의 의사 소통 능력은 상대방의 디펜스 논리를 존중하며 비판적인 평가를 진행하는지 여부를 의미합니다.");
           break;
         case 3:
-          setDescription("질문 퀄리티: 질문을 통해서 놓칠 수 있는 부분 및 피평가자가 모호하게 설명하는 내용을 짚어주었는가?");
+          setDescription("질문에서의 질문 퀄리티는 질문을 통해서 놓칠 수 있는 부분 및 피평가자가 모호하게 설명하는 내용을 짚어주었는지 여부를 의미합니다.");
           break;
         case 4:
-          setDescription("정보 공유: 부족한 점을 보완할 수 있는 자료나 추가적으로 좋은 정보를 공유하였는가?");
+          setDescription("질문에서의 정보 공유는 부족한 점을 보완할 수 있는 자료나 추가적으로 좋은 정보를 공유하였는지 여부를 의미합니다.");
           break;
         default:
-          setDescription("엄밀함: 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는가?");
+          setDescription("질문에서의 엄밀함은 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지 엄격하게 확인하였는지 여부를 의미합니다.");
           break;
       }
     });
@@ -269,7 +269,6 @@ export default function Vote(props : { voteId: string }) {
       </div>
     )
   }
-  //아래 div 빼도 되나?
   return (
     <div id="root">
       <TopBar></TopBar>
