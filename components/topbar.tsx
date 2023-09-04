@@ -119,6 +119,7 @@ export function ListButton() {
 
   export function SvgIconRing({number_notifications} : {number_notifications : number}) {
     return (
+      <div style={{paddingLeft:'10px', paddingRight:'0px'}}>
     <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#000000"/>
       <path d="M25 5.99453L22.5088 6.49766C16.7985 7.6509 12.5001 12.702 12.5001 18.75C12.5001 20.712 12.0802 25.6164 11.0661 30.4443C10.5627 32.8409 9.88919 35.3363 8.99404 37.5H41.006C40.1108 35.3363 39.4373 32.8409 38.934 30.4442C37.9199 25.6164 37.5001 20.7119 37.5001 18.75C37.5001 12.7019 33.2016 7.65084 27.4913 6.49764L25 5.99453ZM44.4353 37.5C45.133 38.8981 45.9421 40.0031 46.875 40.625H3.125C4.0579 40.0031 4.86702 38.8981 5.56469 37.5C8.37257 31.873 9.37507 21.4974 9.37507 18.75C9.37507 11.1854 14.7506 4.8764 21.8901 3.43451C21.8801 3.33269 21.875 3.22944 21.875 3.125C21.875 1.39911 23.2741 0 25 0C26.7259 0 28.125 1.39911 28.125 3.125C28.125 3.22944 28.1199 3.33267 28.1099 3.43448C35.2494 4.87632 40.6251 11.1854 40.6251 18.75C40.6251 21.4974 41.6275 31.873 44.4353 37.5Z" fill="#000000"/>
@@ -127,6 +128,7 @@ export function ListButton() {
         <circle cx="38" cy="10" r="10" fill="#FF0000"/>
       )}
     </svg>
+    </div>
     )
   }
 
@@ -208,10 +210,10 @@ export function ListButton() {
       return (
         <>
         <div>
-          <Ticket_Topbar candidateForReward={false}></Ticket_Topbar>
+          {/* <Ticket_Topbar candidateForReward={false}></Ticket_Topbar>
         </div>
         <div>
-          <SvgIconRing number_notifications={0}/>
+          <SvgIconRing number_notifications={0}/> */}
         </div>
       </>
       )
@@ -284,7 +286,7 @@ export function Info() {
   };
 
   return (
-    <div>
+    <div style={{paddingLeft: "0px", marginLeft: "-9px"}}>
       <button className="Button" onClick={handleClick} style={{marginLeft:'15px', marginRight:'15px'}}>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-info-square-fill" viewBox="0 0 16 16">
           <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
@@ -347,11 +349,9 @@ export function Info() {
           <SearchBar></SearchBar>
         </div>
         <div className="col-2 d-none d-xl-block"></div>
-        <div className="col-2 d-flex justify-content-around align-items-center" style={{width: '150px'}}>
+        <div className="col-2 d-flex justify-content-around align-items-center" style={{width: '190px'}}>
           <Tools></Tools>
         </div>
       </div>
     )
   }
-
-
