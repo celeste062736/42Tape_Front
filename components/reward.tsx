@@ -1,4 +1,5 @@
 import { Button } from "./button";
+import { Copyright } from './Components';
 
 export function RewardLayout() {
     return (
@@ -14,25 +15,38 @@ export function RewardLayout() {
                     <Button name="reward"></Button>
                 </div>
             </div>
-            <div className="col-xl-10 d-flex align-items-center justify-content-center">
-                <div className="row-10">
-                    <h1 id="reward_title">&#127873; 42 TAPE Reward List &#127873;</h1>
-                    <div className="reward_tile">
-                        <h2 className="reward_rank">1 ~ 3위</h2>
-                        <p className="centered-container">TEXT TEST</p>
-                        <div className="d-flex align-items-center justify-content-center">
-                            <img className="reward_img" src="/pizza.png" alt="pizza_img"></img>
+            <div className="col">
+                <div className="row">
+                    <div className="col-xl-10 d-flex justify-content-center align-items-center">
+                        <h1 id="reward_title">&#127873; 42 TAPE Reward List &#127873;</h1>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-xl-5 d-flex justify-content-center align-items-center">
+                        <div className="reward_tile">
+                            <h2 className="reward_rank">Rank 1 ~ 3 &#127829;</h2>
+                            <p className="reward_item centered-container">도미노피자 : 슈퍼디럭스 L + 콜라 1.25L</p>
+                            <div className="d-flex align-items-center justify-content-center">
+                                <img className="reward_img" src="/pizza.png" alt="pizza_img"></img>
+                            </div>
                         </div>
                     </div>
-                    <div className="reward_tile">
-                        <h2 className="reward_rank">무작위 랜덤 추첨! &#x1F91E;</h2>
-                        <p className="centered-container">TEXT TEST</p>
-                        <div className="d-flex align-items-center justify-content-center">
-                            <img className="reward_img" src="/coffee.png" alt="coffee_img"></img>
+                    <div className="col-xl-5 d-flex justify-content-center align-items-center">
+                        <div className="reward_tile">
+                            <h2 className="reward_rank">15명 무작위 랜덤 추첨! &#x1F91E;</h2>
+                            <p className="reward_item centered-container">컴포즈커피 : 아메리카노(Ice)</p>
+                            <div className="d-flex align-items-center justify-content-center">
+                                <img className="reward_img" src="/coffee.png" alt="coffee_img"></img>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div> 
+                <div className="row">
+                    <div className="col-xl-10 d-flex justify-content-center align-items-center">
+                        <Copyright></Copyright>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

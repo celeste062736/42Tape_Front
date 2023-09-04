@@ -9,6 +9,23 @@
   background-color: red;
 } */
 
+#welcome_popup {
+  /* 중앙 정렬 */
+  font-size: 32px;
+  /* 텍스트 중앙 정렬 */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 500px;
+  /* 테두리 */
+  border: 1px solid black;
+  /* 배경색 */
+  background-color: white;
+  border-radius: 10px;
+}
+
 #alarm_comment
 {
   /* //세로중앙정렬 */
@@ -630,7 +647,6 @@ ul {
   font-size: 28px;
   font-weight: bold;
   margin: 10px;
-  margin-bottom: 60px;
   /* 중앙 정렬 */
   display: flex;
   justify-content: center;
@@ -641,6 +657,7 @@ ul {
   font-size: 24px;
   font-weight: bold;
   margin: 0;
+  padding-top: 20px;
   /* 중앙 정렬 */
   display: flex;
   justify-content: center;
@@ -648,10 +665,15 @@ ul {
 }
 
 .reward_img {
-  width: 500px !important;
-  height: 500px !important;
+  width: 400px !important;
+  height: 400px !important;
   object-fit: cover;
   margin-bottom: 30px;
+}
+
+.reward_item {
+  padding-top : 10px;
+  font-size: 18px;
 }
 
 /* 가로 800px 이하 반응형 디자인 적용 */
@@ -735,6 +757,13 @@ ul {
   .reward_img {
     width: 300px !important;
     height: 300px !important;
+  }
+  .reward_tile {
+    width: 400px !important;
+  }
+  #welcome_popup {
+    font-size: 20px;
+    height: 300px;
   }
 }
 

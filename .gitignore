@@ -19,3 +19,4 @@ next-env.d.ts
 .vercel
 .env*.local
 vote_list_css_practice.tsx
+welcome_page_practice.tsx
