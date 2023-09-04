@@ -165,6 +165,9 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
         <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
           <Button name="rank"></Button>
         </div>
+        <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
+          <Button name="reward"></Button>
+        </div>
       </div>
       <div className="col">
         {/* 시즌 정보 코드 ... */}
@@ -178,7 +181,7 @@ export function RankLayout(props : {RankLayoutProps: RankLayoutProps}) {
           </div>
           <div className="row">
             <div
-              className="col-10" 
+              className="col-10"
               onMouseEnter={() => setShowSeasonInfo(true)}  // 마우스를 올렸을 때
               onMouseLeave={() => setShowSeasonInfo(false)} // 마우스를 내렸을 때
             >

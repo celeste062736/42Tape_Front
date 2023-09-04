@@ -67,6 +67,8 @@ export function ListButton() {
               <li><Button name="vote_in_list_box"></Button></li>
               <br></br>
               <li><Button name="rank_in_list_box"></Button></li>
+              <br></br>
+              <li><Button name="reward_in_list_box"></Button></li>
             </ul>
           </div>
         )}
@@ -276,10 +278,6 @@ export function Info() {
             <p><li>soohlee | woosekim</li></p>
             <h6>Back-end Developer</h6>
             <p><li>joonhlee | yonghyle | mingekim</li></p>
-            <h6>Front-end 기술 스택</h6>
-            <p><li>react | next.js</li></p>
-            <h6>Back-end 기술 스택</h6>
-            <p><li>express.js | mysql | Sequelize</li></p>
             <h5><strong>Contact us</strong></h5>
             <p><li>fortytwo.tape@gmail.com</li></p>
           </Modal.Body>
