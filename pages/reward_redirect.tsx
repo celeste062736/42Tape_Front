@@ -12,7 +12,7 @@ const renderTime = ({ remainingTime } : any) => {
   );
 };
 
-export default function reward() {
+export default function Reward() {
   const [redirect, setRedirect] = useState(false)
   //settimeout 3초 후에 redirect true로 바꾸기
   useEffect(() => {
