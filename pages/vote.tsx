@@ -20,6 +20,7 @@ export interface VoteListInfo {
     project_name: string;
     season_id: number;
     filled_at: string;
+    candidate_for_reward: boolean;
 }
   
 export interface VoteInfo_DB {
@@ -48,7 +49,8 @@ export const getServerSideProps: GetServerSideProps<{
         vote_id: -1,
         project_name: "unknown",
         season_id: -1,
-        filled_at: "unknown"
+        filled_at: "unknown",
+        candidate_for_reward: false,
       }
     ]
     if (!token) {
@@ -66,7 +68,16 @@ export const getServerSideProps: GetServerSideProps<{
       headers: userId ? { "user-id": userId } : {}
     })
     const repo : any = await resp.json()
-    const voteLists : VoteListInfo[] = repo.voteList;
+    console.log('---------------------1--------------------repo');
+    console.log(repo);
+    let voteLists : VoteListInfo[] = repo.voteList;
+    //map으로 돌려서 repo.tape_user.candidate_for_reward의 결과를 각 voteList에 넣어주기
+    voteLists.map((item, index) => {
+      item.candidate_for_reward = repo.tape_user.candidate_for_reward;
+    })
+    console.log('---------------------2--------------------voteLists');
+    console.log(voteLists);
+    console.log(voteLists[0]);
     return { props: { voteLists: voteLists }}
   }
 
