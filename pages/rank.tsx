@@ -41,17 +41,8 @@ export interface RankInfo_DB {
   currentSeason: Season;
   rankList: RankListEntry[];
 }
-
-export interface RankInfoNotiInfoProps {
-    rankInfo : RankInfo;
-    rankLayoutProps: RankLayoutProps;
-}
   
 export default function Rank_Page(props: { rankLayoutProps: RankLayoutProps }) {
-    // console.log('--------------------props.rankInfo_NotiInfo.NotiInfo');
-    // console.log(props.rankInfoNotiInfoProps);
-    // // console.log(props.rankInfo_NotiInfo.NotiInfo);
-    // console.log('--------------------props.rankInfo_NotiInfo.NotiInfo');
     return (
         <div id="root">
             <TopBar></TopBar>
@@ -150,6 +141,9 @@ export const getServerSideProps: GetServerSideProps<{
       method: "GET",
       headers: userId ? { "user-id": userId } : {}
     })
+    if (resp.status !== 200) {
+      return { props : { rankLayoutProps: unknownLayout }}
+    }
     const RankInfo_db : RankInfo_DB = await resp.json()
     // const RankInfo : RankInfo = [
     //     {

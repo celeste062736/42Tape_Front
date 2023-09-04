@@ -174,8 +174,20 @@ export function ListButton() {
         }
       }
     }, [isOpened])
-    if (error) return <SvgIconRing number_notifications={0}/>
-    if (!data) return <SvgIconRing number_notifications={0}/>
+    if (error) {
+      return (
+        <div>
+          <SvgIconRing number_notifications={0}/>
+        </div>
+      )
+    }
+    if (!data) {
+      return (
+        <div>
+          <SvgIconRing number_notifications={0}/>
+        </div>
+      )
+    }
     return (
       <div>
         <button 

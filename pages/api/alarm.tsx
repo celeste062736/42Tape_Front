@@ -25,27 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
     const resp : NotificationResponse = await data.json()
-    console.log('notification');
-    console.log(token);
-    console.log('notification');
-    // notificationList에 데이터 수동으로 넣기
-    // resp.notificationList = [
-    //     {
-    //         "type": "now_reward_candidate",
-    //         "createdAt": "Mon Aug 28 2023",
-    //         "notified": false
-    //     },
-    //     {
-    //         "type": "got_new_reward",
-    //         "createdAt": "Mon Aug 28 2023",
-    //         "notified": true
-    //     },
-    //     {
-    //         "type": "now_no_reward",
-    //         "createdAt": "Mon Aug 28 2023",
-    //         "notified": true
-    //     }
-    //   ]
     const notiInfo : NotificationResponse = {
       user_sub: String(token.sub),
       receiver: resp.receiver,

@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt"
 import { TopBar } from '../../components/topbar'
 import { RankLayout, RankLayoutProps } from '../../components/rank'
 import type { RankInfo, IndividualSeason, SeasonInfo } from '../../components/rank'
-import type { RankInfo_DB, RankInfoNotiInfoProps } from '../rank'
+import type { RankInfo_DB } from '../rank'
 
 
 

@@ -8,6 +8,7 @@ import { themeJson } from "../../survey"
 import type { GetServerSideProps } from "next"
 import React, { useEffect, useState } from "react"
 import { Tooltip } from 'bootstrap';
+import { Loading } from '../../components/spinner'
 
 export const jsonData = {
   "logoPosition": "right",
@@ -140,7 +141,11 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
     };
   }, []);
   if (props.choices[0].value === "unknown") {
-    return <>Loading</>
+    return (
+      <>
+       <Loading/>
+      </>
+    )
   }
   return (
     <div id="root">
@@ -199,6 +204,9 @@ export const getServerSideProps: GetServerSideProps<{
   const resp = await fetch(process.env.FETCH_URL+`vote/${voteId}`, {
     headers: userId ? { "user-id": userId } : {},
   });
+  if (resp.status !== 200) {
+    return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
+  }
   const data = await resp.json();
   if (data.correctors === undefined || data.min_1st_round === undefined || data.max_1st_round === undefined) {
     return { props : {choices: dataUnknown, voteId: -1 , round_data: round_data} }
