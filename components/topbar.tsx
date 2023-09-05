@@ -306,6 +306,9 @@ export function Info() {
               <br></br>
               &nbsp;과제와 일상생활에 바쁜 사람들도 부담 없이 참여할 수 있도록 가이드라인을 제공하고 잘 수행한 분들에게는 <strong>리워드를 제공하여 평가 문화를 지속하려고 합니다.</strong>
             </p>
+            <br></br>
+            <br></br>
+            <br></br>
             <h5><strong>Credit</strong></h5>
             <h6>Front-end Developer</h6>
             <p><li>soohlee | woosekim</li></p>
@@ -314,8 +317,6 @@ export function Info() {
             <h5><strong>Contact us</strong></h5>
             <p><li>fortytwo.tape@gmail.com</li></p>
           </Modal.Body>
-          {/* <Modal.Footer>
-          </Modal.Footer> */}
         </Modal>
       </div>
     </div>
