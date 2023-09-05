@@ -84,12 +84,12 @@ export function VoteLayout({ vote_data }: VoteListInfoProps) {
             </div>
           ))}
         </div>
-        <div className="row">
+      </div>
+      <div className="row">
           <div className="col-xl-10 d-flex justify-content-center align-items-center">
             <Copyright />
           </div>
         </div>
-      </div>
     </div>
   )
 }

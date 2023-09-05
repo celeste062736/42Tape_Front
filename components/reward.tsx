@@ -42,10 +42,10 @@ export function RewardLayout() {
                         </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-xl-10 d-flex justify-content-center align-items-center">
-                        <Copyright></Copyright>
-                    </div>
+            </div>
+            <div className="row">
+                <div className="col-xl-10 d-flex justify-content-center align-items-center">
+                <Copyright></Copyright>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@ import { themeJson } from "../../survey"
 import React, { useState, useEffect } from "react"
 import { Loading } from "../../components/spinner"
 import useSWR from 'swr';
+import { Copyright } from "../../components/Components"
 
 export const jsonData = {
  "logoPosition": "right",
@@ -295,6 +296,11 @@ export default function Vote(props : { voteId: string }) {
               <Survey model={survey}></Survey>
             </NonSSRWrapper>
           }
+        </div>
+        <div className="row">
+          <div className="col-xl-10 d-flex justify-content-center align-items-center">
+            <Copyright></Copyright>
+          </div>
         </div>
       </div>
     </div>
