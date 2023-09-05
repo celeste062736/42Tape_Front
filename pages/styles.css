@@ -688,6 +688,8 @@
 .reward_item {
   padding-top : 10px;
   font-size: 18px;
+  /* //텍스트가 한줄로 표시되도록 */
+  white-space: nowrap;
 }
 
 /* 가로 800px 이하 반응형 디자인 적용 */
