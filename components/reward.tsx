@@ -1,5 +1,6 @@
 import { Button } from "./button";
 import { Copyright } from './Components';
+import Image from "next/image";
 
 export function RewardLayout() {
     return (
@@ -27,7 +28,7 @@ export function RewardLayout() {
                             <h2 className="reward_rank">Rank 1 ~ 3 &#127829;</h2>
                             <p className="reward_item centered-container">도미노피자 : 슈퍼디럭스 L + 콜라 1.25L</p>
                             <div className="d-flex align-items-center justify-content-center">
-                                <img className="reward_img" src="/pizza.png" alt="pizza_img"></img>
+                                <Image className="reward_img" src="/pizza.png" width={1000} height={1000} alt="pizza_img"></Image>
                             </div>
                         </div>
                     </div>
@@ -36,7 +37,7 @@ export function RewardLayout() {
                             <h2 className="reward_rank">15명 무작위 랜덤 추첨! &#x1F91E;</h2>
                             <p className="reward_item centered-container">컴포즈커피 : 아메리카노(Ice)</p>
                             <div className="d-flex align-items-center justify-content-center">
-                                <img className="reward_img" src="/coffee.png" alt="coffee_img"></img>
+                                <Image className="reward_img" src="/coffee.png" width={1000} height={1000} alt="coffee_img"></Image>
                             </div>
                         </div>
                     </div>

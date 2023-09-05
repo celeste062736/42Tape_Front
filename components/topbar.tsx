@@ -333,8 +333,6 @@ export function Info() {
               <li><a href="mailto:fortytwo.tape@gmail.com">fortytwo.tape@gmail.com</a></li>
             </ul>
           </Modal.Body>
-          {/* <Modal.Footer>
-          </Modal.Footer> */}
         </Modal>
       </div>
     </div>
