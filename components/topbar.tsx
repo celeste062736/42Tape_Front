@@ -78,7 +78,7 @@ export function ListButton() {
   
         {showList && (
           <div className="list-box" ref={listRef}>
-            <ul style={{padding: '10px', margin: '0'}}>
+            <ul className="ul_no_bullet" style={{padding: '10px', margin: '0'}}>
               <li><Button name="vote_in_list_box"></Button></li>
               <br></br>
               <li><Button name="rank_in_list_box"></Button></li>
@@ -119,7 +119,6 @@ export function ListButton() {
 
   export function SvgIconRing({number_notifications} : {number_notifications : number}) {
     return (
-      <div style={{paddingLeft:'10px', paddingRight:'0px'}}>
     <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M25 50C28.4518 50 31.25 47.2018 31.25 43.75H18.75C18.75 47.2018 21.5482 50 25 50Z" fill="#000000"/>
       <path d="M25 5.99453L22.5088 6.49766C16.7985 7.6509 12.5001 12.702 12.5001 18.75C12.5001 20.712 12.0802 25.6164 11.0661 30.4443C10.5627 32.8409 9.88919 35.3363 8.99404 37.5H41.006C40.1108 35.3363 39.4373 32.8409 38.934 30.4442C37.9199 25.6164 37.5001 20.7119 37.5001 18.75C37.5001 12.7019 33.2016 7.65084 27.4913 6.49764L25 5.99453ZM44.4353 37.5C45.133 38.8981 45.9421 40.0031 46.875 40.625H3.125C4.0579 40.0031 4.86702 38.8981 5.56469 37.5C8.37257 31.873 9.37507 21.4974 9.37507 18.75C9.37507 11.1854 14.7506 4.8764 21.8901 3.43451C21.8801 3.33269 21.875 3.22944 21.875 3.125C21.875 1.39911 23.2741 0 25 0C26.7259 0 28.125 1.39911 28.125 3.125C28.125 3.22944 28.1199 3.33267 28.1099 3.43448C35.2494 4.87632 40.6251 11.1854 40.6251 18.75C40.6251 21.4974 41.6275 31.873 44.4353 37.5Z" fill="#000000"/>
@@ -128,7 +127,6 @@ export function ListButton() {
         <circle cx="38" cy="10" r="10" fill="#FF0000"/>
       )}
     </svg>
-    </div>
     )
   }
 
@@ -210,10 +208,10 @@ export function ListButton() {
       return (
         <>
         <div>
-          {/* <Ticket_Topbar candidateForReward={false}></Ticket_Topbar>
+          <Ticket_Topbar candidateForReward={false}></Ticket_Topbar>
         </div>
         <div>
-          <SvgIconRing number_notifications={0}/> */}
+          <SvgIconRing number_notifications={0}/>
         </div>
       </>
       )
@@ -241,7 +239,7 @@ export function ListButton() {
         {showList && (
           <div className={`alarm-list ${showList ? "show" : ""}`} ref={listRef}>
             {notiInfo.notificationList.length > 0 ? (
-              <ul style={{ padding: "10px", margin: "0" }}>
+              <ul className="ul_no_bullet" style={{ padding: "10px", margin: "0" }}>
                 {notiInfo.notificationList.map((notification, index) => (
                   <li key={index} style={{ color: notification.notified ? "grey" : "black", }}>
                     <div className='row' id={(index != 0) ? "alarm_greed_style" : "alarm_greed_style_first"}>
@@ -286,7 +284,7 @@ export function Info() {
   };
 
   return (
-    <div style={{paddingLeft: "0px", marginLeft: "-9px"}}>
+    <div>
       <button className="Button" onClick={handleClick} style={{marginLeft:'15px', marginRight:'15px'}}>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-info-square-fill" viewBox="0 0 16 16">
           <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
@@ -309,18 +307,30 @@ export function Info() {
             <h5><strong>How to use</strong></h5>
             <ol>
               <li>좌측 메뉴에서 Vote 클릭</li>
-              <li>가장 최근에 통과한 과제 선택
-                (과제명 좌측에 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0 8.4375C0 6.8842 1.2592 5.625 2.8125 5.625H27.1875C28.7408 5.625 30 6.8842 30 8.4375V11.25C30 11.7678 29.5803 12.1875 29.0625 12.1875C27.5092 12.1875 26.25 13.4467 26.25 15C26.25 16.5533 27.5092 17.8125 29.0625 17.8125C29.5803 17.8125 30 18.2322 30 18.75V21.5625C30 23.1158 28.7408 24.375 27.1875 24.375H2.8125C1.2592 24.375 0 23.1158 0 21.5625V18.75C0 18.2322 0.419733 17.8125 0.9375 17.8125C2.4908 17.8125 3.75 16.5533 3.75 15C3.75 13.4467 2.4908 12.1875 0.9375 12.1875C0.419733 12.1875 0 11.7678 0 11.25V8.4375ZM7.5 6.5625V8.4375H9.375V6.5625H7.5ZM9.375 12.1875V10.3125H7.5V12.1875H9.375ZM22.5 12.1875V10.3125H20.625V12.1875H22.5ZM20.625 8.4375H22.5V6.5625H20.625V8.4375ZM9.375 14.0625H7.5V15.9375H9.375V14.0625ZM22.5 15.9375V14.0625H20.625V15.9375H22.5ZM9.375 17.8125H7.5V19.6875H9.375V17.8125ZM22.5 19.6875V17.8125H20.625V19.6875H22.5ZM7.5 21.5625V23.4375H9.375V21.5625H7.5ZM20.625 23.4375H22.5V21.5625H20.625V23.4375Z" fill="#EBC705"/>
-                </svg> 확인)</li>
-              <li>과제를 통과할 때까지 만난 모든 평가자들 중 가장 좋았던 평가자 투표 (평가자 수에 따라 투표개수가 달라짐)</li>
-              <li>투표한 평가자들에 한해서 5개의 설문 항목에 적합하다고 생각되는 평가자 선택</li>
-              <li>설문 진행을 모두 완료한 후 우측상단의 응모권 활성화 확인</li>
+              <li>투표할 과제 선택
+                <br></br>
+                  <span style={{fontSize:'13px'}}>※ 과제명 좌측에 <svg width="22" height="22" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 8.4375C0 6.8842 1.2592 5.625 2.8125 5.625H27.1875C28.7408 5.625 30 6.8842 30 8.4375V11.25C30 11.7678 29.5803 12.1875 29.0625 12.1875C27.5092 12.1875 26.25 13.4467 26.25 15C26.25 16.5533 27.5092 17.8125 29.0625 17.8125C29.5803 17.8125 30 18.2322 30 18.75V21.5625C30 23.1158 28.7408 24.375 27.1875 24.375H2.8125C1.2592 24.375 0 23.1158 0 21.5625V18.75C0 18.2322 0.419733 17.8125 0.9375 17.8125C2.4908 17.8125 3.75 16.5533 3.75 15C3.75 13.4467 2.4908 12.1875 0.9375 12.1875C0.419733 12.1875 0 11.7678 0 11.25V8.4375ZM7.5 6.5625V8.4375H9.375V6.5625H7.5ZM9.375 12.1875V10.3125H7.5V12.1875H9.375ZM22.5 12.1875V10.3125H20.625V12.1875H22.5ZM20.625 8.4375H22.5V6.5625H20.625V8.4375ZM9.375 14.0625H7.5V15.9375H9.375V14.0625ZM22.5 15.9375V14.0625H20.625V15.9375H22.5ZM9.375 17.8125H7.5V19.6875H9.375V17.8125ZM22.5 19.6875V17.8125H20.625V19.6875H22.5ZM7.5 21.5625V23.4375H9.375V21.5625H7.5ZM20.625 23.4375H22.5V21.5625H20.625V23.4375Z" fill="#EBC705"/>
+                    </svg> 표시가 있는 과제는 응모권 제공
+                  </span>
+                </li>
+              <li>과제를 통과할 때까지 만난 모든 평가자들 중 높은 평가 퀄리티로 도움이 되었던 평가자 선택
+                <br></br>
+                <span style={{fontSize:'13px'}}>※ 평가자 수에 따라 투표개수가 달라짐</span>
+              </li>
+              <li>선택한 평가자들 중 5개의 설문 항목에 적합하다고 생각되는 평가자 선택
+                <br></br>
+                <span style={{fontSize:'13px'}}>※ <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" className="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                  </svg> 툴팁에서 각 설문 항목에 대한 자세한 내용 확인 가능
+                </span>
+              </li>
+              <li>응모권이 제공된 과제를 진행했다면 우측상단의 응모권 활성화 확인</li>
               <li>2주 간격으로 랭킹이 갱신될 때마다 보상 획득 여부 확인 &#127873;</li>
             </ol>
             <h5><strong>Contact us</strong></h5>
             <ul>
-              <li>fortytwo.tape@gmail.com</li>
+              <li><a href="mailto:fortytwo.tape@gmail.com">fortytwo.tape@gmail.com</a></li>
             </ul>
           </Modal.Body>
           {/* <Modal.Footer>
@@ -358,9 +368,11 @@ export function Info() {
           <SearchBar></SearchBar>
         </div>
         <div className="col-2 d-none d-xl-block"></div>
-        <div className="col-2 d-flex justify-content-around align-items-center" style={{width: '190px'}}>
+        <div className="col-2 d-flex justify-content-around align-items-center" style={{width: '150px'}}>
           <Tools></Tools>
         </div>
       </div>
     )
   }
+
+

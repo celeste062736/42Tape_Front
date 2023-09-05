@@ -9,6 +9,10 @@
   background-color: red;
 } */
 
+.ul_no_bullet {
+  list-style-type: none;
+}
+
 #vote_list_ticket{
   text-align: right; /* 텍스트를 오른쪽 정렬합니다. */
   display: flex; /* 중앙 정렬을 위해 Flexbox 레이아웃을 사용합니다. */
