@@ -323,8 +323,6 @@ export function Info() {
               <li>fortytwo.tape@gmail.com</li>
             </ul>
           </Modal.Body>
-          {/* <Modal.Footer>
-          </Modal.Footer> */}
         </Modal>
       </div>
     </div>
