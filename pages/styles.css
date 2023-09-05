@@ -100,11 +100,6 @@
   transform: translate(-112px, -20px);
 }
 
-ul {
-  /*모든 효과 제거 */
-  list-style-type: none;
-}
-
 /* top을 제외한 전체 마진을 10px */
 #root {
   margin: 10px;
