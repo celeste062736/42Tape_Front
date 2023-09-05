@@ -165,6 +165,7 @@ export default function Vote(props : { voteId: string }) {
   const [description, setDescription] = useState("질문에서의 엄밀함은 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지와 엄격하게 확인하는지 여부를 의미합니다.");
   const [survey, setSurvey] = useState<Model | null>(null);
   const [json, setJson] = useState(jsonData);
+  const [data, setData] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -179,45 +180,49 @@ export default function Vote(props : { voteId: string }) {
           throw new Error("Failed to fetch");
         }
         const data = await res.json();
-        const getData : Corrector[] = await data.correctors.map((corrector : any) => ({
-          corrector_id: corrector.corrector_id,
-          intra_login: corrector.intra_login,
-          intra_picture: corrector.intra_picture,
-          comment: corrector.comment,
-          selected: corrector.selected,
-        }));
-        let result = getData.filter((corrector: Corrector) => corrector.selected === true);
-        let choices = result.map((corrector: Corrector) => ({
-          "value": corrector.corrector_id,
-          "text": corrector.intra_login,
-          "imageLink": corrector.intra_picture || process.env.NEXT_PUBLIC_PICTURE!,
-        }));
-        const updatedJsonData = {
-          ...jsonData,
-          pages: jsonData.pages.map((page) => {
-            return {
-              ...page,
-              elements: page.elements.map((element) => {
-                if (element.type === "imagepicker") {
-                  return {
-                    ...element,
-                    choices: choices,
-                  };
-                }
-                return element;
-              }),
-            };
-          }),
-        };
-        setJson(updatedJsonData); // 상태 업데이트
+        setData(data)
       } catch (error) {
         console.log(error);
       }
     };
-  
     fetchData();
   }, []);
   useEffect(() => {
+    if (data === null) return
+    const fetchData = async () => {
+    const getData : Corrector[] = await data.correctors.map((corrector : any) => ({
+        corrector_id: corrector.corrector_id,
+        intra_login: corrector.intra_login,
+        intra_picture: corrector.intra_picture,
+        comment: corrector.comment,
+        selected: corrector.selected,
+      }));
+      let result = getData.filter((corrector: Corrector) => corrector.selected === true);
+      let choices = result.map((corrector: Corrector) => ({
+        "value": corrector.corrector_id,
+        "text": corrector.intra_login,
+        "imageLink": corrector.intra_picture || process.env.NEXT_PUBLIC_PICTURE!,
+      }));
+      const updatedJsonData = {
+        ...jsonData,
+        pages: jsonData.pages.map((page) => {
+          return {
+            ...page,
+            elements: page.elements.map((element) => {
+              if (element.type === "imagepicker") {
+                return {
+                  ...element,
+                  choices: choices,
+                };
+              }
+              return element;
+            }),
+          };
+        }),
+      };
+      setJson(updatedJsonData); // 상태 업데이트
+    }
+    fetchData()
     if (process.env.NEXT_PUBLIC_ENV === "production") {
       jsonData["navigateToUrl"] = "https://42tape.com"
     } else {
@@ -255,7 +260,7 @@ export default function Vote(props : { voteId: string }) {
     });
     newSurvey.completedHtml = "<span></span>";
     setSurvey(newSurvey);  // 상태 업데이트
-  }, [json]);
+  }, [data]);
 
   useEffect(() => {
     const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
