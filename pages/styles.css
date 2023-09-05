@@ -9,16 +9,9 @@
   background-color: red;
 } */
 
-/* .modal-header {
-  width: 2000px;
+.ul_no_bullet {
+  list-style-type: none;
 }
-.modal-title {
-  width: 2000px;
-}
-.modal.body {
-  width: 2000px;
-} */
-
 
 #vote_list_ticket{
   text-align: right; /* 텍스트를 오른쪽 정렬합니다. */
