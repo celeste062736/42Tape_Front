@@ -7,6 +7,7 @@ import 'survey-core/defaultV2.min.css'
 import { themeJson } from "../../survey"
 import React, { useState, useEffect } from "react"
 import { Loading } from "../../components/spinner"
+import useSWR from 'swr';
 
 export const jsonData = {
  "logoPosition": "right",
@@ -161,68 +162,73 @@ async function saveSurveyData(url : string, correctors: CorrProps[]) {
   }).catch((error) => console.log(error))
 }
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
+
 export default function Vote(props : { voteId: string }) {
   const [description, setDescription] = useState("질문에서의 엄밀함은 과제에서 지켜야하는 요구사항과 학습해야하는 최소한의 개념을 제대로 이해했는지와 엄격하게 확인하는지 여부를 의미합니다.");
   const [survey, setSurvey] = useState<Model | null>(null);
   const [json, setJson] = useState(jsonData);
-  const [data, setData] = useState<any>(null);
+  const { data, error } = useSWR<any>(`/api/save-survey/${props.voteId}`, fetcher)
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await fetch(`/api/save-survey/${props.voteId}`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
+  //       if (res.status !== 200) {
+  //         throw new Error("Failed to fetch");
+  //       }
+  //       const data = await res.json();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const res = await fetch(`/api/save-survey/${props.voteId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (res.status !== 200) {
-          throw new Error("Failed to fetch");
-        }
-        const data = await res.json();
-        setData(data)
-      } catch (error) {
-        console.log(error);
+      if (data) {
+        // const res = data.json()
+        const getData : Corrector[] = await data.correctors.map((corrector : any) => ({
+          corrector_id: corrector.corrector_id,
+          intra_login: corrector.intra_login,
+          intra_picture: corrector.intra_picture,
+          comment: corrector.comment,
+          selected: corrector.selected,
+        }));
+        let result = getData.filter((corrector: Corrector) => corrector.selected === true);
+        let choices = result.map((corrector: Corrector) => ({
+          "value": corrector.corrector_id,
+          "text": corrector.intra_login,
+          "imageLink": corrector.intra_picture || process.env.NEXT_PUBLIC_PICTURE!,
+        }));
+        const updatedJsonData = {
+          ...jsonData,
+          pages: jsonData.pages.map((page) => {
+            return {
+              ...page,
+              elements: page.elements.map((element) => {
+                if (element.type === "imagepicker") {
+                  return {
+                    ...element,
+                    choices: choices,
+                  };
+                }
+                return element;
+              }),
+            };
+          }),
+        };
+        setJson(updatedJsonData); // 상태 업데이트
       }
-    };
-    fetchData();
-  }, []);
-  useEffect(() => {
-    if (data === null) return
-    const fetchData = async () => {
-    const getData : Corrector[] = await data.correctors.map((corrector : any) => ({
-        corrector_id: corrector.corrector_id,
-        intra_login: corrector.intra_login,
-        intra_picture: corrector.intra_picture,
-        comment: corrector.comment,
-        selected: corrector.selected,
-      }));
-      let result = getData.filter((corrector: Corrector) => corrector.selected === true);
-      let choices = result.map((corrector: Corrector) => ({
-        "value": corrector.corrector_id,
-        "text": corrector.intra_login,
-        "imageLink": corrector.intra_picture || process.env.NEXT_PUBLIC_PICTURE!,
-      }));
-      const updatedJsonData = {
-        ...jsonData,
-        pages: jsonData.pages.map((page) => {
-          return {
-            ...page,
-            elements: page.elements.map((element) => {
-              if (element.type === "imagepicker") {
-                return {
-                  ...element,
-                  choices: choices,
-                };
-              }
-              return element;
-            }),
-          };
-        }),
-      };
-      setJson(updatedJsonData); // 상태 업데이트
     }
     fetchData()
+  }, [data])
+  useEffect(() => {
     if (process.env.NEXT_PUBLIC_ENV === "production") {
       jsonData["navigateToUrl"] = "https://42tape.com"
     } else {
@@ -260,14 +266,14 @@ export default function Vote(props : { voteId: string }) {
     });
     newSurvey.completedHtml = "<span></span>";
     setSurvey(newSurvey);  // 상태 업데이트
-  }, [data]);
+  }, [json]);
 
   useEffect(() => {
     const bootstrap = require('bootstrap');  // 클라이언트 사이드에서만 import
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     const tooltipList = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
   }, [description, []]);  // description 상태가 바뀔 때마다 툴팁을 다시 초기화, 빈 배열을 추가하여 페이지가 처음 렌더링될 때 초기화
-  if (survey === null) {
+  if (data === null) {
     return (
       <div>
         <Loading/>
