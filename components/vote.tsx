@@ -34,134 +34,62 @@ export const TicketSvgIcon = () => (
 //   </svg>
 // );
 
-export function VoteLayout({vote_data}: VoteListInfoProps) {
+export function VoteLayout({ vote_data }: VoteListInfoProps) {
   const router = useRouter();
-  // vote_data[0].candidate_for_reward = false; // for test
-  // console.log('---------------------3--------------------vote_data');
-  // console.log(vote_data[0]);
-    return (
-      <div className="row" style={{margin: '0px'}}>
-        <div className="col-2 d-none d-xl-block">
-          <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
-            <Button name="vote"></Button>
-          </div>
-          <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
-            <Button name="rank"></Button>
-          </div>
-          <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
-            <Button name="reward"></Button>
+  
+  return (
+    <div className="row" style={{ margin: '0px' }}>
+      <div className="col-2 d-none d-xl-block">
+        <div className="row d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
+          <Button name="vote"></Button>
+        </div>
+        <div className="row d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
+          <Button name="rank"></Button>
+        </div>
+        <div className="row d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
+          <Button name="reward"></Button>
+        </div>
+      </div>
+      <div className="col">
+        <div className="row">
+          <div id="vote_main_description" className="col-xl-10 d-flex align-items-center justify-content-center">
+            평가자 투표를 진행할 과제를 하나 선택하세요.
           </div>
         </div>
-        <div className="col">
-          <div className="row">
-            <div id="vote_main_description" className="col-xl-10 d-flex align-items-center justify-content-center">
-              평가자 투표를 진행할 과제를 하나 선택하세요.
-            </div>
+        <div className="row" style={{ margin: '15px' }}>
+          <div id="vote_sub_description" className="col-xl-10 d-flex align-items-center justify-content-center">
+            ※ 투표 대상은 과제를 통과할 때까지 만난 모든 평가자들입니다.
           </div>
-          <div className="row" style={{margin: '15px'}}>
-            <div id="vote_sub_description" className="col-xl-10 d-flex align-items-center justify-content-center">
-              ※ 투표 대상은 과제를 통과할 때까지 만난 모든 평가자들입니다.
-            </div>
-          </div>
-
-            <div className="row">
-
-              
-                {vote_data.map((item, index) => (
-                    <div key={index} className="row">
-                  <div className='col-xs-1 col-3'>
-                  {(index === 0 && (vote_data[0].candidate_for_reward === false)) ? <TicketSvgIcon/> : <div></div>}
+        </div>
+        <div className="row">
+          {vote_data.map((item, index) => (
+            <div key={index} className="row">
+              <div className='col-xs-1 col-3'>
+                {(index === 0 && (vote_data[0].candidate_for_reward === false)) ? <TicketSvgIcon /> : <div></div>}
+              </div>
+              <div className='col-xs-10 col-6'>
+                <div key={index} className="col-xl-10 d-flex align-items-center justify-content-left">
+                  <div id="season_display">
+                    Season {item.season_id}
                   </div>
-                  <div className='col-xs-10 col-6'>
-                        <div key={index} className="col-xl-10 d-flex align-items-center justify-content-left">
-                            
-                            <div id="season_display">
-                              Season {item.season_id}
-                            </div>
-                            <button id="project_selector" className="btn btn-primary" onClick={(e) => {
-                              router.push(`/vote/${item.vote_id}`)
-                            }}>
-                              {item.project_name} 평가자 투표
-                            </button>
-                        </div>
-                    </div>
-                    <div className='col-xs-1 col-3'>
-                    </div>
-                    </div>
-                ))}
+                  <button id="project_selector" className="btn btn-primary" onClick={(e) => {
+                    router.push(`/vote/${item.vote_id}`)
+                  }}>
+                    {item.project_name} 평가자 투표
+                  </button>
+                </div>
+              </div>
+              <div className='col-xs-1 col-3'>
               </div>
             </div>
-            <div className="row">
-                <div className="col-xl-10 d-flex justify-content-center align-items-center">
-                    <Copyright></Copyright>
-                </div>
-            </div>
+          ))}
         </div>
-    )
-  }
-
-
-
-
-
-
-
-
-
-//   return (
-//     <div className="row" style={{margin: '0px'}}>
-//       <div className="col-2 d-none d-xl-block">
-//         <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
-//           <Button name="vote"></Button>
-//         </div>
-//         <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
-//           <Button name="rank"></Button>
-//         </div>
-//         <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
-//           <Button name="reward"></Button>
-//         </div>
-//       </div>
-//       <div className="col">
-//         <div className="row">
-//           <div id="vote_main_description" className="col-xl-10 d-flex align-items-center justify-content-center">
-//             평가자 투표를 진행할 과제를 하나 선택하세요.
-//           </div>
-//         </div>
-//         <div className="row" style={{margin: '15px'}}>
-//           <div id="vote_sub_description" className="col-xl-10 d-flex align-items-center justify-content-center">
-//             ※ 투표 대상은 과제를 통과할 때까지 만난 모든 평가자들입니다.
-//           </div>
-//         </div>
-
-//           <div className="row">
-//             <div className='col-xs-1 col-3'>
-//             </div>
-//             <div className='col-xs-10 col-6'>
-//               {vote_data.map((item, index) => (
-//                   <div key={index} className="row">
-//                       <div key={index} className="col-xl-10 d-flex align-items-center justify-content-left">
-//                           {(index === 0 && (vote_data[0].candidate_for_reward === false)) ? <TicketSvgIcon/> : <div></div>}
-//                           <div id="season_display">
-//                             Season {item.season_id}
-//                           </div>
-//                           <button id="project_selector" className="btn btn-primary" onClick={(e) => {
-//                             router.push(`/vote/${item.vote_id}`)
-//                           }}>
-//                             {item.project_name} 평가자 투표
-//                           </button>
-//                       </div>
-//                   </div>
-//               ))}
-//             </div>
-//             <div className='col-xs-1 col-3'>
-//             </div>
-//           </div>
-//           <div className="row">
-//               <div className="col-xl-10 d-flex justify-content-center align-items-center">
-//                   <Copyright></Copyright>
-//               </div>
-//           </div>
-//       </div>
-//     </div>
-//   )
-// }
+        <div className="row">
+          <div className="col-xl-10 d-flex justify-content-center align-items-center">
+            <Copyright />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

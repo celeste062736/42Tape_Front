@@ -78,7 +78,7 @@ export function ListButton() {
   
         {showList && (
           <div className="list-box" ref={listRef}>
-            <ul style={{padding: '10px', margin: '0'}}>
+            <ul className="ul_no_bullet" style={{padding: '10px', margin: '0'}}>
               <li><Button name="vote_in_list_box"></Button></li>
               <br></br>
               <li><Button name="rank_in_list_box"></Button></li>
@@ -210,10 +210,10 @@ export function ListButton() {
       return (
         <>
         <div>
-          {/* <Ticket_Topbar candidateForReward={false}></Ticket_Topbar>
+          <Ticket_Topbar candidateForReward={false}></Ticket_Topbar>
         </div>
         <div>
-          <SvgIconRing number_notifications={0}/> */}
+          <SvgIconRing number_notifications={0}/>
         </div>
       </>
       )
@@ -241,7 +241,7 @@ export function ListButton() {
         {showList && (
           <div className={`alarm-list ${showList ? "show" : ""}`} ref={listRef}>
             {notiInfo.notificationList.length > 0 ? (
-              <ul style={{ padding: "10px", margin: "0" }}>
+              <ul className="ul_no_bullet" style={{ padding: "10px", margin: "0" }}>
                 {notiInfo.notificationList.map((notification, index) => (
                   <li key={index} style={{ color: notification.notified ? "grey" : "black", }}>
                     <div className='row' id={(index != 0) ? "alarm_greed_style" : "alarm_greed_style_first"}>
@@ -309,18 +309,30 @@ export function Info() {
             <h5><strong>How to use</strong></h5>
             <ol>
               <li>좌측 메뉴에서 Vote 클릭</li>
-              <li>가장 최근에 통과한 과제 선택
-                (과제명 좌측에 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0 8.4375C0 6.8842 1.2592 5.625 2.8125 5.625H27.1875C28.7408 5.625 30 6.8842 30 8.4375V11.25C30 11.7678 29.5803 12.1875 29.0625 12.1875C27.5092 12.1875 26.25 13.4467 26.25 15C26.25 16.5533 27.5092 17.8125 29.0625 17.8125C29.5803 17.8125 30 18.2322 30 18.75V21.5625C30 23.1158 28.7408 24.375 27.1875 24.375H2.8125C1.2592 24.375 0 23.1158 0 21.5625V18.75C0 18.2322 0.419733 17.8125 0.9375 17.8125C2.4908 17.8125 3.75 16.5533 3.75 15C3.75 13.4467 2.4908 12.1875 0.9375 12.1875C0.419733 12.1875 0 11.7678 0 11.25V8.4375ZM7.5 6.5625V8.4375H9.375V6.5625H7.5ZM9.375 12.1875V10.3125H7.5V12.1875H9.375ZM22.5 12.1875V10.3125H20.625V12.1875H22.5ZM20.625 8.4375H22.5V6.5625H20.625V8.4375ZM9.375 14.0625H7.5V15.9375H9.375V14.0625ZM22.5 15.9375V14.0625H20.625V15.9375H22.5ZM9.375 17.8125H7.5V19.6875H9.375V17.8125ZM22.5 19.6875V17.8125H20.625V19.6875H22.5ZM7.5 21.5625V23.4375H9.375V21.5625H7.5ZM20.625 23.4375H22.5V21.5625H20.625V23.4375Z" fill="#EBC705"/>
-                </svg> 확인)</li>
-              <li>과제를 통과할 때까지 만난 모든 평가자들 중 가장 좋았던 평가자 투표 (평가자 수에 따라 투표개수가 달라짐)</li>
-              <li>투표한 평가자들에 한해서 5개의 설문 항목에 적합하다고 생각되는 평가자 선택</li>
-              <li>설문 진행을 모두 완료한 후 우측상단의 응모권 활성화 확인</li>
+              <li>투표할 과제 선택
+                <br></br>
+                  <span style={{fontSize:'13px'}}>※ 과제명 좌측에 <svg width="22" height="22" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 8.4375C0 6.8842 1.2592 5.625 2.8125 5.625H27.1875C28.7408 5.625 30 6.8842 30 8.4375V11.25C30 11.7678 29.5803 12.1875 29.0625 12.1875C27.5092 12.1875 26.25 13.4467 26.25 15C26.25 16.5533 27.5092 17.8125 29.0625 17.8125C29.5803 17.8125 30 18.2322 30 18.75V21.5625C30 23.1158 28.7408 24.375 27.1875 24.375H2.8125C1.2592 24.375 0 23.1158 0 21.5625V18.75C0 18.2322 0.419733 17.8125 0.9375 17.8125C2.4908 17.8125 3.75 16.5533 3.75 15C3.75 13.4467 2.4908 12.1875 0.9375 12.1875C0.419733 12.1875 0 11.7678 0 11.25V8.4375ZM7.5 6.5625V8.4375H9.375V6.5625H7.5ZM9.375 12.1875V10.3125H7.5V12.1875H9.375ZM22.5 12.1875V10.3125H20.625V12.1875H22.5ZM20.625 8.4375H22.5V6.5625H20.625V8.4375ZM9.375 14.0625H7.5V15.9375H9.375V14.0625ZM22.5 15.9375V14.0625H20.625V15.9375H22.5ZM9.375 17.8125H7.5V19.6875H9.375V17.8125ZM22.5 19.6875V17.8125H20.625V19.6875H22.5ZM7.5 21.5625V23.4375H9.375V21.5625H7.5ZM20.625 23.4375H22.5V21.5625H20.625V23.4375Z" fill="#EBC705"/>
+                    </svg> 표시가 있는 과제는 응모권 제공
+                  </span>
+                </li>
+              <li>과제를 통과할 때까지 만난 모든 평가자들 중 높은 평가 퀄리티로 도움이 되었던 평가자 선택
+                <br></br>
+                <span style={{fontSize:'13px'}}>※ 평가자 수에 따라 투표개수가 달라짐</span>
+              </li>
+              <li>선택한 평가자들 중 5개의 설문 항목에 적합하다고 생각되는 평가자 선택
+                <br></br>
+                <span style={{fontSize:'13px'}}>※ <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" className="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                  </svg> 툴팁에서 각 설문 항목에 대한 자세한 내용 확인 가능
+                </span>
+              </li>
+              <li>응모권이 제공된 과제를 진행했다면 우측상단의 응모권 활성화 확인</li>
               <li>2주 간격으로 랭킹이 갱신될 때마다 보상 획득 여부 확인 &#127873;</li>
             </ol>
             <h5><strong>Contact us</strong></h5>
             <ul>
-              <li>fortytwo.tape@gmail.com</li>
+              <li><a href="mailto:fortytwo.tape@gmail.com">fortytwo.tape@gmail.com</a></li>
             </ul>
           </Modal.Body>
         </Modal>
@@ -362,3 +374,5 @@ export function Info() {
       </div>
     )
   }
+
+
