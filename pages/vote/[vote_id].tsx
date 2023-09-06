@@ -163,8 +163,8 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
           </NonSSRWrapper>
         </div>
       </div>
-      <div className="row">
-        <div className="col-xl-10 d-flex justify-content-center align-items-center">
+      <div className="row" style={{margin: '0px'}}>
+        <div className="col-xl-12 d-flex justify-content-center align-items-center">
           <Copyright></Copyright>
         </div>
       </div>

@@ -112,11 +112,10 @@ export const MainLayout = ({ userInfo } : UserInfoProps) => {
           </div>
           <Blank name="main"></Blank>
         </div>
-        <div className="row">
-          <div className="col-xl-10 d-flex justify-content-center align-items-center">
-            <Copyright></Copyright>
-          </div>
-          <Blank name="main"></Blank>
+      </div>
+      <div className="row" style={{margin: '0px'}}>
+        <div className="col-xl-12 d-flex justify-content-center align-items-center">
+          <Copyright></Copyright>
         </div>
       </div>
     </div>

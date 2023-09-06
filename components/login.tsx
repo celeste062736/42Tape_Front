@@ -4,7 +4,7 @@ import { LogoImg, LogoName } from './logo';
 
 export function LoginTopBar() {
     return (
-      <div className="row align-items-center" style={{margin: '0px'}}>
+      <div className="row align-items-center" style={{margin: '0px', height:'100px'}}>
         <div id="logo_img" className="col-1 d-flex justify-content-center align-items-center" style={{width: '60px'}}>
           <LogoImg></LogoImg>
         </div>

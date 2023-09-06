@@ -8,15 +8,15 @@ type ButtonProps = {
   export function Button(props: ButtonProps) {
     if (props.name === "vote") {
       return (
-        <Link href='/vote'><button className="btn btn-primary" style={{width: '200px', height: '50px'}}>Vote</button></Link>
+        <Link href='/vote'><button className="btn btn-primary AllBackgroundColor" style={{width: '200px', height: '50px'}}>Vote</button></Link>
       );
     } else if (props.name === "rank") {
       return (
-        <Link href='/rank'><button className="btn btn-primary" style={{width: '200px', height: '50px'}}>Rank</button></Link>
+        <Link href='/rank'><button className="btn btn-primary AllBackgroundColor" style={{width: '200px', height: '50px'}}>Rank</button></Link>
       );
     } else if (props.name === "reward") {
       return (
-        <Link href='/reward'><button className="btn btn-primary" style={{width: '200px', height: '50px'}}>Reward</button></Link>
+        <Link href='/reward'><button className="btn btn-primary AllBackgroundColor" style={{width: '200px', height: '50px'}}>Reward</button></Link>
       );
     } else if (props.name === "vote_in_list_box") {
       return (

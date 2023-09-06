@@ -9,6 +9,24 @@
   background-color: red;
 } */
 
+:root {
+  --main-bg-color: #FFFFFF;
+  /* --main-bg-color: #F4F7FC; */
+}
+
+/* top을 제외한 전체 마진을 10px */
+#root {
+  margin: 0;
+  padding: 10px;
+  padding-top: 0px;
+  background-color: var(--main-bg-color);
+}
+
+.AllBackgroundColor {
+  background-color: var(--main-bg-color);
+}
+
+
 .ul_no_bullet {
   list-style-type: none;
 }
@@ -114,18 +132,12 @@
   transform: translate(-112px, -20px);
 }
 
-/* top을 제외한 전체 마진을 10px */
-#root {
-  margin: 10px;
-  margin-top : 0;
-}
-
 /* Rank, Vote 버튼 */
 .btn.btn-primary {
   font-size: 25px;
   font-weight: bold;
-  background-color: white;
-  border-color: white;
+  background-color: var(--main-bg-color);
+  border: none;
   color: black;
 }
 .btn.btn-primary:hover
@@ -152,7 +164,6 @@
 #logout_btn {
   color: black;
   font-weight: bold;
-  background-color: white;
   border : none;
 }
 #login_button{
@@ -395,6 +406,7 @@
   /* 모서리 둥글게 */
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
 }
 #card_1st {
   width: 250px;
@@ -429,6 +441,7 @@
   /* 모서리 둥글게 */
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
 }
 #card_4th {
   width: 940px;
@@ -514,6 +527,10 @@
   color: #d3d3d3;
   font-family: "Arial", sans-serif;
 }
+
+.sd-root-modern.sd-root--compact {
+  background-color: var(--main-bg-color);
+}
 .sd-body--responsive {
   padding-top: 10px !important;
 }
@@ -565,6 +582,7 @@
   width: 350px;
   height: 150px;
   border-radius: 4px;
+  background-color: white;
 }
 .sd-imagepicker__item-decorator:hover {
   /* 이곳에 원하는 스타일을 추가하세요 */

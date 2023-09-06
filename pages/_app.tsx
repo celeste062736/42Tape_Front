@@ -15,7 +15,7 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <Head>
-        <title>42tape</title>
+        <title>42TAPE</title>
         <link rel='icon' href='/tape_logo.ico' />
       </Head>
       <Component {...pageProps} />
