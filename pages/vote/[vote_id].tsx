@@ -126,7 +126,7 @@ export default function Vote(props : {choices: Choices[], voteId: number, round_
       tooltipInstances.length = 0;
       options.htmlElement.querySelectorAll('.sd-imagepicker__item-decorator').forEach((element : any, index : number) => {
         const tooltip = new bootstrap.Tooltip(element, {
-          title: 'Comment: ' + props.comments![index], // 툴팁에 표시될 텍스트
+          title: 'comment: ' + props.comments![index], // 툴팁에 표시될 텍스트
           placement: 'top' // 툴팁이 표시될 위치
         });
         // 새로운 툴팁 인스턴스를 배열에 저장
