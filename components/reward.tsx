@@ -35,7 +35,7 @@ export function RewardLayout() {
                     <div className="col-xl-5 d-flex justify-content-center align-items-center">
                         <div className="reward_tile">
                             <h2 className="reward_rank">15명 무작위 랜덤 추첨! &#x1F91E;</h2>
-                            <p className="reward_item centered-container">컴포즈커피 : 아메리카노(Ice)</p>
+                            <p className="reward_item centered-container">컴포즈커피 : 아메리카노(Ice) 2잔</p>
                             <div className="d-flex align-items-center justify-content-center">
                                 <Image className="reward_img" src="/coffee.png" width={1000} height={1000} alt="coffee_img"></Image>
                             </div>
