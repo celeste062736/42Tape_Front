@@ -64,13 +64,15 @@ export function AdminLayout({ reward_data }: seasonRewardRecordLists) {
         </div>
         <div className="col">
           {currentSeasons.map((season_item, season_index) => (
-            <div className="row">
-              <div key={season_index} className="col-xl d-flex align-items-center justify-content-left">
-                <div>
-                  <div>{season_item.season_id}</div>
-                  <div>{season_item.start_at}</div>
-                  <div>{season_item.end_at}</div>
-                  <div>{season_item.reward_end_at}</div>
+            <div>
+              <div className="row">
+                <div key={season_index} className="col-xl d-flex align-items-center justify-content-left">
+                  <div>
+                    <div>{season_item.season_id}</div>
+                    <div>{season_item.start_at}</div>
+                    <div>{season_item.end_at}</div>
+                    <div>{season_item.reward_end_at}</div>
+                  </div>
                 </div>
               </div>
               <div className="row">
