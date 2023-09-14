@@ -901,3 +901,16 @@
     margin-right: -5px;
   }
 }
+
+#admin_season_reward_info {
+  /* 둥근 테두리 */
+  border-radius: 10px;
+  /* 그림자 효과 */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: auto;
+  padding:10px;
+}
+
+#admin_season_info {
+  border-bottom: 1px solid #d3d3d3;
+}

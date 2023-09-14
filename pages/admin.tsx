@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<{
     const dataUnknown : season_reward_record[] = [
       {
         season_id: -1,
-        start_at: "unknown",
+        start_at: "test",
         end_at: "unknown",
         reward_end_at: "unknown",
         reward_list : [
