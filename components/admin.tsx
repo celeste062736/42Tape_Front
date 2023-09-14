@@ -11,7 +11,7 @@ interface seasonRewardRecordLists {
 export function AdminLayout({ reward_data }: seasonRewardRecordLists) {
   return (
     <div>
-      <div className="row" style={{ margin: '0px', height: '500px'}}>
+      <div className="row" style={{ margin: '0px' }}>
         <div className="col-2 d-none d-xl-block">
           <div className="row d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
             <Button name="vote"></Button>
@@ -23,7 +23,7 @@ export function AdminLayout({ reward_data }: seasonRewardRecordLists) {
             <Button name="reward"></Button>
           </div>
         </div>
-        <div className="col-3">
+        <div className="col">
           {reward_data.map((season_item, season_index) => (
           <div id="admin_season_reward_info" key={season_index} className="row">
             <div style={{padding:'10px'}}>시즌 정보</div>
@@ -33,7 +33,7 @@ export function AdminLayout({ reward_data }: seasonRewardRecordLists) {
                   <th scope="col">Season</th>
                   <th scope="col">Start at</th>
                   <th scope="col">End at</th>
-                  <th scope="col">Reward</th>
+                  <th scope="col">Reward End at</th>
                 </tr>
               </thead>
               <tbody>
@@ -61,7 +61,7 @@ export function AdminLayout({ reward_data }: seasonRewardRecordLists) {
                   <tr>
                     <th scope="row">{reward_item.user_id}</th>
                     <td>{reward_item.login}</td>
-                    <td>{reward_item.email}</td>
+                    <td><a href={"mailto:" + reward_item.email}>{reward_item.email}</a></td>
                     <td>{reward_item.reward}</td>
                   </tr>
                 </tbody>

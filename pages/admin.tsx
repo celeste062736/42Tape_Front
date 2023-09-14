@@ -65,9 +65,9 @@ export const getServerSideProps: GetServerSideProps<{
       headers: userId ? { "user-id": userId } : {}
     })
     const repo : any = await resp.json()
-    // console.log('---------------------1--------------------repo');
-    // console.log(repo);
-    let seasonRewardRecordLists : season_reward_record[] = repo.seasonRewardRecordLists;
+    console.log('---------------------1--------------------repo');
+    console.log(repo);
+    let seasonRewardRecordLists : season_reward_record[] = repo.season_reward_records;
     //map으로 돌려서 repo.tape_user.candidate_for_reward의 결과를 각 voteList에 넣어주기
     // seasonRewardRecordLists.map((item, index) => {
     //   item.candidate_for_reward = repo.tape_user.candidate_for_reward;

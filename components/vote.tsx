@@ -39,7 +39,7 @@ export function VoteLayout({ vote_data }: VoteListInfoProps) {
   
   return (
     <div>
-      <div className="row" style={{ margin: '0px', height: '500px' }}>
+      <div className="row" style={{ margin: '0px' }}>
         <div className="col-2 d-none d-xl-block">
           <div className="row d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
             <Button name="vote"></Button>
