@@ -29,6 +29,7 @@ export const getServerSideProps: GetServerSideProps<{
         season_id: 0,
         start_at : "unknown",
         end_at : "unknown",
+        cumulative_total_score : 0
       },
       {
         intra_id: "unknown",
@@ -38,6 +39,7 @@ export const getServerSideProps: GetServerSideProps<{
         season_id: 0,
         start_at : "unknown",
         end_at : "unknown",
+        cumulative_total_score : 0
       },
       {
         intra_id: "unknown",
@@ -47,6 +49,7 @@ export const getServerSideProps: GetServerSideProps<{
         season_id: 0,
         start_at : "unknown",
         end_at : "unknown",
+        cumulative_total_score : 0
       },
       {
         intra_id: "unknown",
@@ -56,6 +59,7 @@ export const getServerSideProps: GetServerSideProps<{
         season_id: 0,
         start_at : "unknown",
         end_at : "unknown",
+        cumulative_total_score : 0
       },
       {
           intra_id: "unknown",
@@ -65,6 +69,7 @@ export const getServerSideProps: GetServerSideProps<{
           season_id: 0,
           start_at : "unknown",
           end_at : "unknown",
+          cumulative_total_score : 0
       },
       {
           intra_id: "unknown",
@@ -74,6 +79,7 @@ export const getServerSideProps: GetServerSideProps<{
           season_id: 0,
           start_at : "unknown",
           end_at : "unknown",
+          cumulative_total_score : 0
       }
     ]
   
@@ -130,6 +136,7 @@ export const getServerSideProps: GetServerSideProps<{
       season_id: RankInfo_db.currentSeason.season_id,
       start_at : RankInfo_db.currentSeason.start_at,
       end_at : RankInfo_db.currentSeason.end_at,
+      cumulative_total_score : item.cumulative_total_score
   }));
 
   const SeasonInfo: SeasonInfo = {

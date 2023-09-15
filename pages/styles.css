@@ -22,7 +22,7 @@
   width: 20%; /* 셀 크기를 20%로 고정 (설정값을 조절하여 적절한 크기로 변경) */
 }
 .custom-table th {
-  background-color: #f2f2f2; /* 헤더 배경색 설정 */
+  background-color: #E9E9E9; /* 헤더 배경색 설정 */
 }
 .custom-table tr:nth-child(even) {
   background-color: #f2f2f2; /* 짝수 행 배경색 설정 */
@@ -985,6 +985,7 @@
   width: auto;
   padding:10px;
   min-width: 700px;
+  background-color: #F4F4F4;
 }
 
 #admin_season_info {

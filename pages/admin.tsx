@@ -81,4 +81,3 @@ export const getServerSideProps: GetServerSideProps<{
     // console.log(voteLists[0]);
     return { props: { seasonRewardRecordLists: seasonRewardRecordLists }}
   }
-

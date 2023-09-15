@@ -20,6 +20,7 @@ export interface RankInfo {
   season_id: number;
   start_at: string;
   end_at: string;
+  cumulative_total_score : number;
 }
 
 export interface SeasonInfo {
@@ -43,7 +44,7 @@ export type RankItemProps = {
         }} style={{cursor: 'pointer'}}>
         <div className="centered-container">
           <div style={{marginBottom:'5px'}}>
-            <span className="bold_text">Rank</span>
+            <span className="bold_text">Rank </span>
             <span>#{userDetails.rank}</span>
           </div>
           <Image className="rank_picture_1 rounded-circle" src={userDetails.intra_picture} width={500} height={500} alt="intra picture"/>
@@ -80,6 +81,7 @@ export type RankItemProps = {
         <div className="right-section">
           <span className="bold_text">Rank </span>
           <span className="space">#{userDetails.rank}</span>
+          {/* <span className="space">#{ userDetails.cumulative_total_score === 0 ? "-" : userDetails.rank}</span> */}
         </div>
       </div>
     } else {

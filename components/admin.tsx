@@ -24,9 +24,9 @@ export function AdminLayout({ reward_data }: seasonRewardRecordLists) {
           </div>
         </div>
         <div className="col">
-          {reward_data.map((season_item, season_index) => (
-            <div id="admin_season_reward_info" key={season_index} className="row">
-              <div style={{ padding: '10px' }}>시즌 정보</div>
+          {reward_data.reverse().map((season_item, season_index) => (
+            <div id="admin_season_reward_info" key={season_index} className="row" style={{ marginBottom: '100px' }}>
+              <div style={{ padding: '10px', fontSize: '30px', fontWeight: 'bold' }}>Season {season_item.season_id}</div>
               <table id="admin_season_info" className="custom-table">
                 <thead>
                   <tr>
@@ -38,7 +38,8 @@ export function AdminLayout({ reward_data }: seasonRewardRecordLists) {
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">{season_item.season_id}</th>
+                    <td>{season_item.season_id}</td>
+                    {/* <th scope="row">{season_item.season_id}</th> */}
                     <td>{season_item.start_at}</td>
                     <td>{season_item.end_at}</td>
                     <td>{season_item.reward_end_at}</td>
@@ -76,7 +77,7 @@ export function AdminLayout({ reward_data }: seasonRewardRecordLists) {
                 </div>
               ))}
               </div>
-            </div>
+              </div>
           ))}
         </div>
       </div>
