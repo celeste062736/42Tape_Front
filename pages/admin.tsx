@@ -7,6 +7,7 @@ export interface reward_list_info {
   user_id: number,
   login: string,
   email: string,
+  ref: number,
   reward: string
 }
 
@@ -45,6 +46,7 @@ export const getServerSideProps: GetServerSideProps<{
             user_id: -1,
             login: "unknown",
             email: "unknown",
+            ref: -1,
             reward: "unknown"
           }
         ]
