@@ -33,7 +33,7 @@ type RadarChartProps = {
 
 export function RadarChart({stats, current_rank} : RadarChartProps) {
   const data = {
-    labels: ['엄밀함', '의사 소통', '건설적인 제안', '정보 공유', '질문 퀄리티'],
+    labels: ['엄밀함', '건설적인 제안', '의사 소통', '질문 퀄리티', '정보 공유'],
 
     datasets: [
       {
