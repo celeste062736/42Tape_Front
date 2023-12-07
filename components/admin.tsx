@@ -19,9 +19,9 @@ export function AdminLayout({ reward_data }: seasonRewardRecordLists) {
           <div className="row d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
             <Button name="rank"></Button>
           </div>
-          <div className="row d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
+          {/* <div className="row d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
             <Button name="reward"></Button>
-          </div>
+          </div> */}
         </div>
         <div className="col">
           {reward_data.reverse().map((season_item, season_index) => (

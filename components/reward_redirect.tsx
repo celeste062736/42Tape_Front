@@ -34,9 +34,9 @@ export function RewardLayout() {
         <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
           <Button name="rank"></Button>
         </div>
-        <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
+        {/* <div className="row d-flex align-items-center justify-content-center" style={{height: '100px'}}>
           <Button name="reward"></Button>
-        </div>
+        </div> */}
       </div>
       <div className="col">
         <div className="row">
